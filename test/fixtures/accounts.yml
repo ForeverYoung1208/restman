@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  number: 
+  bank: 
+  currency: 
+  saldo_begin_year: 
+  company: one
+
+two:
+  number: 
+  bank: 
+  currency: 
+  saldo_begin_year: 
+  company: two
