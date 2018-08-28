@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Code name ukr:</strong>
+  <%= @group.code_name_ukr %>
+</p>
+
+<p>
+  <strong>Code name eng:</strong>
+  <%= @group.code_name_eng %>
+</p>
+
+<%= link_to 'Edit', edit_group_path(@group) %> |
+<%= link_to 'Back', groups_path %>

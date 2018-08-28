@@ -6,7 +6,9 @@ class CreateAccounts < ActiveRecord::Migration[5.2]
       t.references :currency
       t.decimal :saldo_begin_year, precision: 17, scale: 2
       t.references :company
+
       t.timestamps
+      t.datetime :deleted_at
     end
   end
 end
