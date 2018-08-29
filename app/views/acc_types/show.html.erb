@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name eng:</strong>
+  <%= @acc_type.name_eng %>
+</p>
+
+<p>
+  <strong>Name ukr:</strong>
+  <%= @acc_type.name_ukr %>
+</p>
+
+<%= link_to 'Edit', edit_acc_type_path(@acc_type) %> |
+<%= link_to 'Back', acc_types_path %>
