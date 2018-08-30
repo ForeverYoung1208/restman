@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Restman</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= tag :meta, name: :psj, action: action_name, controller: controller_name %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+
+
+	  <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+	      <!-- http://v4-alpha.getbootstrap.com/components/navbar/#how-it-works  -->
+		  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+	    <%= fa_link_to('-university', sessions_path, class: 'navbar-brand') {'Restman - Менеджмент залишків'} %>
+
+
+        
+        
+      <div id="user-zone">
+        <%= render 'users/user_zone' %>  
+      </div>
+        
+      </div><!-- /.navbar-collapse -->
+
+      
+
+	    
+	  </nav>
+
+
+	  
+		<% flash.each do |name, msg| %>
+			<%= content_tag :pre, msg, id: "flash#{name}", class: "notice" %>
+		<% end %>  
+
+    
+    <%= yield %>
+
+    <div id="dialog-information" title="Інформація">
+      <h4>Інформація від сервера:</h4>
+      <div id="message"></div>
+    </div>    
+
+
+  </body>
+</html>

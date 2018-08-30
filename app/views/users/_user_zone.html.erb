@@ -1,0 +1,10 @@
+<% if @current_user %>
+	<%= @current_user.name%>: 
+	<% @current_user.roles.active.each do |role|%>
+		<%= role.name %>,
+	<% end	%>
+
+	<div id="exit">
+		<%= link_to 'вийти', session_path(id: 'exit'), method: :delete %>
+	</div>
+<% end %>

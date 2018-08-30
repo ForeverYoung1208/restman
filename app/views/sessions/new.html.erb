@@ -1,0 +1,17 @@
+<div class="container new-session-container">
+  <h3>Вхід в систему, користувачі ідентичні ТМ2 </h3>
+
+  <%= form_tag sessions_path do %>
+    <p>
+      <%= label_tag :name, 'Им’я користувача' %><br />
+      <%= text_field_tag :name, params[:name] %>
+    </p>
+    <p>
+      <%= label_tag :password, 'Пароль' %><br />
+      <%= password_field_tag :password %>
+    </p>
+    <p class="button"><%= submit_tag 'Вхід'%></p>
+    <br/>
+
+  <% end %>
+</div>

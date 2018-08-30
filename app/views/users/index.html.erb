@@ -1,0 +1,75 @@
+<p id="notice"><%= notice %></p>
+
+<div class="container">
+	<div class="row">
+		<div class="col-sm-8">
+			<h2>Користувачі і їх ролі</h2>
+
+			<table class="table">
+				<thead class="thead-default">
+					<tr>
+						<th>id</th>
+						<th>Им’я</th>
+						<th>Е-мейл</th>
+						<th>Ролі користувача</th>
+					</tr>
+				</thead>
+
+				<tbody id='ajaxUsers' inTag1='tr' inTag2='td'>
+
+				</tbody>
+
+			</table>
+
+
+		</div> <!-- col -->
+		<div class="col-sm-4">
+
+
+
+				<div class="card card-default" id="rolesList">
+					<div class="card-header"> 
+						<h2 class="card-title">Можливі ролі</h2>
+					</div>
+					<div class="card-block" >
+						<% @roles.each do |r| %>
+							<span class="draggable badge badge-pill badge-info" data-rid="<%= r.id %>">
+								<%= r.id.to_s + ' ' + r.name %>
+							</span>
+						<% end %>
+					</div>
+					<div class="card-block" >
+						<h4> Перетягніть роль на користувача або на дію:</h4>
+						<div class="addArea droppable"><span class="fa-stack">
+							  <i class="fa fa-plus fa-stack-2x"></i>
+							</span> Додати всім</div>
+						<div class="deleteArea droppable">
+							<span class="fa-stack">
+							  <i class="fa fa-trash fa-stack-2x"></i>
+							  <i class="fa fa-warning fa-stack-1x text-danger"></i>
+							</span> Видалити у всіх
+						</div>
+					</div>							
+					<div class="card-header"> 
+						<h4 class="card-title">Після налаштування оберіть: </h4>
+					</div>						
+					<div class="card-block" >
+						<button type="button" class="btn btn-primary" id="btnSave" onclick="allUsers.save()" <%="disabled" unless @current_user.can_edit_users?%> > Зберегти зміни</button>
+						або
+						<button type="button" class="btn btn-primary" id="btnSave" onclick="cancelDialog()" > Скасувати зміни</button>
+					</div>
+		</div><!-- col -->
+
+	</div><!-- row -->
+
+</div> <!-- container -->
+
+
+
+<div id="dialog-confirm-cancel" title="Скасувати?">
+  <p>Скасувати всі внесені зміни і повернути налаштування прав до останнього збереженого стану?</p>
+</div>
+
+<div id="dialog-saved" title="Збережено">
+  <p>Налаштування прав збережено</p>
+</div>

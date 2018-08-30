@@ -71,7 +71,17 @@ end
 # gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # gem 'webpacker'
-gem 'jquery-rails'
+
+###
+gem 'bcrypt', '~> 3.1.7'
+gem 'carrierwave'
+
+gem 'tether-rails'
+## gem 'bootstrap', '~> 4.0.0.alpha3'
 gem 'bootstrap'
 gem 'font-awesome-sass'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'bootstrap-datepicker-rails'
+
 gem 'roo'
