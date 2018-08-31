@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action ->{ 
-    redirect_to(root_path, notice: "Немає прав") unless @current_user.can_access_users? 
+    redirect_to(root_path, notice: "Немає прав") unless @current_user.can_view_users? 
   }, except: [:update_roles]
 
 
@@ -26,7 +26,7 @@ class UsersController < ApplicationController
 
 
 
-    if @current_user.can_edit_users?
+    if @current_user.can_update_roles?
       all_roles = {}
       params["_json"].each do |u|
         u[:roles].each do |r|

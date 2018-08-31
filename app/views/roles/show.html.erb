@@ -5,5 +5,10 @@
   <%= @role.name %>
 </p>
 
+<p>
+  <strong>Deleted at:</strong>
+  <%= @role.deleted_at %>
+</p>
+
 <%= link_to 'Edit', edit_role_path(@role) %> |
 <%= link_to 'Back', roles_path %>

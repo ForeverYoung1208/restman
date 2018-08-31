@@ -2,12 +2,13 @@
 
 <h1>Roles</h1>
 
-<table class="table">
-  <thead class="thead-default">
+<table>
+  <thead>
     <tr>
-      <th>ID</th>
+      <th>Id</th>      
       <th>Name</th>
-      <th colspan="3"></th>
+      <th>Deleted at</th>
+      <th colspan="3"> Management</th>
     </tr>
   </thead>
 
@@ -16,6 +17,7 @@
       <tr>
         <td><%= role.id %></td>
         <td><%= role.name %></td>
+        <td><%= role.deleted_at %></td>
         <td><%= link_to 'Show', role %></td>
         <td><%= link_to 'Edit', edit_role_path(role) %></td>
         <td><%= link_to 'Destroy', role, method: :delete, data: { confirm: 'Are you sure?' } %></td>

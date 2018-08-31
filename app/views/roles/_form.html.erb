@@ -13,9 +13,13 @@
 
   <div class="field">
     <%= form.label :name %>
-    <%= form.text_field :name, id: :role_name %>
+    <%= form.text_field :name %>
   </div>
 
+  <div class="field">
+    <%= form.label :is_deleted %>
+    <%= form.check_box :is_deleted %>
+  </div>
 
   <div class="actions">
     <%= form.submit %>

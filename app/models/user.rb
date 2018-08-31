@@ -68,6 +68,10 @@ class User < ApplicationRecord
   def can_view_users?
     true
   end  
+  def can_edit_users?
+    true
+  end  
+
   def can_view_roles?
     true
   end    
@@ -76,11 +80,11 @@ class User < ApplicationRecord
   end    
 
 
+  def can_update_roles?
+    true
 
-  def can_edit_users?
-    is_admin
+    # is_admin
   end  
-
 
 
 end
