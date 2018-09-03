@@ -1,7 +1,7 @@
 class Role < ApplicationRecord
 	has_and_belongs_to_many :users
 
-	scope :active, ->{ where("roles.deleted_at IS NULL")}
+	scope :active, ->{ where("roles_users.deleted_at IS NULL")}
 
 	before_validation :define_deleted_at
 	# default_scope ->{ where("deleted_at IS NULL")}
