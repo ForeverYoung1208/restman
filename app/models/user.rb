@@ -65,20 +65,32 @@ class User < ApplicationRecord
   def can_view_companies?
     true
   end
+  def can_view_groups?
+    true
+  end    
+  def can_view_banks?
+    true
+  end    
   def can_view_users?
     true
   end  
-  def can_edit_users?
-    true
-  end  
-
   def can_view_roles?
     true
   end    
   def can_view_accounts?
     true
   end    
+  def can_view_acc_types?
+    true
+  end
 
+  def can_view_currencies?
+    true
+  end
+
+  def can_edit_users?
+    true
+  end  
 
   def can_update_roles?
     true

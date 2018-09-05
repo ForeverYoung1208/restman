@@ -12,13 +12,13 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :code_name %>
+    <%= form.label "Назва" %>
     <%= form.text_field :code_name %>
   </div>
 
   <div class="field">
-    <%= form.label :group_id %>
-    <%= form.text_field :group_id %>
+    <%= form.label "Належить до групи" %>
+    <%= form.select("group_id", Group.all.collect {|g| [ g.code_name_ukr+ " (#{g.code_name_eng})", g.id ] }) %>
   </div>
 
   <div class="actions">

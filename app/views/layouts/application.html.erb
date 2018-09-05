@@ -28,13 +28,26 @@
               current: request.path, 
               menuitem: accounts_path, 
               active: @current_user.can_view_accounts?
-          }) {'Рахунки'} %>
+          }) {'Рахунки-Рух'} %>
+
+          <%= mainmenu_item( {
+              current: request.path, 
+              menuitem: accounts_path, 
+              active: @current_user.can_view_accounts?
+          }) {'Рахунки-Залишки по банках'} %>
+
 
           <%= mainmenu_dropdown( {
             current: request.path, 
             menuitems: {'Компанії' => [companies_path, @current_user.can_view_companies?],
                           'Користувачі' => [users_path, @current_user.can_view_users?],
-                          'Ролі' => [roles_path, @current_user.can_view_roles?]
+                          'Ролі' => [roles_path, @current_user.can_view_roles?],
+                          'Групи' => [groups_path, @current_user.can_view_groups?],
+                          'Банки' => [banks_path, @current_user.can_view_banks?],
+                          'Валюти' => [currencies_path, @current_user.can_view_currencies?],
+                          'Типи рахунків' => [acc_types_path, @current_user.can_view_acc_types?],
+                          'Рахунки' => [accounts_path, @current_user.can_view_accounts?],
+
                         }
           }) {"Налаштування"}  %>
 
