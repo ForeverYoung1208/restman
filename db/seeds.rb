@@ -1,6 +1,16 @@
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 
+roles = [
+	Role.where(id: 1).first_or_create(
+		name: 'admin'
+	),
+	Role.where(id: 2).first_or_create(
+		name: 'user'
+	),
+]
+
+
 banks = [
 	Bank.where(code: '305299').first_or_create(
 		code: '305299',
@@ -11,6 +21,11 @@ banks = [
 		name: 'банк Кредит Дніпро'
 	)
 ]
+
+group = Group.where(id: 1).first_or_create(
+	code_name_ukr: 'К_Р',
+	code_name_eng: 'K_R'
+)
 
 currencies = [
 	Currency.where(code: '980').first_or_create(
@@ -33,18 +48,18 @@ currencies = [
 	)
 ]
 
-company = Company.where(code_name_eng: 'test').first_or_create(
-	code_name_ukr:'тест'
-	code_name_eng:'test'
+company = Company.where(code_name: 'test').first_or_create(
+	code_name:'test',
+	group: group
 )
 
 acc_types = [
 	AccType.where(id: 1).first_or_create(
-		name_eng: 'current'
+		name_eng: 'current',
 		name_ukr: 'поточний/розрахунковий'
 	),
 	AccType.where(id: 2).first_or_create(
-		name_eng: 'deposit'
+		name_eng: 'deposit',
 		name_ukr: 'депозитний'
 	)
 ]
