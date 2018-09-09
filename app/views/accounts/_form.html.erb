@@ -33,7 +33,7 @@
 
   <div class="field">
     <%= form.label :company_id %>
-    <%= form.select :acc_type_id, Company.all.collect{ |x| [x.code_name, x.id] }  %>
+    <%= form.select :company_id, Company.all.collect{ |x| [x.code_name, x.id] }  %>
   </div>
 
   <div class="field">
