@@ -70,5 +70,17 @@ account = Account.where(number: '26000001').first_or_create(
 	bank: banks[0],
 	currency: currencies[0],
 	saldo_begin_year: 0,
-	company: company
+	company: company,
+	acc_type: acc_types[0],
+	term: '31.12.2018'
+)
+
+Account.where(number: '260500002').first_or_create(
+	number: '260500002',
+	bank: banks[0],
+	currency: currencies[0],
+	saldo_begin_year: 0,
+	company: company,
+	acc_type: acc_types[1],
+	term: '31.12.2018'
 )

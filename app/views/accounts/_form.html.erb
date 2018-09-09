@@ -17,13 +17,13 @@
   </div>
 
   <div class="field">
-    <%= form.label :bank %>
-    <%= form.text_field :bank %>
+    <%= form.label :bank_id %>
+    <%= form.select :bank_id, Bank.all.collect{ |x| [x.name+" #{x.code}", x.id] }  %>
   </div>
 
   <div class="field">
-    <%= form.label :currency %>
-    <%= form.text_field :currency %>
+    <%= form.label :currency_id %>
+    <%= form.select :currency_id, Currency.all.collect{ |x| [x.name_int, x.id] }  %>
   </div>
 
   <div class="field">
@@ -33,8 +33,19 @@
 
   <div class="field">
     <%= form.label :company_id %>
-    <%= form.text_field :company_id %>
+    <%= form.select :acc_type_id, Company.all.collect{ |x| [x.code_name, x.id] }  %>
   </div>
+
+  <div class="field">
+    <%= form.label :acc_type_id %>
+    <%= form.select :acc_type_id, AccType.all.collect{ |x| [x.name_ukr, x.id] }  %>
+  </div>
+
+  <div class="field">
+    <%= form.label :term %>
+    <%= form.date_field :term %>
+  </div>
+
 
   <div class="actions">
     <%= form.submit %>
