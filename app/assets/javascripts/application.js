@@ -17,7 +17,7 @@
 //= require tether
 //= require bootstrap
 //= require jquery_ujs
-//= require turbolinks
+//= --quire turbolinks
 //= --quire bootstrap.file-input
 //= require bootstrap-datepicker
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.ua.js

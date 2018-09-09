@@ -28,7 +28,7 @@ class RolesUsersController < ApplicationController
 
     respond_to do |format|
       if @roles_user.save
-        format.html { redirect_to @roles_user, notice: 'Roles user was successfully created.' }
+        format.html { redirect_to roles_users_url, notice: 'Roles user was successfully created.' }
         format.json { render :show, status: :created, location: @roles_user }
       else
         format.html { render :new }
@@ -42,7 +42,7 @@ class RolesUsersController < ApplicationController
   def update
     respond_to do |format|
       if @roles_user.update(roles_user_params)
-        format.html { redirect_to @roles_user, notice: 'Roles user was successfully updated.' }
+        format.html { redirect_to roles_users_url, notice: 'Roles user was successfully updated.' }
         format.json { render :show, status: :ok, location: @roles_user }
       else
         format.html { render :edit }

@@ -28,7 +28,7 @@ class AccTypesController < ApplicationController
 
     respond_to do |format|
       if @acc_type.save
-        format.html { redirect_to @acc_type, notice: 'Acc type was successfully created.' }
+        format.html { redirect_to acc_types_url, notice: 'Acc type was successfully created.' }
         format.json { render :show, status: :created, location: @acc_type }
       else
         format.html { render :new }
@@ -42,7 +42,7 @@ class AccTypesController < ApplicationController
   def update
     respond_to do |format|
       if @acc_type.update(acc_type_params)
-        format.html { redirect_to @acc_type, notice: 'Acc type was successfully updated.' }
+        format.html { redirect_to acc_types_url, notice: 'Acc type was successfully updated.' }
         format.json { render :show, status: :ok, location: @acc_type }
       else
         format.html { render :edit }

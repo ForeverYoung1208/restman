@@ -107,7 +107,7 @@ class Users
 
 
 
-$(document).on 'turbolinks:load', ->
+$(document).ready ->
 	if $('meta[name=psj]').attr('controller')=='users' && $('meta[name=psj]').attr('action')=='index'
 
 		allRoles = new Roles()
