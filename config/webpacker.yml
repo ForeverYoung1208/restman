@@ -14,6 +14,7 @@ default: &default
   cache_manifest: false
 
   extensions:
+    - .jsx
     - .js
     - .sass
     - .scss
@@ -34,11 +35,15 @@ development:
   # Reference: https://webpack.js.org/configuration/dev-server/
   dev_server:
     https: false
-#    host: localhost
-    host: 192.168.0.162
+
+    host: 192.168.99.51
+    # host: 192.168.0.162
+
     port: 3035
-#    public: localhost:3035
-    public: 192.168.0.162:3035
+
+    public: 192.168.99.51:3035
+    # public: 192.168.0.162:3035
+
     hmr: false
     # Inline should be set to true if using HMR
     inline: true
