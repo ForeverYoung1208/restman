@@ -42,7 +42,9 @@
 
           <%= mainmenu_dropdown( {
             current: request.path, 
-            menuitems: {'Компанії' => [companies_path, @current_user.can_view_companies?],
+            menuitems: {
+                          'Дати' => [days_path, @current_user.can_view_days?],
+                          'Компанії' => [companies_path, @current_user.can_view_companies?],
                           'Користувачі' => [users_path, @current_user.can_view_users?],
                           'Ролі' => [roles_path, @current_user.can_view_roles?],
                           'Групи' => [groups_path, @current_user.can_view_groups?],
@@ -50,6 +52,7 @@
                           'Валюти' => [currencies_path, @current_user.can_view_currencies?],
                           'Типи рахунків' => [acc_types_path, @current_user.can_view_acc_types?],
                           'Рахунки' => [accounts_path, @current_user.can_view_accounts?],
+                          'Категорії' => [movement_groups_path, @current_user.can_view_movement_groups?],
 
                         }
           }) {"Налаштування"}  %>

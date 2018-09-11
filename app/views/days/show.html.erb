@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @day.date %>
+</p>
+
+<p>
+  <strong>Is closed:</strong>
+  <%= @day.is_closed %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @day.comment %>
+</p>
+
+<%= link_to 'Edit', edit_day_path(@day) %> |
+<%= link_to 'Back', days_path %>

@@ -62,6 +62,13 @@ class User < ApplicationRecord
 
 #================
 
+  def can_view_movement_groups?
+    true
+  end
+  
+  def can_view_days?
+    true
+  end
   def can_view_companies?
     true
   end

@@ -64,6 +64,12 @@ acc_types = [
 	)
 ]
 
+day = Day.where(id: 1).first_or_create(
+	date: '11.09.2018'.to_date,
+	is_closed: false,
+	comment: 'fist test date'
+)
+
 
 account = Account.where(number: '26000001').first_or_create(
 	number: '26000001',
@@ -84,3 +90,26 @@ Account.where(number: '260500002').first_or_create(
 	acc_type: acc_types[1],
 	term: '31.12.2018'
 )
+
+movement_groups = [
+	MovementGroup.where( id: 1).first_or_create(
+		direction: "Income",
+		name: "Депозитарніе доході",
+		description: "Депозитарніе доході(абонплаті, собрания)"
+	),
+	MovementGroup.where( id: 2).first_or_create(
+		direction: "Income",
+		name: "Прочие доході",
+		description: "Прочие доході(проценті банка)"
+	),
+	MovementGroup.where( id: 3).first_or_create(
+		direction: "Outcome",
+		name: "РКО",
+		description: "РКО за обслуживание счета, клиент-банк"
+	),
+	MovementGroup.where( id: 4).first_or_create(
+		direction: "Outcome",
+		name: "Содержание компании",
+		description: "Содержание компании( Ремонт и обслуживание авто, бензин, нотариус и т.п. )"
+	),
+]

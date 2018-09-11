@@ -1,0 +1,2 @@
+class MovementGroup < ApplicationRecord
+end

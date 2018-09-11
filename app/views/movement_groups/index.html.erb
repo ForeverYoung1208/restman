@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Movement Groups</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>direction</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @movement_groups.each do |movement_group| %>
+      <tr>
+        <td><%= movement_group.direction %></td>
+        <td><%= movement_group.name %></td>
+        <td><%= movement_group.description %></td>
+        <td><%= link_to 'Show', movement_group %></td>
+        <td><%= link_to 'Edit', edit_movement_group_path(movement_group) %></td>
+        <td><%= link_to 'Destroy', movement_group, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Movement Group', new_movement_group_path %>
