@@ -93,22 +93,22 @@ Account.where(number: '260500002').first_or_create(
 
 movement_groups = [
 	MovementGroup.where( id: 1).first_or_create(
-		direction: "Income",
+		direction: :Income,
 		name: "Депозитарніе доході",
 		description: "Депозитарніе доході(абонплаті, собрания)"
 	),
 	MovementGroup.where( id: 2).first_or_create(
-		direction: "Income",
+		direction: :Income,
 		name: "Прочие доході",
 		description: "Прочие доході(проценті банка)"
 	),
 	MovementGroup.where( id: 3).first_or_create(
-		direction: "Outcome",
+		direction: :Outcome,
 		name: "РКО",
 		description: "РКО за обслуживание счета, клиент-банк"
 	),
 	MovementGroup.where( id: 4).first_or_create(
-		direction: "Outcome",
+		direction: :Outcome,
 		name: "Содержание компании",
 		description: "Содержание компании( Ремонт и обслуживание авто, бензин, нотариус и т.п. )"
 	),

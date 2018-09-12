@@ -1,0 +1,67 @@
+<%= form_with(model: movement, local: true) do |form| %>
+  <% if movement.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(movement.errors.count, "error") %> prohibited this movement from being saved:</h2>
+
+      <ul>
+      <% movement.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :value %>
+    <%= form.text_field :value %>
+  </div>
+
+  <div class="field">
+    <%= form.label :value %>
+    <%= form.text_field :value %>
+  </div>
+
+  <div class="field">
+    <%= form.label :direction %>
+    <%= form.number_field :direction %>
+  </div>
+
+  <div class="field">
+    <%= form.label :movement_group_id %>
+    <%= form.text_field :movement_group_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :comment %>
+    <%= form.text_area :comment %>
+  </div>
+
+  <div class="field">
+    <%= form.label :account_id %>
+    <%= form.text_field :account_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :last_editor_id %>
+    <%= form.text_field :last_editor_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :day_id %>
+    <%= form.text_field :day_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :deleted_at %>
+    <%= form.datetime_select :deleted_at %>
+  </div>
+
+  <div class="field">
+    <%= form.label :log %>
+    <%= form.text_area :log %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

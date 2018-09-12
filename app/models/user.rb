@@ -6,6 +6,7 @@ class User < ApplicationRecord
   before_destroy { |record| raise "ReadOnlyRecord" }
 
   has_and_belongs_to_many :roles
+  has_many :movements, class_name: :Movement, foreign_key: :last_editor_id
 
   
   attr_accessor :password

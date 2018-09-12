@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @movement.value %>
+</p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @movement.value %>
+</p>
+
+<p>
+  <strong>Direction:</strong>
+  <%= @movement.direction %>
+</p>
+
+<p>
+  <strong>Movement group:</strong>
+  <%= @movement.movement_group %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= @movement.comment %>
+</p>
+
+<p>
+  <strong>Account:</strong>
+  <%= @movement.account %>
+</p>
+
+<p>
+  <strong>Last editor:</strong>
+  <%= @movement.last_editor %>
+</p>
+
+<p>
+  <strong>Day:</strong>
+  <%= @movement.day %>
+</p>
+
+<p>
+  <strong>Deleted at:</strong>
+  <%= @movement.deleted_at %>
+</p>
+
+<p>
+  <strong>Log:</strong>
+  <%= @movement.log %>
+</p>
+
+<%= link_to 'Edit', edit_movement_path(@movement) %> |
+<%= link_to 'Back', movements_path %>
