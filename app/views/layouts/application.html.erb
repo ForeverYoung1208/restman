@@ -29,8 +29,8 @@
 
           <%= mainmenu_item( {
               current: request.path, 
-              menuitem: accounts_path, 
-              active: @current_user.can_view_accounts?
+              menuitem: movements_path, 
+              active: @current_user.can_view_movements?
           }) {'Рахунки-Рух'} %>
 
           <%= mainmenu_item( {

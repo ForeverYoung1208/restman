@@ -2,10 +2,9 @@
 
 <h1>Movements</h1>
 
-<table>
+<table class="table-bordered">
   <thead>
     <tr>
-      <th>Value</th>
       <th>Value</th>
       <th>Direction</th>
       <th>Movement group</th>
@@ -23,8 +22,7 @@
     <% @movements.each do |movement| %>
       <tr>
         <td><%= movement.value %></td>
-        <td><%= movement.value %></td>
-        <td><%= movement.direction %></td>
+        <td><%= movement.direction.humanize %></td>
         <td><%= movement.movement_group %></td>
         <td><%= movement.comment %></td>
         <td><%= movement.account %></td>

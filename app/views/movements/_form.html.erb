@@ -1,7 +1,7 @@
 <%= form_with(model: movement, local: true) do |form| %>
   <% if movement.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(movement.errors.count, "error") %> prohibited this movement from being saved:</h2>
+      <h2><%= pluralize(movement.errors.count, "error") %> prohibited this movement from being saved:</h2> %>
 
       <ul>
       <% movement.errors.full_messages.each do |message| %>
@@ -17,18 +17,13 @@
   </div>
 
   <div class="field">
-    <%= form.label :value %>
-    <%= form.text_field :value %>
-  </div>
-
-  <div class="field">
     <%= form.label :direction %>
-    <%= form.number_field :direction %>
+    <%= form.select :direction, Movement.directions.collect{|c| [c[1], c[0]]} %>    
   </div>
 
   <div class="field">
     <%= form.label :movement_group_id %>
-    <%= form.text_field :movement_group_id %>
+    <%= form.select :movement_group_id, MovementGroup.all.collect{|mg| [mg.name, mg.id]} %>
   </div>
 
   <div class="field">
@@ -38,7 +33,7 @@
 
   <div class="field">
     <%= form.label :account_id %>
-    <%= form.text_field :account_id %>
+    <%= form.select :account_id, Account.all.collect{|acc| [acc.number, acc.id]} %>
   </div>
 
   <div class="field">

@@ -62,7 +62,10 @@ class User < ApplicationRecord
   end
 
 #================
-
+  def can_view_movements?
+    true
+  end
+  
   def can_view_movement_groups?
     true
   end
