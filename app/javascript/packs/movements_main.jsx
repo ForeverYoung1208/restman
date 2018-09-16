@@ -5,13 +5,14 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { BrowserRouter, HashRouter } from 'react-router-dom';
 
-// import Day from './movements_components/day'
+import { Day } from './Day'
 
 class MovementApp extends React.Component {
 	render(){
 		return(
 			<div>
 				<h1>MovementApp here </h1>
+				<Day message = " !!message from app to day!!"/>
 			</div>
 		)
 	}
