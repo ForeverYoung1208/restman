@@ -5,14 +5,16 @@ import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { BrowserRouter, HashRouter } from 'react-router-dom';
 
-import { Day } from './Day'
+import { Day } from './Day/day'
 
-class MovementApp extends React.Component {
+// class MovementApp extends React.Component {
+// PureComponent doesn't updates component if no props and no state changes
+
+class MovementApp extends React.PureComponent {	
 	render(){
 		return(
-			<div>
-				<h1>MovementApp here </h1>
-				<Day message = " !!message from app to day!!"/>
+			<div className="container-fluid">
+				<Day/>
 			</div>
 		)
 	}
