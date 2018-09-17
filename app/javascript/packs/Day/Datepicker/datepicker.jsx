@@ -1,6 +1,4 @@
 import React from 'react'
-import DayPicker from 'react-day-picker';
-import 'react-day-picker/lib/style.css'
 
 export class Datepicker extends React.Component {
 	constructor(props){
@@ -9,20 +7,18 @@ export class Datepicker extends React.Component {
 
 
 	handleChange = (e) => {
-		console.log(e.target)
+		console.log('+++++++++++++++++++' + e.target)
 		this.props.dateChanged(e.target.value)
 	}
 
 	componentDidMount = () =>{
-		// $('.date').datepicker({
-		// 	language: 'ua',
-		// 	format: "dd.mm.yyyy",
-		// 	todayBtn: true,
-		// 	autoclose: true,
-		// })	
+		$('.date').datepicker({
+			language: 'ua',
+			format: "dd.mm.yyyy",
+			todayBtn: true,
+			autoclose: true,
+		})	
 	}
-
-
 
 
 	render(){
@@ -32,13 +28,9 @@ export class Datepicker extends React.Component {
 				<div className="d-flex align-items-center">
 					<span>Дата: </span>
 
-					<DayPicker />
-
-
-
-
 					<div className="input-group date day-date-picker p-2">
-						<input 
+						<input
+							// data-provide="datepicker"
 							className="form-control"
 						  aria-describedby="picker-icon1" 
 							onChange={this.handleChange} 

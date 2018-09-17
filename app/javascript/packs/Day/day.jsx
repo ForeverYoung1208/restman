@@ -3,7 +3,7 @@ import Moment from 'moment'
 
 import {Datepicker} from './Datepicker/datepicker'
 
-export class Day extends React.PureComponent {
+export class Day extends React.Component {
 	constructor(props){
 		super(props)
 	
