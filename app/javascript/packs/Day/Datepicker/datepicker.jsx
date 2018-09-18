@@ -17,7 +17,10 @@ export class Datepicker extends React.Component {
 			format: "dd.mm.yyyy",
 			todayBtn: true,
 			autoclose: true,
-		})	
+		}).on('change', (e) => {
+				this.props.dateChanged(e.target.value)
+			}
+		)
 	}
 
 
@@ -37,10 +40,9 @@ export class Datepicker extends React.Component {
 							value={this.props.date}
 						/>
 				    <div className="input-group-append input-group-addon">
-						  <span className=" input-group-text" id="picker-icon1" ><span className="fa fa-th"></span></span>
+						  <span className=" input-group-text" id="picker-icon1"><span className="fa fa-th"></span></span>
 					  </div>
 					</div>	
-
 
 
 				</div>
