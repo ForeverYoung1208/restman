@@ -13,7 +13,6 @@ export class Day extends React.Component {
 	}
 
 	datepickerChanged = (newDate) => {
-		console.log('---'+newDate)
 		this.setState({date: newDate})
 	}
 	
