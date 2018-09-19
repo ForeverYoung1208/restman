@@ -1,5 +1,6 @@
 import React from 'react'
 import Moment from 'moment'
+import PropTypes from 'prop-types'
 
 import {Datepicker} from './Datepicker/datepicker'
 
@@ -8,14 +9,16 @@ export class Day extends React.Component {
 		super(props)
 	
 		this.state = {
-			date: Moment(Date.now()).format('DD.MM.YYYY')
+			date: Moment(Date.now()).format('DD.MM.YYYY'),
+			companyList: [],
+			company: null
 		}
 	}
 
 	datepickerChanged = (newDate) => {
 		this.setState({date: newDate})
 	}
-	
+
 
 	render(){
 		return (
@@ -33,9 +36,7 @@ export class Day extends React.Component {
 			</div>
 		)
 	}
-
-
-
-
+}
+Day.Proptypes = {
 
 }
