@@ -1,5 +1,5 @@
 class MovementGroup < ApplicationRecord
 	has_many :movenents
-  enum direction: {'0': :Income, '1': :Outcome}
+  enum direction: {Income: 0, Outcome: 1}
 
 end
