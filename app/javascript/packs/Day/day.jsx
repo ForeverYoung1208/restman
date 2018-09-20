@@ -3,6 +3,8 @@ import Moment from 'moment'
 import PropTypes from 'prop-types'
 
 import {Datepicker} from './Datepicker/datepicker'
+import {CompaniesSelect} from './CompaniesSelect/companiesSelect'
+import {GroupsSelect} from './GroupsSelect/groupsSelect'
 
 export class Day extends React.Component {
 	constructor(props){
@@ -10,13 +12,19 @@ export class Day extends React.Component {
 	
 		this.state = {
 			date: Moment(Date.now()).format('DD.MM.YYYY'),
-			companyList: [],
-			company: null
+			companiesList: [],
+			companiesSelected: [],
+			groupsList: [],
+			group: null
 		}
 	}
 
 	datepickerChanged = (newDate) => {
 		this.setState({date: newDate})
+	}
+
+	groupChanged = (newGroup) => {
+		this.setState ({group: newGroup})	  
 	}
 
 
@@ -27,6 +35,10 @@ export class Day extends React.Component {
 
 				<div className="col-md-3">
 					<Datepicker dateChanged={this.datepickerChanged} date={this.state.date} />
+				</div>
+				<div className="col-md-3">
+					<GroupsSelect groupChanged={this.groupSelectChanged}/>
+					<CompaniesSelect />
 				</div>
 
 				<div className="col-md-3 flex-row d-flex align-items-center">
