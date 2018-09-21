@@ -14,17 +14,17 @@ export class Day extends React.Component {
 			date: Moment(Date.now()).format('DD.MM.YYYY'),
 			companiesList: [],
 			companiesSelected: [],
-			groupsList: [],
 			group: null
 		}
 	}
 
-	datepickerChanged = (newDate) => {
+	handleDateChanged = (newDate) => {
 		this.setState({date: newDate})
 	}
 
-	groupChanged = (newGroup) => {
+	handleGroupChanged = (newGroup) => {
 		this.setState ({group: newGroup})	  
+		console.log(this.state.group)
 	}
 
 
@@ -34,16 +34,19 @@ export class Day extends React.Component {
 
 
 				<div className="col-md-3">
-					<Datepicker dateChanged={this.datepickerChanged} date={this.state.date} />
+					<Datepicker onDateChanged={this.handleDateChanged} date={this.state.date} />
 				</div>
-				<div className="col-md-3">
-					<GroupsSelect groupChanged={this.groupSelectChanged}/>
-					<CompaniesSelect />
+
+				<div className="col-md-1">
+	  			<span>Групувати по:</span>
+				</div>
+
+				<div className="col-md-2">
+					<GroupsSelect onGroupChanged={this.handleGroupChanged}/>
 				</div>
 
 				<div className="col-md-3 flex-row d-flex align-items-center">
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed provident eum, libero fuga rerum deleniti. Quos, illum, veritatis. Odit iusto, possimus non, ex soluta ad magnam animi illum vitae at.
-					Molestias, explicabo est recusandae non facilis quae aperiam, sit error deserunt ad fugit dolores tempora, id ea eum. Voluptatum hic vero perspiciatis laboriosam minima odio accusantium nostrum ea, unde et.</p>
+					<span>Lorem ipsum dolor</span>
 				</div>
 			</div>
 		)

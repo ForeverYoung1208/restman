@@ -27,16 +27,10 @@ export class CompaniesSelect extends React.Component{
 				return res.json()
 			})
 			.then( resj => {
-				console.log( resj )
+				// console.log( resj )
 				// this.setState({cards: resj})
 			}
 		)
-    // loadMyAsyncData().then(
-    //   externalData => {
-    //     this._asyncRequest = null;
-    //     this.setState({externalData});
-    //   }
-    // );
   }	
   render(){
   	return(

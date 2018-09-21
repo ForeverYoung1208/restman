@@ -11,8 +11,8 @@ const DateChangeConfirm = (props) => {
 					The working date will be changed!!
 			</ModalBody>
 			<ModalFooter>
-					<Button color="primary" onClick={props.ok}>Ok</Button>{' '}
-					<Button color="secondary" onClick={props.cancel}>Cancel</Button>
+					<Button color="primary" onClick={props.onOk}>Ok</Button>{' '}
+					<Button color="secondary" onClick={props.onCancel}>Cancel</Button>
 			</ModalFooter>
 		</Modal>
 	)
@@ -20,8 +20,8 @@ const DateChangeConfirm = (props) => {
 DateChangeConfirm.propTypes = {
 	is_shown: PropTypes.bool.isRequired,
 	toggle: PropTypes.func.isRequired,
-	ok: PropTypes.func.isRequired,
-	cancel: PropTypes.func.isRequired
+	onOk: PropTypes.func.isRequired,
+	onCancel: PropTypes.func.isRequired
 }
 
 
@@ -48,13 +48,13 @@ export class Datepicker extends React.Component {
 	}
 
 
-	ok_handler = () => {
-		this.props.dateChanged(this.state.new_date)	  
+	okHandler = () => {
+		this.props.onDateChanged(this.state.new_date)	  
 		this.toggleModal()
 
 	}
 
-	cancel_handler = () => {
+	cancelHandler = () => {
 		this.toggleModal()
 	}
 
@@ -93,8 +93,8 @@ export class Datepicker extends React.Component {
 					<DateChangeConfirm 
 						is_shown={this.state.modal_shown} 
 						toggle={this.toggleModal}
-						ok={this.ok_handler}
-						cancel={this.cancel_handler}
+						onOk={this.okHandler}
+						onCancel={this.cancelHandler}
 						new_date={this.state.new_date}
 					/>
 
@@ -106,6 +106,6 @@ export class Datepicker extends React.Component {
 	}
 }
 Datepicker.propTypes = {
-	dateChanged: PropTypes.func,
+	onDateChanged: PropTypes.func,
 	date: PropTypes.string
 }
