@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Form, FormGroup, Label, Input, FormText } from 'reactstrap'
+import { Button, ButtonGroup } from 'reactstrap'
 
 
 export class CompaniesSelect extends React.Component{
