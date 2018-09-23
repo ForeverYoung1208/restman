@@ -7,6 +7,7 @@
     <tr>
       <th>Code name ukr</th>
       <th>Code name eng</th>
+      <th>The key role to access group</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,6 +17,7 @@
       <tr>
         <td><%= group.code_name_ukr %></td>
         <td><%= group.code_name_eng %></td>
+        <td><%= group.key_role %></td>
         <td><%= link_to 'Show', group %></td>
         <td><%= link_to 'Edit', edit_group_path(group) %></td>
         <td><%= link_to 'Destroy', group, method: :delete, data: { confirm: 'Are you sure?' } %></td>

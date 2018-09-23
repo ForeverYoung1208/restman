@@ -24,7 +24,8 @@ banks = [
 
 group = Group.where(id: 1).first_or_create(
 	code_name_ukr: 'К_Р',
-	code_name_eng: 'K_R'
+	code_name_eng: 'K_R',
+	key_role: 'admin'
 )
 
 currencies = [
@@ -50,7 +51,8 @@ currencies = [
 
 company = Company.where(code_name: 'test').first_or_create(
 	code_name:'test',
-	group: group
+	group: group,
+	key_role: 'admin'	
 )
 
 acc_types = [

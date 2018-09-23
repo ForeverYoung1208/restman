@@ -23,7 +23,7 @@
 
   <div class="field">
     <%= form.label "Належить до групи" %>
-    <%= form.select("group_id", Group.all.collect {|g| [ g.code_name_ukr+ " (#{g.code_name_eng})", g.id ] }) %>
+    <%= form.select("group_id", @groups.collect {|g| [ g.code_name_ukr+ " (#{g.code_name_eng})", g.id ] }) %>
   </div>
 
   <div class="actions">

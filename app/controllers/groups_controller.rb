@@ -4,7 +4,7 @@ class GroupsController < ApplicationController
   # GET /groups
   # GET /groups.json
   def index
-    @groups = Group.all
+    @groups = Group.permitted_for_user(@current_user)
   end
 
   # GET /groups/1
@@ -28,7 +28,8 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       if @group.save
-        format.html { redirect_to groups_url, notice: 'Group was successfully created.' }
+        r = create_access_role( group_params[:key_role] )        
+        format.html { redirect_to groups_url, notice: "Group was successfully created, Role #{r.name} updated"}
         format.json { render :show, status: :created, location: @group }
       else
         format.html { render :new }
@@ -42,7 +43,8 @@ class GroupsController < ApplicationController
   def update
     respond_to do |format|
       if @group.update(group_params)
-        format.html { redirect_to groups_url, notice: 'Group was successfully updated.' }
+        r = create_access_role( group_params[:key_role] )   
+        format.html { redirect_to groups_url, notice: "Group was successfully updated, Role #{r.name} updated"}
         format.json { render :show, status: :ok, location: @group }
       else
         format.html { render :edit }
@@ -62,13 +64,23 @@ class GroupsController < ApplicationController
   end
 
   private
+
+    def create_access_role( key_role )
+      Role.where(name: key_role).first_or_create(
+        {
+          name: key_role,
+          is_deleted: false
+        }
+      )
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_group
-      @group = Group.find(params[:id])
+      @group = Group.permitted_for_user(@current_user).find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:code_name_ukr, :code_name_eng)
+      params.require(:group).permit(:code_name_ukr, :code_name_eng, :key_role)
     end
 end

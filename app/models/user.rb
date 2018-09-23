@@ -3,13 +3,21 @@ class User < ApplicationRecord
   db_config = YAML.load( ERB.new( File.read('config/database.yml')).result )
   establish_connection( db_config['users_'+ Rails.env.downcase] )
 
+
   before_destroy { |record| raise "ReadOnlyRecord" }
+  after_initialize :get_roles_names
 
   has_and_belongs_to_many :roles
   has_many :movements, class_name: :Movement, foreign_key: :last_editor_id
 
   
   attr_accessor :password
+
+  attr_reader :roles_names
+
+  def get_roles_names
+    @roles_names = self.roles.active.pluck(:name)
+  end 
 
 
 
@@ -23,7 +31,7 @@ class User < ApplicationRecord
   end
 
   def ip_check(remote_ip)
-    #Turn off ip check in icontract
+    #Turn off ip check
     #     !self.is_ip_controlled || self.ip_address == remote_ip || ::SUPERUSERS.include?(self.name)
     true
   end
