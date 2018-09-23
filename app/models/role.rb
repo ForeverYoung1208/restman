@@ -17,7 +17,7 @@ class Role < ApplicationRecord
 	end	
 
 	def define_deleted_at
-		if self.is_deleted =="0" 
+		if self.is_deleted =="0" || self.is_deleted == nil || self.is_deleted == false
 			self.deleted_at = nil 
 		elsif !self.deleted_at 
 			self.deleted_at = DateTime.now

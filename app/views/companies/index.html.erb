@@ -7,6 +7,7 @@
     <tr>
       <th>Code name</th>
       <th>Group</th>
+      <th>The key role to access company</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,6 +17,7 @@
       <tr>
         <td><%= company.code_name %></td>
         <td><%= company.group.code_name_ukr %></td>
+        <td><%= company.key_role %></td>
         <td><%= link_to 'Show', company %></td>
         <td><%= link_to 'Edit', edit_company_path(company) %></td>
         <td><%= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></td>

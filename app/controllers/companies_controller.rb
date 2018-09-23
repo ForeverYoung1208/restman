@@ -5,6 +5,9 @@ class CompaniesController < ApplicationController
   # GET /companies.json
   def index
     @companies = Company.all
+    Company.permitted_for_user(current_user)
+
+
   end
 
   # GET /companies/1
@@ -25,10 +28,12 @@ class CompaniesController < ApplicationController
   # POST /companies.json
   def create
     @company = Company.new(company_params)
-
     respond_to do |format|
       if @company.save
-        format.html { redirect_to companies_url, notice: 'Company was successfully created.' }
+
+        r = create_access_role( company_params[:key_role] )
+
+        format.html { redirect_to companies_url, notice: "Company was successfully created, Role #{r.name} updated"}
         format.json { render :show, status: :created, location: @company }
       else
         format.html { render :new }
@@ -42,7 +47,10 @@ class CompaniesController < ApplicationController
   def update
     respond_to do |format|
       if @company.update(company_params)
-        format.html { redirect_to companies_url, notice: 'Company was successfully updated.' }
+        
+        r = create_access_role( company_params[:key_role] )
+
+        format.html { redirect_to companies_url, notice: "Company was successfully updated, Role #{r.name} updated" }
         format.json { render :show, status: :ok, location: @company }
       else
         format.html { render :edit }
@@ -62,6 +70,16 @@ class CompaniesController < ApplicationController
   end
 
   private
+
+    def create_access_role( key_role )
+      Role.where(name: key_role).first_or_create(
+        {
+          name: key_role,
+          is_deleted: false
+        }
+      )
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_company
       @company = Company.find(params[:id])
@@ -69,6 +87,9 @@ class CompaniesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def company_params
-      params.require(:company).permit(:code_name, :group_id)
+      params.require(:company).permit(:code_name, :group_id, :key_role)
     end
+
+
+
 end
