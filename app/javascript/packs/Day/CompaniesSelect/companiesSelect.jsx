@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { Input } from 'reactstrap'
 import { Button, ButtonGroup } from 'reactstrap'
 
 
@@ -9,38 +10,24 @@ export class CompaniesSelect extends React.Component{
 		super(props)
 	}
 
-  componentDidMount = () => {
-  	const getCompaniesUrl = '/companies.json'
-		const myHeaders = new Headers({
-			'Content-Type': 'application/json'
-		});
 
-    this._requestCompaniesList = fetch(
-			getCompaniesUrl,
-			{
-				method: 'GET',
-				headers: myHeaders
-				// body: JSON.stringify(payload),
-				// credentials: "same-origin"
-			})
-			.then( res => {
-				return res.json()
-			})
-			.then( resj => {
-				// console.log( resj )
-				// this.setState({cards: resj})
-			}
-		)
-  }	
+
   render(){
   	return(
   		<div>
-
-
-  			
+        <ButtonGroup>
+  				{this.props.companiesList.map( (g) => ( 
+	          <Button key = {g.id} color="primary" onClick={() => this.props.onCompanyClick(g.id)} active={this.props.cSelected.includes(g.id)}>{g.code_name}</Button>
+  				))}
+        </ButtonGroup>
   		</div>
 
   	)
   }
 
+}
+CompaniesSelect.Proptypes = {
+	onCompanyClick: PropTypes.func,
+	cSelected: PropTypes.array,
+	companiesList: PropTypes.array
 }

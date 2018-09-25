@@ -23,8 +23,9 @@ export class Day extends React.Component {
 	}
 
 	handleGroupChanged = (newGroup) => {
-		this.setState ({group: newGroup})
 		this.getCompanies()
+		this.setState ({group: newGroup})
+		console.log(this.state.group)
 	}
 
 
@@ -44,22 +45,10 @@ export class Day extends React.Component {
 				return res.json()
 			})
 			.then( resj => {
-				console.log( resj )
-
-				resj = resj.map( (r) => { 
-					if(r.id == '1' ){
-						return {id: r.id, code_name: r.code_name} 
-					/// TODO: remove unneccesary elements here
-				}
-
-				})
-				
-				console.log( resj )
-
 				this.setState({
 					companiesList: [...resj],
-					companiesSelected: resj.map( c => c.id)
-				});
+					companiesSelected: [...resj]
+				})
 			}
 		)
   }
@@ -85,15 +74,15 @@ export class Day extends React.Component {
 			<div className="row">
 
 
-				<div className="col-md-3 flex-row d-flex align-items-center">
+				<div className="col-md-3">
 					<Datepicker onDateChanged={this.handleDateChanged} date={this.state.date} />
 				</div>
 
-				<div className="col-md-1 flex-row d-flex align-items-center">
+				<div className="col-md-1">
 	  			<span>Групувати по:</span>
 				</div>
 
-				<div className="col-md-2 flex-row d-flex align-items-center">
+				<div className="col-md-2">
 					<GroupsSelect onGroupChanged={this.handleGroupChanged}/>
 				</div>
 

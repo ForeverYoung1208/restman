@@ -23,8 +23,8 @@ Rails.application.config.content_security_policy do |policy|
 		  :https,
 		  "http://localhost:3035",
 		  "ws://localhost:3035",
-		  "http://192.168.0.120:3035",
-		  "ws://192.168.0.120:3035",
+		  "http://192.168.0.162:3035",
+		  "ws://192.168.0.162:3035",
 		  "http://192.168.99.51:3035",
 		  "ws://192.168.99.51:3035"		  
 		)

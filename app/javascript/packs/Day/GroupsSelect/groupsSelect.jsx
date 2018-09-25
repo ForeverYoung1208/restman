@@ -8,15 +8,9 @@ export class GroupsSelect extends React.Component{
 		super(props)
 
 		this.state = {
-			groupsList: [],
-			dropdownOpen: false
+			groupsList: []
 		}
 	}
-
-	toggle = () => {
-	  this.setState(	{ dropdownOpen: !this.state.dropdownOpen} )
-	}
-
 
   componentDidMount = () => {
   	const getCompaniesUrl = '/groups.json'
@@ -27,8 +21,6 @@ export class GroupsSelect extends React.Component{
 			{
 				method: 'GET',
 				headers: myHeaders
-				// body: JSON.stringify(payload),
-				// credentials: "same-origin"
 			})
 			.then( res => {
 				return res.json()
@@ -46,7 +38,7 @@ export class GroupsSelect extends React.Component{
 
   render(){
   	return(
-  		<div className="flex-row d-flex align-items-center p-2" >
+  		<div>
   			<Input id="groups-select" type="select">
   				
   				{this.state.groupsList.map( (g) => ( 
