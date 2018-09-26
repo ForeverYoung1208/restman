@@ -33,6 +33,7 @@ export class Day extends React.Component {
 		const myHeaders = new Headers({
 			'Content-Type': 'application/json'
 		});
+		const group_id = this.state.group
 
     fetch(
 			getCompaniesUrl,
@@ -44,17 +45,8 @@ export class Day extends React.Component {
 				return res.json()
 			})
 			.then( resj => {
-				console.log( resj )
 
-				resj = resj.map( (r) => { 
-					if(r.id == '1' ){
-						return {id: r.id, code_name: r.code_name} 
-					/// TODO: remove unneccesary elements here
-				}
-
-				})
-				
-				console.log( resj )
+				resj = resj.filter( r => String(r.group_id) == String(group_id)  )
 
 				this.setState({
 					companiesList: [...resj],
@@ -82,27 +74,32 @@ export class Day extends React.Component {
 
 	render(){
 		return (
-			<div className="row">
+			<div className="container-fluid">
+				<div className="row">
 
 
-				<div className="col-md-3 flex-row d-flex align-items-center">
-					<Datepicker onDateChanged={this.handleDateChanged} date={this.state.date} />
+					<div className="col-md-3 flex-row d-flex align-items-center">
+						<Datepicker onDateChanged={this.handleDateChanged} date={this.state.date} />
+					</div>
+
+					<div className="col-md-1 flex-row d-flex align-items-center">
+		  			<span>Групувати по:</span>
+					</div>
+
+					<div className="col-md-2 flex-row d-flex align-items-center">
+						<GroupsSelect onGroupChanged={this.handleGroupChanged}/>
+					</div>
+
+					<div className="col-md-3 flex-row d-flex align-items-center">
+						<CompaniesSelect 
+							companiesList = {this.state.companiesList} 
+							cSelected = {this.state.companiesSelected}
+							onCompanyClick = {this.handleCompanyClick}
+						/>
+					</div>
 				</div>
-
-				<div className="col-md-1 flex-row d-flex align-items-center">
-	  			<span>Групувати по:</span>
-				</div>
-
-				<div className="col-md-2 flex-row d-flex align-items-center">
-					<GroupsSelect onGroupChanged={this.handleGroupChanged}/>
-				</div>
-
-				<div className="col-md-3 flex-row d-flex align-items-center">
-					<CompaniesSelect 
-						companiesList = {this.state.companiesList} 
-						cSelected = {this.state.companiesSelected}
-						onCompanyClick = {this.handleCompanyClick}
-					/>
+				<div className="row">
+					<hr className="test col-md-10 align-center"/>
 				</div>
 			</div>
 		)

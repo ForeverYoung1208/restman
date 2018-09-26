@@ -14,10 +14,18 @@ export class CompaniesSelect extends React.Component{
 
   render(){
   	return(
-  		<div>
+  		<div >
+  			<span className="p-2">Компанії:</span>
         <ButtonGroup>
   				{this.props.companiesList.map( (g) => ( 
-	          <Button key = {g.id} color="primary" onClick={() => this.props.onCompanyClick(g.id)} active={this.props.cSelected.includes(g.id)}>{g.code_name}</Button>
+	          <Button 
+	          	className="p-2"
+	          	key = {g.id} 
+	          	color="light" 
+	          	onClick={() => this.props.onCompanyClick(g.id)} 
+	          	active={this.props.cSelected.includes(g.id)}>{g.code_name}
+
+	          </Button>
   				))}
         </ButtonGroup>
   		</div>

@@ -5,3 +5,9 @@
 .day-date-picker {
 	width: 10em;
 }
+
+.row hr {
+	border: none;
+  height: 1px; 
+  background-image: linear-gradient(to left, #fff, #ddd, #fff);
+}

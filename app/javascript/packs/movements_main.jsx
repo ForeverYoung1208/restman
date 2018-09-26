@@ -13,7 +13,7 @@ import { Day } from './Day/day'
 class MovementApp extends React.PureComponent {	
 	render(){
 		return(
-			<div className="container-fluid">
+			<div >
 				<Day/>
 			</div>
 		)
