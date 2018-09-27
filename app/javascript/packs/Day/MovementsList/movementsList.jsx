@@ -12,13 +12,16 @@ export class MovementsList extends React.Component{
 	}
 	
 
-	render(
-		<div>
+	render(){
+		return(
+			<div>
+				movements will be here soon...
 
 
-		</div>	
+			</div>	
+		)
 
-	)
+	}
 
 }
 
