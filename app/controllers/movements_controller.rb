@@ -4,7 +4,13 @@ class MovementsController < ApplicationController
   # GET /movements
   # GET /movements.json
   def index
-    @movements = Movement.all
+    respond_to do |format|    
+      format.html {}
+      format.json do
+        # @movements = Movement.all
+        @movements = Movement.permitted_for_user(@current_user)
+      end
+    end
 
   end
 

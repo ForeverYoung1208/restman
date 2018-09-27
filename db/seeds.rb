@@ -115,3 +115,19 @@ movement_groups = [
 		description: "Содержание компании( Ремонт и обслуживание авто, бензин, нотариус и т.п. )"
 	),
 ]
+
+movements = [
+	Movement.where( id: 1).first_or_create(
+		value: 1010.23,
+		direction: :Income,
+		comment: "Some comment",
+		log: "log here",
+		movement_group: movement_groups[0],
+		account: account,
+		day: day,
+		last_editor: User.where(name: "admin").first,
+		created_at: DateTime.now,
+		updated_at: DateTime.now,
+		deleted_at: nil
+	)
+]

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_23_202839) do
+ActiveRecord::Schema.define(version: 2018_09_27_193508) do
 
   create_table "acc_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name_eng"
@@ -98,13 +98,14 @@ ActiveRecord::Schema.define(version: 2018_09_23_202839) do
     t.bigint "group_id"
     t.bigint "account_id"
     t.bigint "day_id"
-    t.bigint "last_editor_id_id"
+    t.bigint "last_editor_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
     t.index ["account_id"], name: "index_movements_on_account_id"
     t.index ["day_id"], name: "index_movements_on_day_id"
     t.index ["group_id"], name: "index_movements_on_group_id"
-    t.index ["last_editor_id_id"], name: "index_movements_on_last_editor_id_id"
+    t.index ["last_editor_id"], name: "index_movements_on_last_editor_id"
   end
 
   create_table "roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
