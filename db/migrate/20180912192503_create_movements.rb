@@ -9,7 +9,7 @@ class CreateMovements < ActiveRecord::Migration[5.2]
       t.references :group, foreign_key: {to_table: :movement_groups}
       t.references :account, foreign_key: true
       t.references :day, foreign_key: true
-      t.references :last_editor, foreign_key: true
+      t.references :last_editor
 
       t.timestamps
     end
