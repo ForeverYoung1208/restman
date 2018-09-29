@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import {Datepicker} from './Datepicker/datepicker'
 import {CompaniesSelect} from './CompaniesSelect/companiesSelect'
 import {GroupsSelect} from './GroupsSelect/groupsSelect'
+import {CompanyMovements} from './CompanyMovements/companyMovements'
 
 export class Day extends React.Component {
 	constructor(props){
@@ -100,6 +101,10 @@ export class Day extends React.Component {
 				</div>
 				<div className="row">
 					<hr className="test col-md-10 align-center"/>
+				</div>
+
+				<div className="row">
+						<CompanyMovements/>
 				</div>
 			</div>
 		)
