@@ -22,9 +22,10 @@ export class CompaniesSelect extends React.Component{
 	          	className="p-2"
 	          	key = {g.id} 
 	          	color="light" 
-	          	onClick={() => this.props.onCompanyClick(g.id)} 
-	          	active={this.props.cSelected.includes(g.id)}>{g.code_name}
-
+	          	onClick={() => this.props.onCompanyClick(g)} 
+	          	active={this.props.cSelected.includes(g)}
+	          > 
+		          {g.code_name}
 	          </Button>
   				))}
         </ButtonGroup>

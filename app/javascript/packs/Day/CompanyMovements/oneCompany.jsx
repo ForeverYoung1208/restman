@@ -4,7 +4,6 @@ import PropTypes from "prop-types"
 export class OneCompany extends React.Component{
 	constructor(props){
 		super(props)
-		const {company} = props
 	}
 
 	ComponentDidMount = () => {
@@ -15,7 +14,7 @@ export class OneCompany extends React.Component{
 	render(){
 		return(
 			<div>
-				{ company.code_name}
+				{ this.props.company.code_name}
 			</div>	
 		)
 

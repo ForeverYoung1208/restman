@@ -51,7 +51,9 @@ export class Day extends React.Component {
 
 				this.setState({
 					companiesList: [...resj],
-					companiesSelected: resj.map( c => c.id)
+					// companiesSelected: resj.map( c => c.id)
+					companiesSelected: [...resj]
+
 				});
 			}
 		)
@@ -64,7 +66,8 @@ export class Day extends React.Component {
     } else {
       this.state.companiesSelected.splice(index, 1);
     }
-    this.setState({ companiesSelected: [...this.state.companiesSelected] });
+
+    this.setState({ companiesSelected: [...this.state.companiesSelected.sort( (c1, c2 )=>(c1.id - c2.id) )] });
   }
 
 
@@ -104,7 +107,7 @@ export class Day extends React.Component {
 				</div>
 
 				<div className="row">
-						<CompanyMovements/>
+						<CompanyMovements companies = {this.state.companiesSelected}/>
 				</div>
 			</div>
 		)

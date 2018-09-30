@@ -5,7 +5,6 @@ import {OneCompany} from "./oneCompany"
 export class CompanyMovements extends React.Component{
 	constructor(props){
 		super(props)
-		const {companies} = props
 
 	}
 
@@ -17,7 +16,9 @@ export class CompanyMovements extends React.Component{
 	render(){
 		return(
 			<div>
-				{ companies.map( (c) => (<OneCompany company = {c} />) )}
+				{ 
+					this.props.companies.map( (c) => (<OneCompany key={c.id} company={c} />) ) 
+				}
 
 			</div>	
 		)
