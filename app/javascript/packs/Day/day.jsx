@@ -22,24 +22,24 @@ export class Day extends React.Component {
 	}
 
   componentDidMount = () => {
-  	this.getDate()
+  	this.getDate( this.state.date )
     this.getCompanies()
   }	
 
   getDate = ( date_string ) => {
-    fetch( '/days/find',
+    fetch( '/days/find.json?date='+date_string,
 			{ method: 'GET',
 				headers: {'Content-Type': 'application/json'}
 			})
 			.then( res => {
+				console.log(res)
 				return res.json()
 			})
 			.then( resj => {
 				console.log(resj)
-				// this.setState({
-				// 	date: resj.date,
-
-				// });
+				if (resj.date){
+					this.setState({	date: resj.date });
+				}
 			}
 		)
     
@@ -71,11 +71,13 @@ export class Day extends React.Component {
   }
 
 	handleDateChanged = (newDate) => {
-		this.setState({date: newDate})
+		this.getDate(newDate)
+		// this.setState({date: newDate})
+
 	}
 
 	handleGroupChanged = (newGroup) => {
-		this.setState ({group: newGroup})
+		this.setState({group: newGroup})
 		this.getCompanies()
 	}
 

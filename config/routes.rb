@@ -7,7 +7,6 @@ Rails.application.routes.draw do
     get 'find', to: "days#find", on: :collection
   end
   
-
   resources :roles_users
   resources :acc_types
   resources :companies
