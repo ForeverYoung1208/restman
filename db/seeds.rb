@@ -73,25 +73,25 @@ day = Day.where(id: 1).first_or_create(
 )
 
 
-account = Account.where(number: '26000001').first_or_create(
-	number: '26000001',
-	bank: banks[0],
-	currency: currencies[0],
-	saldo_begin_year: 0,
-	company: company,
-	acc_type: acc_types[0],
-	term: '31.12.2018'
-)
-
-Account.where(number: '260500002').first_or_create(
-	number: '260500002',
-	bank: banks[0],
-	currency: currencies[0],
-	saldo_begin_year: 0,
-	company: company,
-	acc_type: acc_types[1],
-	term: '31.12.2018'
-)
+accounts = [Account.where(number: '26000001').first_or_create(
+		number: '26000001',
+		bank: banks[0],
+		currency: currencies[0],
+		saldo_begin_year: 0,
+		company: company,
+		acc_type: acc_types[0],
+		term: '31.12.2018'
+	),
+	Account.where(number: '260500002').first_or_create(
+		number: '260500002',
+		bank: banks[0],
+		currency: currencies[0],
+		saldo_begin_year: 0,
+		company: company,
+		acc_type: acc_types[1],
+		term: '31.12.2018'
+	)
+]
 
 movement_groups = [
 	MovementGroup.where( id: 1).first_or_create(
@@ -113,17 +113,56 @@ movement_groups = [
 		direction: :Outcome,
 		name: "Содержание компании",
 		description: "Содержание компании( Ремонт и обслуживание авто, бензин, нотариус и т.п. )"
-	),
+	)
 ]
 
 movements = [
 	Movement.where( id: 1).first_or_create(
 		value: 1010.23,
 		direction: :Income,
-		comment: "Some comment",
+		comment: "Some comment1",
 		log: "log here",
 		movement_group: movement_groups[0],
-		account: account,
+		account: accounts[0],
+		day: day,
+		last_editor: User.where(name: "admin").first,
+		created_at: DateTime.now,
+		updated_at: DateTime.now,
+		deleted_at: nil
+	),
+	Movement.where( id: 2).first_or_create(
+		value: 2010.23,
+		direction: :Income,
+		comment: "Some comment2",
+		log: "log here",
+		movement_group: movement_groups[0],
+		account: accounts[1],
+		day: day,
+		last_editor: User.where(name: "admin").first,
+		created_at: DateTime.now,
+		updated_at: DateTime.now,
+		deleted_at: nil
+	),
+	Movement.where( id: 3).first_or_create(
+		value: 3010.23,
+		direction: :Outcome,
+		comment: "Some comment3",
+		log: "log here",
+		movement_group: movement_groups[3],
+		account: accounts[0],
+		day: day,
+		last_editor: User.where(name: "admin").first,
+		created_at: DateTime.now,
+		updated_at: DateTime.now,
+		deleted_at: nil
+	),
+	Movement.where( id: 4).first_or_create(
+		value: 4010.23,
+		direction: :Outcome,
+		comment: "Some comment4",
+		log: "log here",
+		movement_group: movement_groups[3],
+		account: accounts[1],
 		day: day,
 		last_editor: User.where(name: "admin").first,
 		created_at: DateTime.now,

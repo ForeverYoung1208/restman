@@ -13,8 +13,10 @@ export class OneCompany extends React.Component{
 
 	render(){
 		return(
-			<div>
-				{ this.props.company.code_name}
+			<div className="row">
+				{	this.props.company.code_name}
+				<hr className="my-hr-left col-md-12 align-center"/>
+
 			</div>	
 		)
 

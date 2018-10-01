@@ -3,7 +3,11 @@
 Rails.application.routes.draw do
   resources :movements
   resources :movement_groups
-  resources :days
+  resources :days do
+    get 'find', to: "days#find", on: :collection
+  end
+  
+
   resources :roles_users
   resources :acc_types
   resources :companies
@@ -11,7 +15,6 @@ Rails.application.routes.draw do
   resources :currencies
   resources :banks
   resources :accounts
-
   resources :sessions
   resources :roles
   resources :users, only: [:index, :show]

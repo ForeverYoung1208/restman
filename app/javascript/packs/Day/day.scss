@@ -6,8 +6,14 @@
 	width: 10em;
 }
 
-.row hr {
+.my-hr-center {
 	border: none;
   height: 1px; 
   background-image: linear-gradient(to left, #fff, #ddd, #fff);
+}
+
+.my-hr-left {
+	border: none;
+  height: 1px; 
+  background-image: linear-gradient(to right, #ddd, #fff);
 }

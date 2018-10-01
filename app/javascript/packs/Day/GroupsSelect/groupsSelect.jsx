@@ -39,8 +39,8 @@ export class GroupsSelect extends React.Component{
   render(){
   	return(
   		<div className="p-2">
-  			<Input id="groups-select" type="select">
-			    <option value="" selected disabled>Please select</option>  			
+  			<Input id="groups-select" type="select" defaultValue="0">
+			    <option value="0" disabled>Please select</option>  			
   				
   				{this.state.groupsList.map( (g) => ( 
   						<option key={g.id} value={g.id}> {g.code_name_eng} </option>

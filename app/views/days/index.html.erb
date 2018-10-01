@@ -5,6 +5,7 @@
 <table class="table-bordered">
   <thead>
     <tr>
+      <th>Id</th>
       <th>Date</th>
       <th>Is closed</th>
       <th>Comment</th>
@@ -15,6 +16,7 @@
   <tbody>
     <% @days.each do |day| %>
       <tr>
+        <td><%= day.id %></td>
         <td><%= day.date %></td>
         <td><%= day.is_closed %></td>
         <td><%= day.comment %></td>

@@ -10,14 +10,65 @@ import {CompanyMovements} from './CompanyMovements/companyMovements'
 export class Day extends React.Component {
 	constructor(props){
 		super(props)
+		const date = Moment(Date.now()).format('DD.MM.YYYY')
 	
 		this.state = {
 			date: Moment(Date.now()).format('DD.MM.YYYY'),
+			day: null,
 			companiesList: [],
 			companiesSelected: [],
 			group: null
 		}
 	}
+
+  componentDidMount = () => {
+  	this.getDate()
+    this.getCompanies()
+  }	
+
+  getDate = ( date_string ) => {
+    fetch( '/days/find',
+			{ method: 'GET',
+				headers: {'Content-Type': 'application/json'}
+			})
+			.then( res => {
+				return res.json()
+			})
+			.then( resj => {
+				console.log(resj)
+				// this.setState({
+				// 	date: resj.date,
+
+				// });
+			}
+		)
+    
+  }
+
+  getCompanies = () => {
+  	const getCompaniesUrl = '/companies.json'
+		const myHeaders = new Headers({
+			'Content-Type': 'application/json'
+		});
+		const group_id = this.state.group
+    fetch(
+			getCompaniesUrl,
+			{
+				method: 'GET',
+				headers: myHeaders
+			})
+			.then( res => {
+				return res.json()
+			})
+			.then( resj => {
+				resj = resj.filter( r => String(r.group_id) == String(group_id)  )
+				this.setState({
+					companiesList: [...resj],
+					companiesSelected: [...resj]
+				});
+			}
+		)
+  }
 
 	handleDateChanged = (newDate) => {
 		this.setState({date: newDate})
@@ -29,35 +80,6 @@ export class Day extends React.Component {
 	}
 
 
-  getCompanies = () => {
-  	const getCompaniesUrl = '/companies.json'
-		const myHeaders = new Headers({
-			'Content-Type': 'application/json'
-		});
-		const group_id = this.state.group
-
-    fetch(
-			getCompaniesUrl,
-			{
-				method: 'GET',
-				headers: myHeaders
-			})
-			.then( res => {
-				return res.json()
-			})
-			.then( resj => {
-
-				resj = resj.filter( r => String(r.group_id) == String(group_id)  )
-
-				this.setState({
-					companiesList: [...resj],
-					// companiesSelected: resj.map( c => c.id)
-					companiesSelected: [...resj]
-
-				});
-			}
-		)
-  }
 
   handleCompanyClick = (selected) => {
     const index = this.state.companiesSelected.indexOf(selected);
@@ -66,14 +88,11 @@ export class Day extends React.Component {
     } else {
       this.state.companiesSelected.splice(index, 1);
     }
-
     this.setState({ companiesSelected: [...this.state.companiesSelected.sort( (c1, c2 )=>(c1.id - c2.id) )] });
   }
 
 
-  componentDidMount = () => {
-    this.getCompanies()
-  }
+
 
 
 	render(){
@@ -103,11 +122,11 @@ export class Day extends React.Component {
 					</div>
 				</div>
 				<div className="row">
-					<hr className="test col-md-10 align-center"/>
+					<hr className="my-hr-center col-md-10 align-center"/>
 				</div>
 
-				<div className="row">
-						<CompanyMovements companies = {this.state.companiesSelected}/>
+				<div className="row container-fluid col-md-12" >
+						<CompanyMovements companies = {this.state.companiesSelected} date={this.state.date}/>
 				</div>
 			</div>
 		)
