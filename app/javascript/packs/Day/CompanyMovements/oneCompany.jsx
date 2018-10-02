@@ -4,9 +4,11 @@ import PropTypes from "prop-types"
 export class OneCompany extends React.Component{
 	constructor(props){
 		super(props)
+
 	}
 
-	ComponentDidMount = () => {
+	componentDidMount = () => {
+		console.log( this.props.movements)
 	  
 	}
 	
@@ -15,6 +17,7 @@ export class OneCompany extends React.Component{
 		return(
 			<div className="row">
 				{	this.props.company.code_name}
+
 				<hr className="my-hr-left col-md-12 align-center"/>
 
 			</div>	
@@ -25,6 +28,7 @@ export class OneCompany extends React.Component{
 }
 
 OneCompany.Proptypes = {
-	company: PropTypes.object.isRequired
+	company: PropTypes.object.isRequired,
+	movements: PropTypes.array
 
 }

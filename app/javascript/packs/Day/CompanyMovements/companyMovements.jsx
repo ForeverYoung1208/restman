@@ -5,6 +5,13 @@ import {OneCompany} from "./oneCompany"
 export class CompanyMovements extends React.Component{
 	constructor(props){
 		super(props)
+		this.state = ({
+			allMovements: [],
+			allAccounts:[]
+		});
+	}
+
+	componentDidMount = () => {
     fetch('/movements.json',
 			{	method: 'GET',
 				headers: {'Content-Type': 'application/json'}
@@ -13,16 +20,12 @@ export class CompanyMovements extends React.Component{
 				return res.json()
 			})
 			.then( resj => {
-				console.log( resj)
-				this.state = ({
-					movements: [...resj]
+				console.log(resj)
+				this.setState({
+					allMovements: [...resj]
 				});
 			}
-		)
-
-	}
-
-	ComponentDidMount = () => {
+		)		
 
 	  
 	}
@@ -33,7 +36,14 @@ export class CompanyMovements extends React.Component{
 			<div className='col-md-12'>
 
 				{ 
-					this.props.companies.map( (c) => (<OneCompany key={c.id} company={c} />) ) 
+					this.props.companies.map( (c) => 
+						(<OneCompany 
+							key={c.id} 
+							company={c} 
+							movements={this.state.allMovements.filter( m => m.company_id == c.id)} 
+							accounts={this.state.allAccounts} 
+						/>) 
+					) 
 				}
 				{this.props.date}
 

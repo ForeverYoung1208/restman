@@ -79,6 +79,7 @@ class CompaniesController < ApplicationController
     end
 
     # Use callbacks to share common setup or constraints between actions.
+    
     def set_company
       @company = Company.permitted_for_user(@current_user).find(params[:id])
     end

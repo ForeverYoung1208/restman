@@ -32,13 +32,14 @@ export class Day extends React.Component {
 				headers: {'Content-Type': 'application/json'}
 			})
 			.then( res => {
-				console.log(res)
 				return res.json()
 			})
 			.then( resj => {
-				console.log(resj)
 				if (resj.date){
-					this.setState({	date: resj.date });
+					this.setState({	
+						date: resj.date,
+						day: resj
+					});
 				}
 			}
 		)

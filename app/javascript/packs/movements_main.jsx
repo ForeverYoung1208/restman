@@ -1,5 +1,3 @@
-console.log('Hello from movements_main.jsx ')
-
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'

@@ -7,7 +7,8 @@ class Movement < ApplicationRecord
 	enum direction: {Income: 0, Outcome: 1}
 
   def self.permitted_for_user(user)
-    if user.role_ids.include?(::ADMIN_ROLE_ID)
+
+    if user.roles.active.pluck(:id).include?(::ADMIN_ROLE_ID)
       all
     else
       account_ids = Account.joins(:company).where('companies.key_role': user.roles_names).pluck(:'accounts.id')
