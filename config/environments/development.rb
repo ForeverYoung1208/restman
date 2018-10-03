@@ -9,7 +9,11 @@ Rails.application.configure do
   config.cache_classes = false
 
   # Do not eager load code on boot.
-  config.eager_load = false
+  ############ config.eager_load = false
+  
+###
+  config.eager_load = true
+###
 
   # Show full error reports.
   config.consider_all_requests_local = true
@@ -61,6 +65,6 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  config.web_console.whitelisted_ips =  %w( 127.0.0.1 192.168.0.120 192.168.0.123 0.0.0.0 10.21.127.72)
+  config.web_console.whitelisted_ips =  %w( 127.0.0.1 192.168.0.120 192.168.0.123 192.168.0.252 0.0.0.0 10.21.127.72)
   
 end
