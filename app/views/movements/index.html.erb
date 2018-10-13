@@ -1,6 +1,29 @@
-<div id = "app-movements">
-  Loading.....
-</div>
+<p id="notice"><%= notice %></p>
 
-<%= javascript_pack_tag 'movements_main' %>    
-<%= stylesheet_pack_tag 'Day/day'%>
+<h1>Movements</h1>
+
+<table  class="table-bordered">
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>date</th>      
+			<th>date_id</th>
+      <th>value</th>
+
+      <th colspan="1">control</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @movements.each do |m| %>
+      <tr>
+        <td><%= m.id %></td>
+        <td><%= m.day.date %></td>
+        <td><%= m.day.id %></td>
+        <td><%= m.value %></td>
+        <td><%= link_to 'Show', by_date_movements_path(date: m.day.date) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

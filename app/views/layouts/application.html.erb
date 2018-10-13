@@ -25,11 +25,21 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent" >
         <ul class="navbar-nav mr-auto">
 
-          <%= mainmenu_item( {
+
+          <%= mainmenu_dropdown( {
+            current: request.path, 
+            menuitems: {
+                          'index' => [movements_path, @current_user.can_view_movements?],
+                          'one' => [by_date_movements_path(date: '2018-10-13'), @current_user.can_view_movements?],
+                        }
+          }) {"Рух"}  %>
+
+
+          <!-- < mainmenu_item( {
               current: request.path, 
               menuitem: movements_path, 
               active: @current_user.can_view_movements?
-          }) {'Рух'} %>
+          }) {'Рух'} > -->
 
           <%= mainmenu_item( {
               current: request.path, 

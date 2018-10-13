@@ -4,14 +4,31 @@ class MovementsController < ApplicationController
   # GET /movements
   # GET /movements.json
   def index
+
+    respond_to do |format|    
+      format.html do
+        @movements = Movement.permitted_for_user(@current_user)
+      end
+      format.json do
+      end
+
+    end
+
+  end
+
+
+  # GET /movements/by_date/2018-10-13
+  # GET /movements/by_date/2018-10-13.json
+  
+  def by_date
     respond_to do |format|    
       format.html {}
       format.json do
-        # @movements = Movement.all
+        #TODO: filter by date
         @movements = Movement.permitted_for_user(@current_user)
       end
     end
-
+    
   end
 
 
@@ -78,6 +95,6 @@ class MovementsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def movement_params
-      params.require(:movement).permit(:value, :value, :direction, :movement_group_id, :comment, :account_id, :last_editor_id, :day_id, :deleted_at, :log)
+      params.require(:movement).permit(:value, :direction, :movement_group_id, :comment, :account_id, :last_editor_id, :day_id, :deleted_at, :log, :date)
     end
 end

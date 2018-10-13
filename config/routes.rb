@@ -1,7 +1,10 @@
 # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
 Rails.application.routes.draw do
-  resources :movements
+  resources :movements do
+    get 'by_date/:date', to: 'movements#by_date', on: :collection, as: 'by_date'
+  end
+
   resources :movement_groups
   resources :days do
     get 'find', to: "days#find", on: :collection

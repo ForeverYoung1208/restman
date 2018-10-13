@@ -12,7 +12,7 @@ export class CompanyMovements extends React.Component{
 	}
 
 	componentDidMount = () => {
-    fetch('/movements.json',
+    fetch('/movements/by_date/2018-10-13.json',
 			{	method: 'GET',
 				headers: {'Content-Type': 'application/json'}
 			})
