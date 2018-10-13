@@ -7,10 +7,29 @@ import {CompaniesSelect} from './CompaniesSelect/companiesSelect'
 import {GroupsSelect} from './GroupsSelect/groupsSelect'
 import {CompanyMovements} from './CompanyMovements/companyMovements'
 
+const DayInfo = (props) => {
+	if (!props.day){ return('no day here')	} 
+	const {day} = props
+	let is_open = ''	
+	day.is_closed ? is_open = 'Ні' : is_open = 'Так'
+
+  return(
+  	<div>
+  		<div> Відкритий?: {is_open}</div>
+  		<div> id:{day.id}, {day.comment} </div>
+  	</div>
+  )
+}
+
+
+DayInfo.Proptypes={
+	day: PropTypes.shape.isRequired
+}
+
 export class Day extends React.Component {
 	constructor(props){
 		super(props)
-		const date = Moment(Date.now()).format('DD.MM.YYYY')
+		// const date = Moment(Date.now()).format('DD.MM.YYYY')
 	
 		this.state = {
 			date: Moment(Date.now()).format('DD.MM.YYYY'),
@@ -106,6 +125,7 @@ export class Day extends React.Component {
 
 					<div className="col-md-3 flex-row d-flex align-items-center">
 						<Datepicker onDateChanged={this.handleDateChanged} date={this.state.date} />
+						<DayInfo day={this.state.day} />
 					</div>
 
 					<div className="col-md-1 flex-row d-flex align-items-center">

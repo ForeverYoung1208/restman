@@ -45,8 +45,6 @@ export class CompanyMovements extends React.Component{
 						/>) 
 					) 
 				}
-				{this.props.date}
-
 
 			</div>	
 		)

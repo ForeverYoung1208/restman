@@ -18,6 +18,13 @@ class MovementsController < ApplicationController
   # GET /movements/1
   # GET /movements/1.json
   def show
+    respond_to do |format|    
+      format.html {}
+      format.json do
+        # @movements = Movement.all
+        @movements = Movement.permitted_for_user(@current_user)
+      end
+    end
   end
 
   # GET /movements/new
