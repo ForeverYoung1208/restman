@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
 
   get 'main', to: "main#show", as: 'main'
+  get 'converter_oshchad', to: "converter_oshchad#converter", as: 'converter_oshchad'
 
   root :to => "sessions#new"
 

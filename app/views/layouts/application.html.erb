@@ -37,6 +37,13 @@
               active: @current_user.can_view_accounts?
           }) {'Рахунки-Залишки по банках'} %>
 
+          <%= mainmenu_dropdown( {
+            current: request.path, 
+            menuitems: {
+                          'Конвертація виписки Ощадбанка' => [converter_oshchad_path, @current_user.can_use_converters?],
+                        }
+          }) {"Сервіс"}  %>
+
 
           <%= mainmenu_dropdown( {
             current: request.path, 

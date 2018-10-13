@@ -1,0 +1,39 @@
+
+<%= javascript_pack_tag 'converter_oshchad/converter_oshchad' %>    
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-10 flex-row d-flex align-items-center">
+			
+			<div id='drop-area' class="jumbotron" > <h3>Перетягніть сюди xls - виписку з ощадбанку</h3> </div> 
+
+			<span class="p-2"> або </span>
+			<!-- <input type="file" name="xlfile" id="xlf" /> -->
+			<label class="fileContainer btn btn-light">
+				Оберіть файл
+				<input type="file" name="xlfile" id="xlf" />
+			</label>
+
+			
+<!-- 			<div class="input-group mb-3">
+			  <div class="input-group-prepend">
+			    <span class="input-group-text" id="inputGroupFileAddon01"> Оберіть файл</span>
+			  </div>
+			  <div class="custom-file">
+			    <input type="file" name="xlfile" class="custom-file-input" id="xlf" aria-describedby="inputGroupFileAddon01">
+			    <label class="custom-file-label" for="xlf"></label>
+			  </div>
+			</div> -->
+
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-10 ">
+			<table id='result'></table>	
+		</div>
+		
+	</div>
+
+
+</div>

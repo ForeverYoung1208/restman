@@ -70,6 +70,10 @@ class User < ApplicationRecord
   end
 
 #================
+  def can_use_converters?
+    true
+  end
+
   def can_view_movements?
     true
   end
