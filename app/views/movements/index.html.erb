@@ -1,29 +1,10 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Movements</h1>
-
-<table  class="table-bordered">
-  <thead>
-    <tr>
-      <th>id</th>
-      <th>date</th>      
-			<th>date_id</th>
-      <th>value</th>
-
-      <th colspan="1">control</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @movements.each do |m| %>
-      <tr>
-        <td><%= m.id %></td>
-        <td><%= m.day.date %></td>
-        <td><%= m.day.id %></td>
-        <td><%= m.value %></td>
-        <td><%= link_to 'Show', by_date_movements_path(date: m.day.date) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
+<div class="container">
+  <div class="row">
+    <div class="col-md-5">
+      <h3 >Movements index will be here</h3>  
+    </div>
+    
+  </div>
+</div>

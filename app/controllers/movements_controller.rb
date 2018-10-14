@@ -7,7 +7,9 @@ class MovementsController < ApplicationController
 
     respond_to do |format|    
       format.html do
-        @movements = Movement.permitted_for_user(@current_user)
+        @days = Day.all
+        # Movement.permitted_for_user(@current_user).pluck(day)
+
       end
       format.json do
       end
@@ -24,8 +26,10 @@ class MovementsController < ApplicationController
     respond_to do |format|    
       format.html {}
       format.json do
-        #TODO: filter by date
-        @movements = Movement.permitted_for_user(@current_user)
+        day = Day.where(date: params[:date]).first 
+        # @movements = Movement.permitted_for_user(@current_user).where(day_id: day_id)
+          @movements = Movement.where(day_id: day.id) if day
+
       end
     end
     

@@ -7,12 +7,16 @@ class DaysController < ApplicationController
     @days = Day.all
   end
 
+  def index_formatted
+    @days = Day.all
+  end
+
   # GET /days/find.json
   def find
     respond_to do |f|
       f.html { }
       f.json do
-        @day = Day.find_by_date(params[:date])
+        @day = Day.find_or_create_by(date: params[:date])
         if @day
           render partial: 'days/day.json'
         else

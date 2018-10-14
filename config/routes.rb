@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :movement_groups
   resources :days do
     get 'find', to: "days#find", on: :collection
+    get 'index-formatted', to: 'days#index_formatted', on: :collection
   end
   
   resources :roles_users

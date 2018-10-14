@@ -5,7 +5,13 @@ import PropTypes from 'prop-types'
 import {Datepicker} from './Datepicker/datepicker'
 import {CompaniesSelect} from './CompaniesSelect/companiesSelect'
 import {GroupsSelect} from './GroupsSelect/groupsSelect'
-import {CompanyMovements} from './CompanyMovements/companyMovements'
+import {CompaniesMovements} from './CompaniesMovements/companiesMovements'
+
+const dashDateFormat = (date) =>{
+	if(date){
+		return (date.substring(6,10)+'-'+date.substring(3,5)+'-'+date.substring(0,2))
+	}
+}
 
 const DayInfo = (props) => {
 	if (!props.day){ return('no day here')	} 
@@ -20,32 +26,57 @@ const DayInfo = (props) => {
   	</div>
   )
 }
-
-
 DayInfo.Proptypes={
 	day: PropTypes.shape.isRequired
 }
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////
 export class Day extends React.Component {
 	constructor(props){
 		super(props)
-		// const date = Moment(Date.now()).format('DD.MM.YYYY')
 	
 		this.state = {
-			date: Moment(Date.now()).format('DD.MM.YYYY'),
+			date: this.getDateFromUrl(),	//Moment(Date.now()).format('DD.MM.YYYY'),
 			day: null,
 			companiesList: [],
 			companiesSelected: [],
-			group: null
+			group: null,
+			allMovements: []
 		}
 	}
 
   componentDidMount = () => {
-  	this.getDate( this.state.date )
+  	this.getDay( this.state.date )
     this.getCompanies()
   }	
 
-  getDate = ( date_string ) => {
+  getDateFromUrl = () => {
+  	const t = window.location.href.substr(-10)
+		return (t.substr(8,2)+'.'+t.substr(5,2)+'.'+t.substr(0,4))
+  }
+
+
+	getMovements = (dateDefault) => {
+		let date = dateDefault
+		this.props.date ? date = this.props.date : null
+    fetch('/movements/by_date/'+dashDateFormat(date)+'.json',
+			{	method: 'GET',
+				headers: {'Content-Type': 'application/json'}
+			})
+			.then( res => {
+				return res.json()
+			})
+			.then( resj => {
+				console.log(resj)
+				this.setState({
+					allMovements: [...resj]
+				});
+			}
+		)	  
+	}
+
+  getDay = ( date_string ) => {
     fetch( '/days/find.json?date='+date_string,
 			{ method: 'GET',
 				headers: {'Content-Type': 'application/json'}
@@ -59,6 +90,7 @@ export class Day extends React.Component {
 						date: resj.date,
 						day: resj
 					});
+					this.getMovements(resj.date)
 				}
 			}
 		)
@@ -91,8 +123,7 @@ export class Day extends React.Component {
   }
 
 	handleDateChanged = (newDate) => {
-		this.getDate(newDate)
-		// this.setState({date: newDate})
+		this.getDay(newDate)
 
 	}
 
@@ -149,7 +180,11 @@ export class Day extends React.Component {
 				</div>
 
 				<div className="row container-fluid col-md-12" >
-						<CompanyMovements companies = {this.state.companiesSelected} date={this.state.date}/>
+						<CompaniesMovements 
+							companies = {this.state.companiesSelected} 
+							date={this.state.date}
+							allMovements={this.state.allMovements}
+						/>
 				</div>
 			</div>
 		)
