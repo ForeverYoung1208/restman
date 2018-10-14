@@ -21,7 +21,6 @@ export class CompaniesMovements extends React.Component{
 						/>) 
 					) 
 				}
-				<h2>{this.props.date}</h2>
 
 			</div>	
 		)

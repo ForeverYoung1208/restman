@@ -7,16 +7,14 @@ export class OneCompany extends React.Component{
 
 	}
 
-	componentDidMount = () => {
-		console.log( this.props.movements)
-	  
-	}
-	
 
+	
 	render(){
+		const {company, movements} = this.props
 		return(
 			<div className="row">
-				{	this.props.company.code_name}
+				{	company.code_name}
+				{ movements.map( m => m.comment) }
 
 				<hr className="my-hr-left col-md-12 align-center"/>
 

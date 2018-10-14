@@ -8,7 +8,7 @@ class DaysController < ApplicationController
   end
 
   def index_formatted
-    @days = Day.all
+    @days = Day.all.order(date: :desc)
   end
 
   # GET /days/find.json
