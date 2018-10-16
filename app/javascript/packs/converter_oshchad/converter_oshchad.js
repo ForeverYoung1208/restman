@@ -101,8 +101,8 @@ class  Movements extends Object{
 
     this.allDebit.forEach( (ad) =>{
       jqBody.append('<tr></tr>').find('tr').last()
-        .append('<td>'+ad.data.date+'</td>')
         .append('<td>'+ad.data.number+'</td>')
+        .append('<td>'+ad.data.date+'</td>')
         .append('<td class="money">'+ad.data.sum.toFixed(2).replace(/\./, ',')+ '</td>')
         .append('<td class="money"> 0,00 </td>')
         .append('<td class="money"> 0,00 </td>')
