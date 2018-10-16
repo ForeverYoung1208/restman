@@ -48,27 +48,32 @@ class Movement extends Object{
 class  Movements extends Object{
   constructor(oschadStruct){
     super();
-    this.creditColumn = 'AA'
-    this.debitColumn = 'AJ'
-    this.allCredit = this.getFromOschad(oschadStruct, this.creditColumn);
-    this.allDebit = this.getFromOschad(oschadStruct, this.debitColumn);
+    this.creditColumn = 'AA';
+    this.debitColumn = 'AJ';
+    this.creditTotal = 0;
+    this.debitTotal = 0;
+    this.allCredit = this.getFromOschad(oschadStruct, this.creditColumn, this.creditTotal);
+    this.allDebit = this.getFromOschad(oschadStruct, this.debitColumn, this.debitTotal);
   }
 
-  getFromOschad = (w, valueColumn) => {
+  getFromOschad = (w, valueColumn, total) => {
     const cells = w.Sheets[ w.SheetNames[0] ];
     const res = new Array;
+    total = 0;
 
     for( let cellName in cells ){
 
       if (cellName.slice(0,2) == valueColumn) {
-        let cellVal = parseFloat(cells[cellName].v.replace(/,/, '.').replace(/\s/g, "")  ) 
+        let cellVal = parseFloat(cells[cellName].v.replace(/,/, '.').replace(/\s/g, "")) 
 
         if (!isNaN(cellVal)) {
           let movement = new Movement(cells, cellName) 
           res.push(movement)
+          total =+ movement.data.sum
         }
       }
     }
+    console.log(total)
     return res;
   }
 
