@@ -5,37 +5,28 @@ import Moment from "moment"
 var rABS = true; // true: readAsBinaryString ; false: readAsArrayBuffer
 
 function getJsDateFromExcel(excelDate) {
-
-  // JavaScript dates can be constructed by passing milliseconds
-  // since the Unix epoch (January 1, 1970) example: new Date(12312512312);
-
-  // 1. Subtract number of days between Jan 1, 1900 and Jan 1, 1970, plus 1 (Google "excel leap year bug")             
-  // 2. Convert to milliseconds.
   return new Moment((excelDate - (25567 + 2))*86400*1000);
+}
+
+function toDecimal(v) {
+  return Math.round(parseFloat( v.toString().replace(/,/, '.').replace(/\s/g, "") )*100) /100
 }
 
 class Movement extends Object{
   constructor(cells, baseCellName){
     super();
     let baseCellRow = parseInt( baseCellName.slice(2) )
-
     let recipientCellName = 'K' + (baseCellRow + 2)  ;
-    
     let okpoCellName = 'AK' + (baseCellRow + 2);
-
     let numberCellName = 'L' + baseCellRow;
-
     let infoCellName = 'J' + (baseCellRow + 3);
-
     let dateCellName = 'AM' + (baseCellRow + 1);
-
     let date = getJsDateFromExcel( cells[dateCellName].v )
-
 
     this.data = {
       addr: baseCellName,
       number: cells[numberCellName].v ? cells[numberCellName].v : 'None',
-      sum: parseFloat(cells[baseCellName].v.replace(/,/, '.').replace(/\s/g, "")),
+      sum: toDecimal(cells[baseCellName].v),
       agent: cells[recipientCellName] ? cells[recipientCellName].v : 'None',
       agentEdrpou: cells[okpoCellName] ? cells[okpoCellName].v.slice(5) : 'None',
       info: cells[infoCellName] ? cells[infoCellName].v : 'None',
@@ -51,7 +42,11 @@ class  Movements extends Object{
     this.balanceParams = {
       markerColumn: 'E',
       inBalanceColumn: 'AG',
-      outBalanceColumn: 'AG',
+      outBalanceColumn: 'AF',
+      creditTotalColumn: 'S',
+      debitTotalColumn: 'AD',
+      dateBeginColumn:'N',
+      dateEndColumn: 'E',
       totalMarker10: 'Всього обо',
       inBalanceMarker10: 'Вхiдний за',
       outBalanceMarker10: 'Вихiдний з',
@@ -64,15 +59,26 @@ class  Movements extends Object{
     this.debitTotal = 0;
     this.inBalance = 0;
     this.outBalance = 0;
+    this.dateBegin = '';
+    this.dateEnd = '';
 
 
     this.allCredit = this.getMovFromOschad(oschadStruct, this.creditColumn, this.creditTotal);
     this.allDebit = this.getMovFromOschad(oschadStruct, this.debitColumn, this.debitTotal);
-    this.inBalance = this.getBalFromOschad(oschadStruct, this.balanceParams)
+    this.getBalFromOschad(oschadStruct, this.balanceParams)
   }
 
   getBalFromOschad =(w, params) =>{
-    let {markerColumn, outBalanceColumn, inBalanceColumn, totalMarker10, inBalanceMarker10, outBalanceMarker10} = params
+    let {markerColumn, 
+      outBalanceColumn, 
+      creditTotalColumn,
+      debitTotalColumn,
+      inBalanceColumn, 
+      totalMarker10, 
+      inBalanceMarker10, 
+      dateBeginColumn,
+      dateEndColumn,      
+      outBalanceMarker10} = params
 
     const cells = w.Sheets[ w.SheetNames[0] ];
     const res = new Array;
@@ -82,18 +88,32 @@ class  Movements extends Object{
 
         if (cells[cellName].v.slice(0, 10) == inBalanceMarker10){
           const inBalanceRow = parseInt( cellName.slice(1) )+1          
-          this.inBalance == 0 ? this.inBalance = cells[inBalanceColumn+inBalanceRow].v : null
+          const dateBeginRow = inBalanceRow-1
+          if (this.inBalance == 0) { 
+            this.inBalance = cells[inBalanceColumn+inBalanceRow].v 
+            console.log( this.inBalance )    
+
+          }
+          this.dateBegin == '' ? this.dateBegin = getJsDateFromExcel(cells[dateBeginColumn+dateBeginRow].v).format("DD.MM.YYYY") : null
         } 
         else if (cells[cellName].v.slice(0, 10) == outBalanceMarker10){
-          const outBalanceRow = parseInt( cellName.slice(1) )+0          
+          const outBalanceRow = parseInt( cellName.slice(1) )+0
+          const dateEndRow = outBalanceRow-0
           this.outBalance = cells[outBalanceColumn+outBalanceRow].v
+          this.dateEnd = cells[dateEndColumn+dateEndRow].v.substring(27)
+        }
+        else if (cells[cellName].v.slice(0, 10) == totalMarker10){
+          const totalRow = parseInt( cellName.slice(1) )+1
+          
+          this.creditTotal = toDecimal( cells[creditTotalColumn + totalRow].v )
+          this.debitTotal = toDecimal( cells[debitTotalColumn + totalRow].v )
+
         }
 
 
       }
-
     }
-    console.log(this.inBalance, this.outBalance)
+    
 
   }
 
@@ -105,7 +125,7 @@ class  Movements extends Object{
     for( let cellName in cells ){
 
       if (cellName.slice(0,2) == valueColumn) {
-        let cellVal = parseFloat(cells[cellName].v.replace(/,/, '.').replace(/\s/g, "")) 
+        let cellVal = toDecimal(cells[cellName].v)
 
         if (!isNaN(cellVal)) {
           let movement = new Movement(cells, cellName) 
@@ -171,6 +191,7 @@ reader.onload = function(e) {
   const jqElementTable = $('table#result')
 
   movements.drawTo(jqElementTable)
+  console.log(movements)
   /* DO SOMETHING WITH workbook HERE */
 
 };
