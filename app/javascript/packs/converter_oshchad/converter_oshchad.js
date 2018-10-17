@@ -48,18 +48,47 @@ class Movement extends Object{
 class  Movements extends Object{
   constructor(oschadStruct){
     super();
+    this.balanceParams = {
+      markerColumn: 'E',
+      totalMarker10: 'Всього обо',
+      inBalanceMarker10: 'Вхiдний за',
+      outBalanceMarker10: 'Вихiдний з',
+    } 
+
     this.creditColumn = 'AA';
     this.debitColumn = 'AJ';
+    
     this.creditTotal = 0;
     this.debitTotal = 0;
-    this.allCredit = this.getFromOschad(oschadStruct, this.creditColumn, this.creditTotal);
-    this.allDebit = this.getFromOschad(oschadStruct, this.debitColumn, this.debitTotal);
+    this.inBalance = 0;
+    this.outBalance = 0;
+
+    this.allCredit = this.getMovFromOschad(oschadStruct, this.creditColumn, this.creditTotal);
+    this.allDebit = this.getMovFromOschad(oschadStruct, this.debitColumn, this.debitTotal);
+    this.inBalance = this.getBalFromOschad(oschadStruct, this.balanceParams )
   }
 
-  getFromOschad = (w, valueColumn, total) => {
+  getBalFromOschad =(w, params) =>{
+    let markerColumn, totalMarker10, inOutBalaneColumn, inBalanceMarker10, outBalanceMarker10 = {params}
     const cells = w.Sheets[ w.SheetNames[0] ];
     const res = new Array;
-    total = 0;
+    for( let cellName in cells ){
+      if (cellName.slice(0,2) == markerColumn) {
+        if (cells[cellName].v == totalMarker10){
+          console.log( cells[cellName].v )
+        }
+
+
+      }
+
+    }
+
+  }
+
+
+  getMovFromOschad = (w, valueColumn, total) => {
+    const cells = w.Sheets[ w.SheetNames[0] ];
+    const res = new Array;
 
     for( let cellName in cells ){
 
@@ -69,10 +98,11 @@ class  Movements extends Object{
         if (!isNaN(cellVal)) {
           let movement = new Movement(cells, cellName) 
           res.push(movement)
-          total =+ movement.data.sum
+          total = total + movement.data.sum
         }
       }
     }
+    total = Math.round(total*100) / 100
     console.log(total)
     return res;
   }
