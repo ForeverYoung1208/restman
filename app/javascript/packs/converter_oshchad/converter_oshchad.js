@@ -50,6 +50,8 @@ class  Movements extends Object{
     super();
     this.balanceParams = {
       markerColumn: 'E',
+      inBalanceColumn: 'AG',
+      outBalanceColumn: 'AG',
       totalMarker10: 'Всього обо',
       inBalanceMarker10: 'Вхiдний за',
       outBalanceMarker10: 'Вихiдний з',
@@ -63,25 +65,35 @@ class  Movements extends Object{
     this.inBalance = 0;
     this.outBalance = 0;
 
+
     this.allCredit = this.getMovFromOschad(oschadStruct, this.creditColumn, this.creditTotal);
     this.allDebit = this.getMovFromOschad(oschadStruct, this.debitColumn, this.debitTotal);
-    this.inBalance = this.getBalFromOschad(oschadStruct, this.balanceParams )
+    this.inBalance = this.getBalFromOschad(oschadStruct, this.balanceParams)
   }
 
   getBalFromOschad =(w, params) =>{
-    let markerColumn, totalMarker10, inOutBalaneColumn, inBalanceMarker10, outBalanceMarker10 = {params}
+    let {markerColumn, outBalanceColumn, inBalanceColumn, totalMarker10, inBalanceMarker10, outBalanceMarker10} = params
+
     const cells = w.Sheets[ w.SheetNames[0] ];
     const res = new Array;
+
     for( let cellName in cells ){
-      if (cellName.slice(0,2) == markerColumn) {
-        if (cells[cellName].v == totalMarker10){
-          console.log( cells[cellName].v )
+      if (cellName.slice(0,1) == markerColumn) {
+
+        if (cells[cellName].v.slice(0, 10) == inBalanceMarker10){
+          const inBalanceRow = parseInt( cellName.slice(1) )+1          
+          this.inBalance == 0 ? this.inBalance = cells[inBalanceColumn+inBalanceRow].v : null
+        } 
+        else if (cells[cellName].v.slice(0, 10) == outBalanceMarker10){
+          const outBalanceRow = parseInt( cellName.slice(1) )+0          
+          this.outBalance = cells[outBalanceColumn+outBalanceRow].v
         }
 
 
       }
 
     }
+    console.log(this.inBalance, this.outBalance)
 
   }
 
@@ -103,7 +115,6 @@ class  Movements extends Object{
       }
     }
     total = Math.round(total*100) / 100
-    console.log(total)
     return res;
   }
 
