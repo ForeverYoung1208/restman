@@ -12,6 +12,19 @@ function toDecimal(v) {
   return Math.round(parseFloat( v.toString().replace(/,/, '.').replace(/\s/g, "") )*100) /100
 }
 
+function toDecimalOut(v) {
+  return v.toFixed(2).replace(/\./, ',')
+}
+
+function redIf( compare ){
+  if ( compare() ){
+    return 'class="red"'
+  }
+  
+}
+
+
+
 class Movement extends Object{
   constructor(cells, baseCellName){
     super();
@@ -57,14 +70,16 @@ class  Movements extends Object{
     
     this.creditTotal = 0;
     this.debitTotal = 0;
+    this.creditTotalBM = 0;
+    this.debitTotalBM = 0;
     this.inBalance = 0;
     this.outBalance = 0;
     this.dateBegin = '';
     this.dateEnd = '';
 
 
-    this.allCredit = this.getMovFromOschad(oschadStruct, this.creditColumn, this.creditTotal);
-    this.allDebit = this.getMovFromOschad(oschadStruct, this.debitColumn, this.debitTotal);
+    this.allCredit = this.getMovFromOschad(oschadStruct, this.creditColumn, 'creditTotalBM');
+    this.allDebit = this.getMovFromOschad(oschadStruct, this.debitColumn, 'debitTotalBM');
     this.getBalFromOschad(oschadStruct, this.balanceParams)
   }
 
@@ -118,7 +133,7 @@ class  Movements extends Object{
   }
 
 
-  getMovFromOschad = (w, valueColumn, total) => {
+  getMovFromOschad = (w, valueColumn, totalPropName) => {
     const cells = w.Sheets[ w.SheetNames[0] ];
     const res = new Array;
 
@@ -130,11 +145,10 @@ class  Movements extends Object{
         if (!isNaN(cellVal)) {
           let movement = new Movement(cells, cellName) 
           res.push(movement)
-          total = total + movement.data.sum
+          this[totalPropName] = Math.round( (this[totalPropName] + movement.data.sum)*100) / 100
         }
       }
     }
-    total = Math.round(total*100) / 100
     return res;
   }
 
@@ -153,13 +167,18 @@ class  Movements extends Object{
 
     const jqBody = jqET.append('<tbody></tbody>').find('tbody')
 
+    jqBody.append('<tr></tr>').find('tr').last()
+      .append( "<td colspan = 8 > на "+ this.dateBegin 
+        +" вх. залишок: " + toDecimalOut(this.inBalance) +" грн. </td>")
+      
+
     this.allCredit.forEach( (ac) =>{
       jqBody.append('<tr></tr>').find('tr').last()
         .append('<td>'+ac.data.number+'</td>')
         .append('<td>'+ac.data.date+'</td>')
         .append('<td class="money"> 0,00 </td>')
         .append('<td class="money"> 0,00 </td>')
-        .append('<td class="money">'+ac.data.sum.toFixed(2).replace(/\./, ',')+ '</td>')
+        .append('<td class="money">'+toDecimalOut(ac.data.sum)+ '</td>')
         .append('<td class="money"> 0,00 </td>')
         .append('<td>'+ac.data.agent+'</td>')
         .append('<td>'+ac.data.info+'</td>')
@@ -169,13 +188,30 @@ class  Movements extends Object{
       jqBody.append('<tr></tr>').find('tr').last()
         .append('<td>'+ad.data.number+'</td>')
         .append('<td>'+ad.data.date+'</td>')
-        .append('<td class="money">'+ad.data.sum.toFixed(2).replace(/\./, ',')+ '</td>')
+        .append('<td class="money">'+toDecimalOut(ad.data.sum)+ '</td>')
         .append('<td class="money"> 0,00 </td>')
         .append('<td class="money"> 0,00 </td>')
         .append('<td class="money"> 0,00 </td>')
         .append('<td>'+ad.data.agent+'</td>')
         .append('<td>'+ad.data.info+'</td>')
     })
+
+    jqBody.append('<tr></tr>').find('tr').last()
+      .append( "<td colspan=8 "
+        +redIf( ()=>(toDecimalOut(this.debitTotalBM+1)!=toDecimalOut(this.debitTotal) ) )
+        +"> оборотів по ДТ "+ toDecimalOut(this.debitTotalBM)
+        +" оборотів по КТ " + toDecimalOut(this.creditTotalBM) +" грн. (по знайдених платежах)</td>")
+
+    jqBody.append('<tr></tr>').find('tr').last()
+      .append( "<td colspan=8 > оборотів по ДТ "+ toDecimalOut(this.debitTotal)
+        +" оборотів по КТ " + toDecimalOut(this.creditTotal) +" грн. (по виписці з банку)</td>")      
+
+
+    jqBody.append('<tr></tr>').find('tr').last()
+      .append( "<td colspan=8 > на "+ this.dateEnd
+        +" вих. залишок: " + toDecimalOut(this.outBalance) +" грн. </td>")
+
+
   }
 }
 
