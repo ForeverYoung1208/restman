@@ -1,3 +1,20 @@
 // Place all the styles related to the movements controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.movements-table{
+	th{
+		border:solid gray 1px;
+	}
+	.c1{
+		width:2em;
+	}
+	.clong{
+		min-width: 10em;
+	}
+	.cshort{
+		min-width: 10em;
+
+	}
+
+}

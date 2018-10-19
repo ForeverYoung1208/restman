@@ -175,9 +175,9 @@ export class Day extends React.Component {
 						/>
 					</div>
 				</div>
-				<div className="row">
-					<hr className="my-hr-center col-md-10 align-center"/>
-				</div>
+				{/* <div className="row">
+									<hr className="my-hr-center col-md-10 align-center"/>
+								</div>*/}
 
 				<div className="row container-fluid col-md-12" >
 						<CompaniesMovements 

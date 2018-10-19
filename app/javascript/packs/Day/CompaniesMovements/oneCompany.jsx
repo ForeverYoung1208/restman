@@ -14,7 +14,7 @@ export class OneCompany extends React.Component{
 		const {company, movements} = this.props
 		return(
 			<div className="row">
-				<div className="col-md-1">{	company.code_name}</div>
+				<div className="col-md-1">{	company.code_name} (id: {company.id})</div>
 				<div className="col-md-2">{ movements.map( m => m.comment) }</div>
 
 				<hr className="my-hr-left col-md-12 align-center"/>
