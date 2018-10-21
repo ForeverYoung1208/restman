@@ -13,3 +13,4 @@ json.deleted_at movement.deleted_at
 json.log movement.log
 json.created_at movement.created_at
 json.updated_at movement.updated_at
+json.currency movement.account.currency.name_int

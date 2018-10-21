@@ -1,25 +1,67 @@
 import React from "react"
 import PropTypes from "prop-types"
 
+const Comment = (props) => {
+	const {movement, ddirection} = props
+	let res = ''
+	if (movement.direction = ddirection){
+		res = movement.comment+'; '
+	}
+	return res;
+}
+Comment.Proptypes = {
+	movement: PropTypes.object.isRequired
+}
+
+
 export class OneCompany extends React.Component{
 	constructor(props){
 		super(props)
-		console.log(props)
+		console.log(this.getMovsByCurrency("UAH", props.movements))
 
 	}
+
+	getMovsByCurrency = (currency = 'UAH', allMovs) => {
+		let income = 0, outcome = 0
+		let sum = 0
+		if (allMovs && allMovs.length>0){
+			income = allMovs.reduce( (sum, m) =>  m.direction=='Income' && m.currency==currency ? (sum += parseFloat(m.value) ) : sum, sum = 0)
+			outcome = allMovs.reduce( (sum, m) =>  m.direction=='Outcome' && m.currency==currency ? (sum += parseFloat(m.value) ) : sum, sum = 0)
+		}
+	  return {income: income, outcome:outcome}
+	}
+
 
 
 	
 	render(){
 		const {company, movements} = this.props
 		return(
-			<div className="row">
-				<div className="col-md-1">{	company.code_name} (id: {company.id})</div>
-				<div className="col-md-2">{ movements.map( m => m.comment) }</div>
 
-				<hr className="my-hr-left col-md-12 align-center"/>
+			<tr >
+				<td className="i-text">{	company.code_name}, (id: {company.id})</td>
 
-			</div>	
+				<td>UAH</td>
+				<td>USD</td>
+				<td>EUR</td>
+
+				<td>{this.getMovsByCurrency('UAH', movements).income}</td>
+				<td>{this.getMovsByCurrency('USD', movements).income}</td>
+				<td>{this.getMovsByCurrency('EUR', movements).income}</td>
+				<td className="i-text">{movements.map( m => <Comment key ={m.id} movement = {m} ddirection='Income' /> ) }</td>
+
+				<td>{this.getMovsByCurrency('UAH', movements).outcome}</td>
+				<td>{this.getMovsByCurrency('USD', movements).outcome}</td>
+				<td>{this.getMovsByCurrency('EUR', movements).outcome}</td>
+				<td className="i-text">notes</td>
+				
+				<td>UAH</td>
+				<td>USD</td>
+				<td>EUR</td>
+
+
+			</tr>
+
 		)
 
 	}
@@ -46,6 +88,7 @@ OneCompany.Proptypes = {
 // log: "log here"
 // updated_at: "2018-09-27T19:29:15.000Z"
 // value: "1010.23"
+// currency: 'UAH'
 
 }
 

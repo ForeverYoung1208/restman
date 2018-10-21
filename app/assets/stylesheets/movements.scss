@@ -5,7 +5,16 @@
 .movements-table{
 	th{
 		border:solid gray 1px;
+		width: 80px;
 	}
+	td{
+		text-align: right;
+		padding: 2px;		
+	}
+	td.i-text{
+		text-align: left;
+	}
+
 	.c1{
 		width:2em;
 	}
@@ -14,7 +23,6 @@
 	}
 	.cshort{
 		min-width: 10em;
-
 	}
 
 }

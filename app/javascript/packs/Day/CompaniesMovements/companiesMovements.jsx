@@ -2,63 +2,8 @@ import React from "react"
 import PropTypes from "prop-types"
 import {OneCompany} from "./oneCompany"
 
-const HeadDivs = () => {
-  return(
-  	<div className="row itable-head">
-  		<div className="col-md-1">Код компанії</div>
-  		<div className="col-md-1">Вх. залишок</div>
-  		<div className="col-md-2 container-fluid">
-  			<div className="row">Отримано</div>
-  			<div className="row">
-  				<div className="col-md-4">USD</div>
-  				<div className="col-md-4">EUR</div>
-  				<div className="col-md-4">UAH</div>
-  			</div>
-  		</div>
-			<div className="col-md-1">Примітки</div>
-  		<div className="col-md-2 container-fluid">
-  			<div className="row">Витрачено</div>
-  			<div className="row">
-  				<div className="col-md-4">USD</div>
-  				<div className="col-md-4">EUR</div>
-  				<div className="col-md-4">UAH</div>
-  			</div>
-  		</div>  		
-  		<div className="col-md-1">Примітки</div>
-  		<div className="col-md-1">Вих. залишок</div>
-  	</div>
-  )
-}
 
-const HeadTable = () => {
-  return(
-  	<thead className="row itable-head">
-  		<th className="col-md-1">Код компанії</th>
-  		<th className="col-md-1">Вх. залишок</th>
-  		<th className="col-md-2 container-fluid">
-  			<th className="row">Отримано</th>
-  			<th className="row">
-  				<th className="col-md-4">USD</th>
-  				<th className="col-md-4">EUR</th>
-  				<th className="col-md-4">UAH</th>
-  			</th>
-  		</th>
-			<th className="col-md-1">Примітки</th>
-  		<th className="col-md-2 container-fluid">
-  			<th className="row">Витрачено</th>
-  			<th className="row">
-  				<th className="col-md-4">USD</th>
-  				<th className="col-md-4">EUR</th>
-  				<th className="col-md-4">UAH</th>
-  			</th>
-  		</th>  		
-  		<th className="col-md-1">Примітки</th>
-  		<th className="col-md-1">Вих. залишок</th>
-  	</thead>
-  )
-}
-
-const HeadTable2 = () => {
+const TableHead = () => {
   return(
   	<thead>
   		<tr>
@@ -108,20 +53,20 @@ export class CompaniesMovements extends React.Component{
 	render(){
 		return(
 			<div className='table-responsive'>
-			<table className="table movements-table">
-				<HeadTable2/>
-			</table>
-
-				{ 
-					this.props.companies.map( (c) => 
-						(<OneCompany 
-							key={c.id} 
-							company={c} 
-							movements={this.props.allMovements.filter( m => m.company_id == c.id)} 
-						/>) 
-					) 
-				}
-
+				<table className="table movements-table">
+					<TableHead/>
+					<tbody>
+						{ 
+							this.props.companies.map( (c) => 
+								(<OneCompany 
+									key={c.id} 
+									company={c} 
+									movements={this.props.allMovements.filter( m => m.company_id == c.id)} 
+								/>) 
+							) 
+						}
+					</tbody>
+				</table>
 			</div>	
 		)
 
