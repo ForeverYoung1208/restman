@@ -25,8 +25,8 @@ export class OneCompany extends React.Component{
 		let income = 0, outcome = 0
 		let sum = 0
 		if (allMovs && allMovs.length>0){
-			income = allMovs.reduce( (sum, m) =>  m.direction=='Income' && m.currency==currency ? (sum += parseFloat(m.value) ) : sum, sum = 0)
-			outcome = allMovs.reduce( (sum, m) =>  m.direction=='Outcome' && m.currency==currency ? (sum += parseFloat(m.value) ) : sum, sum = 0)
+			income = allMovs.reduce( (sum, m) =>  (m.direction=='Income' && m.currency==currency) ? (sum += parseFloat(m.value) ) : sum, sum = 0)
+			outcome = allMovs.reduce( (sum, m) =>  (m.direction=='Outcome' && m.currency==currency) ? (sum += parseFloat(m.value) ) : sum, sum = 0)
 		}
 	  return {income: income, outcome:outcome}
 	}
