@@ -17,8 +17,10 @@ function toDecimalOut(v) {
 }
 
 function redIf( compare ){
+  let a = compare
+  console.log( a )
   if ( compare() ){
-    return 'class="red"'
+    return 'class="alert alert-danger"'
   }
   
 }
@@ -198,12 +200,14 @@ class  Movements extends Object{
 
     jqBody.append('<tr></tr>').find('tr').last()
       .append( "<td colspan=8 "
-        +redIf( ()=>(toDecimalOut(this.debitTotalBM+1)!=toDecimalOut(this.debitTotal) ) )
+        +redIf( ()=>toDecimalOut(this.debitTotalBM)!=toDecimalOut(this.debitTotal)  )
         +"> оборотів по ДТ "+ toDecimalOut(this.debitTotalBM)
         +" оборотів по КТ " + toDecimalOut(this.creditTotalBM) +" грн. (по знайдених платежах)</td>")
 
     jqBody.append('<tr></tr>').find('tr').last()
-      .append( "<td colspan=8 > оборотів по ДТ "+ toDecimalOut(this.debitTotal)
+      .append( "<td colspan=8 "
+        +redIf( ()=>toDecimalOut(this.debitTotalBM)!=toDecimalOut(this.debitTotal)  )
+        +"> оборотів по ДТ "+ toDecimalOut(this.debitTotal)
         +" оборотів по КТ " + toDecimalOut(this.creditTotal) +" грн. (по виписці з банку)</td>")      
 
 

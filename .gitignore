@@ -35,5 +35,5 @@
 yarn-debug.log*
 .yarn-integrity
 
-#FOREVERYOUNG Ignore station-specific wepback config
+# FOREVERYOUNG Ignore station-specific wepback config
 /config/webpacker.yml
