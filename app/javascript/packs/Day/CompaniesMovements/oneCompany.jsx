@@ -2,10 +2,10 @@ import React from "react"
 import PropTypes from "prop-types"
 
 const Comment = (props) => {
-	const {movement, ddirection} = props
+	const {movement, ddirection, dcurrency} = props
 	let res = ''
-	if (movement.direction = ddirection){
-		res = movement.comment+'; '
+	if (movement.direction==ddirection && movement.currency == dcurrency ){
+		res = ''+ movement.value+' '+ movement.currency_ukr+'- ' +movement.comment+'; '
 	}
 	return res;
 }
@@ -48,12 +48,33 @@ export class OneCompany extends React.Component{
 				<td>{this.getMovsByCurrency('UAH', movements).income}</td>
 				<td>{this.getMovsByCurrency('USD', movements).income}</td>
 				<td>{this.getMovsByCurrency('EUR', movements).income}</td>
-				<td className="i-text">{movements.map( m => <Comment key ={m.id} movement = {m} ddirection='Income' /> ) }</td>
+				<td className="i-text">
+					{movements.map( m => 
+						<Comment key ={m.id} movement = {m} ddirection='Income' dcurrency='UAH' /> ) }
+					{movements.map( m => 
+						<Comment key ={m.id} movement = {m} ddirection='Income' dcurrency='USD' /> ) }
+					{movements.map( m => 
+						<Comment key ={m.id} movement = {m} ddirection='Income' dcurrency='EUR' /> ) }
+
+
+
+				</td>
+
 
 				<td>{this.getMovsByCurrency('UAH', movements).outcome}</td>
 				<td>{this.getMovsByCurrency('USD', movements).outcome}</td>
 				<td>{this.getMovsByCurrency('EUR', movements).outcome}</td>
-				<td className="i-text">notes</td>
+				<td className="i-text">
+					{movements.map( m => 
+						<Comment key ={m.id} movement = {m} ddirection='Outcome' dcurrency='UAH' /> ) }
+					{movements.map( m => 
+						<Comment key ={m.id} movement = {m} ddirection='Outcome' dcurrency='USD' /> ) }
+					{movements.map( m => 
+						<Comment key ={m.id} movement = {m} ddirection='Outcome' dcurrency='EUR' /> ) }
+
+
+
+				</td>
 				
 				<td>UAH</td>
 				<td>USD</td>
