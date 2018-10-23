@@ -42,7 +42,9 @@ export class Day extends React.Component {
 			companiesList: [],
 			companiesSelected: [],
 			group: null,
-			allMovements: []
+			allMovements: [],
+			isMovsGrouped: false,
+			cathegories:[]
 		}
 	}
 
@@ -63,15 +65,23 @@ export class Day extends React.Component {
     fetch('/movements/by_date/'+dashDateFormat(date)+'.json',
 			{	method: 'GET',
 				headers: {'Content-Type': 'application/json'}
-			})
-			.then( res => {
-				return res.json()
-			})
-			.then( resj => {
-				console.log(resj)
+			}).then( res => {	return res.json()	}).then( resj => {
 				this.setState({
 					allMovements: [...resj]
 				});
+			}
+		)	  
+	}
+
+	getCathegiries = () => {
+    fetch('/movement_groups.json',
+			{	method: 'GET',
+				headers: {'Content-Type': 'application/json'}
+			}).then( res => { return res.json() }).then( resj => {
+				this.setState({
+					cathegories: [...resj]
+				});
+				console.log(this.state)
 			}
 		)	  
 	}
@@ -80,39 +90,26 @@ export class Day extends React.Component {
     fetch( '/days/find.json?date='+date_string,
 			{ method: 'GET',
 				headers: {'Content-Type': 'application/json'}
-			})
-			.then( res => {
-				return res.json()
-			})
-			.then( resj => {
+			}).then( res => {	return res.json() }).then( resj => {
 				if (resj.date){
 					this.setState({	
 						date: resj.date,
 						day: resj
 					});
 					this.getMovements(resj.date)
+					this.getCathegiries()
 				}
 			}
 		)
-    
   }
 
   getCompanies = () => {
-  	const getCompaniesUrl = '/companies.json'
-		const myHeaders = new Headers({
-			'Content-Type': 'application/json'
-		});
 		const group_id = this.state.group
-    fetch(
-			getCompaniesUrl,
+    fetch('/companies.json',
 			{
 				method: 'GET',
-				headers: myHeaders
-			})
-			.then( res => {
-				return res.json()
-			})
-			.then( resj => {
+				headers: {'Content-Type': 'application/json'}
+			}).then( res => { return res.json()	}).then( resj => {
 				resj = resj.filter( r => String(r.group_id) == String(group_id)  )
 				this.setState({
 					companiesList: [...resj],
@@ -144,6 +141,9 @@ export class Day extends React.Component {
     this.setState({ companiesSelected: [...this.state.companiesSelected.sort( (c1, c2 )=>(c1.id - c2.id) )] });
   }
 
+  handleMGroupClick = () => {
+  	this.setState({isMovsGrouped: !this.state.isMovsGrouped})
+  }
 
 
 
@@ -184,6 +184,8 @@ export class Day extends React.Component {
 							companies = {this.state.companiesSelected} 
 							date={this.state.date}
 							allMovements={this.state.allMovements}
+							isGrouped = {this.state.isMovsGrouped}
+							mGroupClick = {this.handleMGroupClick}
 						/>
 				</div>
 			</div>
