@@ -1,24 +1,51 @@
 import React from "react"
 import PropTypes from "prop-types"
+import Gcomment from "./gcomment"
+import NewMovement from "./NewMovement/newmovement"
+
 
 const Comment = (props) => {
 	const {movement, ddirection, dcurrency} = props
 	let res = ''
 	if (movement.direction==ddirection && movement.currency == dcurrency ){
-		res = ''+ movement.value+' '+ movement.currency_ukr+'- ' +movement.comment+'; '
+		res = `${movement.value} ${movement.currency_ukr} - ${movement.group_name} (${movement.comment});`
 	}
 	return res;
 }
-Comment.Proptypes = {
-	movement: PropTypes.object.isRequired
+Comment.propTypes = {
+	movement: PropTypes.object.isRequired,
+	ddirection: PropTypes.string.isRequired,
+	dcurrency: PropTypes.string.isRequired
 }
+
+
+const CommentsBlock = (props) => {
+	const {movements, direction} = props
+
+	return(
+		<div>
+			{movements.map( m => 
+				<Comment key ={m.id} movement = {m} ddirection={direction} dcurrency='UAH' /> ) }
+			{movements.map( m => 
+				<Comment key ={m.id} movement = {m} ddirection={direction} dcurrency='USD' /> ) }
+			{movements.map( m => 
+				<Comment key ={m.id} movement = {m} ddirection={direction} dcurrency='EUR' /> ) }
+
+			<NewMovement/>
+
+		</div>
+	)
+}
+CommentsBlock.propTypes = {
+	movements: PropTypes.array.isRequired,
+	direction: PropTypes.string.isRequired
+}
+
 
 
 export class OneCompany extends React.Component{
 	constructor(props){
 		super(props)
-		console.log(this.getMovsByCurrency("UAH", props.movements))
-
 	}
 
 	getMovsByCurrency = (currency = 'UAH', allMovs) => {
@@ -35,7 +62,7 @@ export class OneCompany extends React.Component{
 
 	
 	render(){
-		const {company, movements} = this.props
+		const {company, movements, isGrouped} = this.props
 		return(
 
 			<tr >
@@ -49,14 +76,8 @@ export class OneCompany extends React.Component{
 				<td>{this.getMovsByCurrency('USD', movements).income}</td>
 				<td>{this.getMovsByCurrency('EUR', movements).income}</td>
 				<td className="i-text">
-					{movements.map( m => 
-						<Comment key ={m.id} movement = {m} ddirection='Income' dcurrency='UAH' /> ) }
-					{movements.map( m => 
-						<Comment key ={m.id} movement = {m} ddirection='Income' dcurrency='USD' /> ) }
-					{movements.map( m => 
-						<Comment key ={m.id} movement = {m} ddirection='Income' dcurrency='EUR' /> ) }
 
-
+					{isGrouped ? <Gcomment/> : <CommentsBlock movements={movements} direction='Income'/> }
 
 				</td>
 
@@ -65,14 +86,8 @@ export class OneCompany extends React.Component{
 				<td>{this.getMovsByCurrency('USD', movements).outcome}</td>
 				<td>{this.getMovsByCurrency('EUR', movements).outcome}</td>
 				<td className="i-text">
-					{movements.map( m => 
-						<Comment key ={m.id} movement = {m} ddirection='Outcome' dcurrency='UAH' /> ) }
-					{movements.map( m => 
-						<Comment key ={m.id} movement = {m} ddirection='Outcome' dcurrency='USD' /> ) }
-					{movements.map( m => 
-						<Comment key ={m.id} movement = {m} ddirection='Outcome' dcurrency='EUR' /> ) }
 
-
+					{isGrouped ? <Gcomment/> : <CommentsBlock movements={movements} direction='Outcome'/> }
 
 				</td>
 				
@@ -89,13 +104,13 @@ export class OneCompany extends React.Component{
 
 }
 
-OneCompany.Proptypes = {
+OneCompany.propTypes = {
 	company: PropTypes.object.isRequired,
 // code_name: "ISR"
 // group_id: 1
 // id: 1
 
-	movements: PropTypes.array
+	movements: PropTypes.array,
 // account_id: 1
 // comment: "Some comment"
 // company_id: 1
@@ -110,6 +125,8 @@ OneCompany.Proptypes = {
 // updated_at: "2018-09-27T19:29:15.000Z"
 // value: "1010.23"
 // currency: 'UAH'
+	isGrouped: PropTypes.bool.isRequired
+
 
 }
 

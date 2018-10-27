@@ -35,7 +35,7 @@ export class CompaniesSelect extends React.Component{
   }
 
 }
-CompaniesSelect.Proptypes = {
+CompaniesSelect.propTypes = {
 	onCompanyClick: PropTypes.func,
 	cSelected: PropTypes.array,
 	companiesList: PropTypes.array

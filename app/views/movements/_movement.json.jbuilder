@@ -4,6 +4,7 @@ json.id movement.id
 json.value movement.value
 json.direction movement.direction
 json.group_id movement.group_id
+json.group_name movement.movement_group.name
 json.comment movement.comment
 json.account_id movement.account_id
 json.company_id movement.account.company_id

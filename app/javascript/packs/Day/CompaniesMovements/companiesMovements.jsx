@@ -109,6 +109,7 @@ export class CompaniesMovements extends React.Component{
 									key={c.id} 
 									company={c} 
 									movements={this.props.allMovements.filter( m => m.company_id == c.id)} 
+									isGrouped={this.props.isGrouped}
 								/>) 
 							) 
 						}
@@ -121,7 +122,7 @@ export class CompaniesMovements extends React.Component{
 
 }
 
-CompaniesMovements.Proptypes = {
+CompaniesMovements.propTypes = {
 	companies: PropTypes.array.isRequired,
 	date: PropTypes.string.isRequired,
 	allMovements: PropTypes.array.isRequired,
