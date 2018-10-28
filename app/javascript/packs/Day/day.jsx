@@ -6,6 +6,7 @@ import {Datepicker} from './Datepicker/datepicker'
 import {CompaniesSelect} from './CompaniesSelect/companiesSelect'
 import {GroupsSelect} from './GroupsSelect/groupsSelect'
 import {CompaniesMovements} from './CompaniesMovements/companiesMovements'
+import {fetchJSONfrom} from '../i-services'
 
 const dashDateFormat = (date) =>{
 	if(date){
@@ -19,12 +20,12 @@ const DayInfo = (props) => {
 	let is_open = ''	
 	day.is_closed ? is_open = 'Ні' : is_open = 'Так'
 
-  return(
-  	<div>
-  		<div> Відкритий?: {is_open}</div>
-  		<div> id:{day.id}, {day.comment} </div>
-  	</div>
-  )
+	return(
+		<div>
+			<div> Відкритий?: {is_open}</div>
+			<div> id:{day.id}, {day.comment} </div>
+		</div>
+	)
 }
 DayInfo.Proptypes={
 	day: PropTypes.shape.isRequired
@@ -39,45 +40,46 @@ export class Day extends React.Component {
 		this.state = {
 			date: this.getDateFromUrl(),	//Moment(Date.now()).format('DD.MM.YYYY'),
 			day: null,
-			companiesList: [],
+			companiesList: [], //-- to remove
 			companiesSelected: [],
 			group: null,
 			allMovements: [],
 			isMovsGrouped: false,
-			cathegories:[]
+			cathegories:[], //-- to remove
+			voc:{     //++ to implement
+					compList: [],
+					catList:[],
+					currList:[],
+
+				}
 		}
 	}
 
-  componentDidMount = () => {
-  	this.getDay( this.state.date )
-    this.getCompanies()
-  }	
+	componentDidMount = () => {
+		this.getDay( this.state.date )
+		this.getCompanies()
+	}	
 
-  getDateFromUrl = () => {
-  	const t = window.location.href.substr(-10)
+	getDateFromUrl = () => {
+		const t = window.location.href.substr(-10)
 		return (t.substr(8,2)+'.'+t.substr(5,2)+'.'+t.substr(0,4))
-  }
+	}
 
 
 	getMovements = (dateDefault) => {
 		let date = dateDefault
 		this.props.date ? date = this.props.date : null
-    fetch('/movements/by_date/'+dashDateFormat(date)+'.json',
-			{	method: 'GET',
-				headers: {'Content-Type': 'application/json'}
-			}).then( res => {	return res.json()	}).then( resj => {
-				this.setState({
-					allMovements: [...resj]
-				});
-			}
-		)	  
+		fetchJSONfrom('/movements/by_date/'+dashDateFormat(date)+'.json').then( resj => {
+			this.setState({
+				allMovements: [...resj]
+			});
+		})	  
 	}
 
+
+
 	getCathegiries = () => {
-    fetch('/movement_groups.json',
-			{	method: 'GET',
-				headers: {'Content-Type': 'application/json'}
-			}).then( res => { return res.json() }).then( resj => {
+		fetchJSONfrom('/movement_groups.json').then( resj => {
 				this.setState({
 					cathegories: [...resj]
 				});
@@ -86,11 +88,8 @@ export class Day extends React.Component {
 		)	  
 	}
 
-  getDay = ( date_string ) => {
-    fetch( '/days/find.json?date='+date_string,
-			{ method: 'GET',
-				headers: {'Content-Type': 'application/json'}
-			}).then( res => {	return res.json() }).then( resj => {
+	getDay = ( date_string ) => {
+		fetchJSONfrom( '/days/find.json?date='+date_string).then( resj => {
 				if (resj.date){
 					this.setState({	
 						date: resj.date,
@@ -101,15 +100,11 @@ export class Day extends React.Component {
 				}
 			}
 		)
-  }
+	}
 
-  getCompanies = () => {
+	getCompanies = () => {
 		const group_id = this.state.group
-    fetch('/companies.json',
-			{
-				method: 'GET',
-				headers: {'Content-Type': 'application/json'}
-			}).then( res => { return res.json()	}).then( resj => {
+		fetchJSONfrom('/companies.json').then( resj => {
 				resj = resj.filter( r => String(r.group_id) == String(group_id)  )
 				this.setState({
 					companiesList: [...resj],
@@ -117,7 +112,7 @@ export class Day extends React.Component {
 				});
 			}
 		)
-  }
+	}
 
 	handleDateChanged = (newDate) => {
 		this.getDay(newDate)
@@ -131,19 +126,19 @@ export class Day extends React.Component {
 
 
 
-  handleCompanyClick = (selected) => {
-    const index = this.state.companiesSelected.indexOf(selected);
-    if (index < 0) {
-      this.state.companiesSelected.push(selected);
-    } else {
-      this.state.companiesSelected.splice(index, 1);
-    }
-    this.setState({ companiesSelected: [...this.state.companiesSelected.sort( (c1, c2 )=>(c1.id - c2.id) )] });
-  }
+	handleCompanyClick = (selected) => {
+		const index = this.state.companiesSelected.indexOf(selected);
+		if (index < 0) {
+			this.state.companiesSelected.push(selected);
+		} else {
+			this.state.companiesSelected.splice(index, 1);
+		}
+		this.setState({ companiesSelected: [...this.state.companiesSelected.sort( (c1, c2 )=>(c1.id - c2.id) )] });
+	}
 
-  handleMGroupClick = () => {
-  	this.setState({isMovsGrouped: !this.state.isMovsGrouped})
-  }
+	handleMGroupClick = () => {
+		this.setState({isMovsGrouped: !this.state.isMovsGrouped})
+	}
 
 
 
@@ -160,7 +155,7 @@ export class Day extends React.Component {
 					</div>
 
 					<div className="col-md-1 flex-row d-flex align-items-center">
-		  			<span>Групувати по:</span>
+						<span>Групувати по:</span>
 					</div>
 
 					<div className="col-md-2 flex-row d-flex align-items-center">
