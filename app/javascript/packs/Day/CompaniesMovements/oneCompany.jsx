@@ -20,7 +20,7 @@ Comment.propTypes = {
 
 
 const CommentsBlock = (props) => {
-	const {movements, direction} = props
+	const {movements, direction, mGroupsList} = props
 
 	return(
 		<div>
@@ -38,7 +38,7 @@ const CommentsBlock = (props) => {
 }
 CommentsBlock.propTypes = {
 	movements: PropTypes.array.isRequired,
-	direction: PropTypes.string.isRequired
+	direction: PropTypes.string.isRequired,
 }
 
 
@@ -57,7 +57,6 @@ export class OneCompany extends React.Component{
 		}
 	  return {income: income, outcome:outcome}
 	}
-
 
 
 	
