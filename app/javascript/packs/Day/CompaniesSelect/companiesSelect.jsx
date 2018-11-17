@@ -13,11 +13,12 @@ export class CompaniesSelect extends React.Component{
 
 
   render(){
+  	const {compList} = this.props.voc
   	return(
   		<div >
   			<span className="p-2">Компанії:</span>
         <ButtonGroup>
-  				{this.props.companiesList.map( (g) => ( 
+  				{compList.map( (g) => ( 
 	          <Button 
 	          	className="p-2"
 	          	key = {g.id} 
@@ -36,7 +37,7 @@ export class CompaniesSelect extends React.Component{
 
 }
 CompaniesSelect.propTypes = {
-	onCompanyClick: PropTypes.func,
-	cSelected: PropTypes.array,
-	companiesList: PropTypes.array
+	onCompanyClick: PropTypes.func.isRequired,
+	cSelected: PropTypes.array.isRequired,
+	voc: PropTypes.object.isRequired
 }

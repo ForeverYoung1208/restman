@@ -6,13 +6,8 @@ import {Datepicker} from './Datepicker/datepicker'
 import {CompaniesSelect} from './CompaniesSelect/companiesSelect'
 import {GroupsSelect} from './GroupsSelect/groupsSelect'
 import {CompaniesMovements} from './CompaniesMovements/companiesMovements'
-import {fetchJSONfrom} from '../i-services'
+import {fetchJSONfrom, dashDateFormat} from '../i-services'
 
-const dashDateFormat = (date) =>{
-	if(date){
-		return (date.substring(6,10)+'-'+date.substring(3,5)+'-'+date.substring(0,2))
-	}
-}
 
 const DayInfo = (props) => {
 	if (!props.day){ return('no day here')	} 
@@ -40,16 +35,14 @@ export class Day extends React.Component {
 		this.state = {
 			date: this.getDateFromUrl(),	//Moment(Date.now()).format('DD.MM.YYYY'),
 			day: null,
-			companiesList: [], //-- to remove
 			companiesSelected: [],
 			group: null,
 			allMovements: [],
 			isMovsGrouped: false,
-			cathegories:[], //-- to remove
-			voc:{     //++ to implement
+			voc:{
 					compList: [],
 					catList:[],
-					currList:[],
+					currsList:[],
 
 				}
 		}
@@ -78,12 +71,14 @@ export class Day extends React.Component {
 
 
 
-	getCathegiries = () => {
+	getCathegories = () => {
 		fetchJSONfrom('/movement_groups.json').then( resj => {
-				this.setState({
-					cathegories: [...resj]
-				});
-				console.log(this.state)
+				this.setState((prevState)=>({
+					voc: {
+						...prevState.voc,
+						catList: [...resj]
+					}
+				}));
 			}
 		)	  
 	}
@@ -96,7 +91,7 @@ export class Day extends React.Component {
 						day: resj
 					});
 					this.getMovements(resj.date)
-					this.getCathegiries()
+					this.getCathegories()
 				}
 			}
 		)
@@ -105,13 +100,15 @@ export class Day extends React.Component {
 	getCompanies = () => {
 		const group_id = this.state.group
 		fetchJSONfrom('/companies.json').then( resj => {
-				resj = resj.filter( r => String(r.group_id) == String(group_id)  )
-				this.setState({
-					companiesList: [...resj],
-					companiesSelected: [...resj]
-				});
-			}
-		)
+			resj = resj.filter( r => String(r.group_id) == String(group_id)  )
+			this.setState((prevState) => ({
+				voc: {
+					...prevState.voc,
+					compList: [...resj]
+				},
+				companiesSelected: [...resj]
+			}));
+		})
 	}
 
 	handleDateChanged = (newDate) => {
@@ -163,8 +160,8 @@ export class Day extends React.Component {
 					</div>
 
 					<div className="col-md-3 flex-row d-flex align-items-center">
-						<CompaniesSelect 
-							companiesList = {this.state.companiesList} 
+						<CompaniesSelect
+							voc = {this.state.voc}
 							cSelected = {this.state.companiesSelected}
 							onCompanyClick = {this.handleCompanyClick}
 						/>
@@ -181,6 +178,7 @@ export class Day extends React.Component {
 							allMovements={this.state.allMovements}
 							isGrouped = {this.state.isMovsGrouped}
 							mGroupClick = {this.handleMGroupClick}
+							voc = {this.state.voc}
 						/>
 				</div>
 			</div>

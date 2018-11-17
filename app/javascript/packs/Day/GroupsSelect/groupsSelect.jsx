@@ -55,5 +55,5 @@ export class GroupsSelect extends React.Component{
 
 }
 GroupsSelect.propTypes = {
-	onGroupChanged: PropTypes.func
+	onGroupChanged: PropTypes.func.isRequired
 }
