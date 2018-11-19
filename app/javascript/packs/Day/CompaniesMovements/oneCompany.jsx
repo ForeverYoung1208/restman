@@ -31,7 +31,7 @@ const CommentsBlock = (props) => {
 			{movements.map( m => 
 				<Comment key ={m.id} movement = {m} ddirection={direction} dcurrency='EUR' /> ) }
 
-			<NewMovement/>
+			<NewMovement voc = {props.voc}/>
 
 		</div>
 	)
@@ -39,6 +39,7 @@ const CommentsBlock = (props) => {
 CommentsBlock.propTypes = {
 	movements: PropTypes.array.isRequired,
 	direction: PropTypes.string.isRequired,
+	voc: PropTypes.object.isRequired
 }
 
 
@@ -48,7 +49,7 @@ export class OneCompany extends React.Component{
 		super(props)
 	}
 
-	getMovsByCurrency = (currency = 'UAH', allMovs) => {
+	sumMovsByCurrency = (currency = 'UAH', allMovs) => {
 		let income = 0, outcome = 0
 		let sum = 0
 		if (allMovs && allMovs.length>0){
@@ -71,22 +72,22 @@ export class OneCompany extends React.Component{
 				<td>USD</td>
 				<td>EUR</td>
 
-				<td>{this.getMovsByCurrency('UAH', movements).income}</td>
-				<td>{this.getMovsByCurrency('USD', movements).income}</td>
-				<td>{this.getMovsByCurrency('EUR', movements).income}</td>
+				<td>{this.sumMovsByCurrency('UAH', movements).income}</td>
+				<td>{this.sumMovsByCurrency('USD', movements).income}</td>
+				<td>{this.sumMovsByCurrency('EUR', movements).income}</td>
 				<td className="i-text">
 
-					{isGrouped ? <Gcomment/> : <CommentsBlock movements={movements} direction='Income'/> }
+					{isGrouped ? <Gcomment/> : <CommentsBlock movements={movements} voc={this.props.voc} direction='Income'/> }
 
 				</td>
 
 
-				<td>{this.getMovsByCurrency('UAH', movements).outcome}</td>
-				<td>{this.getMovsByCurrency('USD', movements).outcome}</td>
-				<td>{this.getMovsByCurrency('EUR', movements).outcome}</td>
+				<td>{this.sumMovsByCurrency('UAH', movements).outcome}</td>
+				<td>{this.sumMovsByCurrency('USD', movements).outcome}</td>
+				<td>{this.sumMovsByCurrency('EUR', movements).outcome}</td>
 				<td className="i-text">
 
-					{isGrouped ? <Gcomment/> : <CommentsBlock movements={movements} direction='Outcome'/> }
+					{isGrouped ? <Gcomment/> : <CommentsBlock movements={movements} voc={this.props.voc} direction='Outcome'/> }
 
 				</td>
 				
@@ -124,8 +125,8 @@ OneCompany.propTypes = {
 // updated_at: "2018-09-27T19:29:15.000Z"
 // value: "1010.23"
 // currency: 'UAH'
-	isGrouped: PropTypes.bool.isRequired
-
+	isGrouped: PropTypes.bool.isRequired,
+	voc: PropTypes.object.isRequired
 
 }
 

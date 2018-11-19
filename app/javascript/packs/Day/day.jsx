@@ -41,9 +41,8 @@ export class Day extends React.Component {
 			isMovsGrouped: false,
 			voc:{
 					compList: [],
-					catList:[],
 					currsList:[],
-
+			  	movsGroupsList: [],
 				}
 		}
 	}
@@ -51,7 +50,25 @@ export class Day extends React.Component {
 	componentDidMount = () => {
 		this.getDay( this.state.date )
 		this.getCompanies()
+		this.getVoc()
 	}	
+
+	getVoc = () => {
+	  Promise.all( [
+	  	fetchJSONfrom('/currencies.json'), 
+	  	fetchJSONfrom('/movement_groups.json')
+	  ] )
+	  .then( (res) =>{
+	  	let [vl, gl] = res
+			this.setState((prevState)=>({
+				voc: {
+					...prevState.voc,
+			  	movsGroupsList: gl,
+			  	currsList:vl
+				}
+			}));		  
+	  })	  
+	}
 
 	getDateFromUrl = () => {
 		const t = window.location.href.substr(-10)
@@ -69,20 +86,6 @@ export class Day extends React.Component {
 		})	  
 	}
 
-
-
-	getCathegories = () => {
-		fetchJSONfrom('/movement_groups.json').then( resj => {
-				this.setState((prevState)=>({
-					voc: {
-						...prevState.voc,
-						catList: [...resj]
-					}
-				}));
-			}
-		)	  
-	}
-
 	getDay = ( date_string ) => {
 		fetchJSONfrom( '/days/find.json?date='+date_string).then( resj => {
 				if (resj.date){
@@ -91,7 +94,6 @@ export class Day extends React.Component {
 						day: resj
 					});
 					this.getMovements(resj.date)
-					this.getCathegories()
 				}
 			}
 		)

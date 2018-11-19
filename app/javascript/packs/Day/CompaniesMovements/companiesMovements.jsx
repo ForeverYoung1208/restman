@@ -2,6 +2,21 @@ import React from "react"
 import PropTypes from "prop-types"
 import {OneCompany} from "./oneCompany"
 
+const GroupCheckbox = (props) => {
+	return(
+		<div className="custom-control custom-checkbox">
+	    <input 
+		    type="checkbox" 
+		    className="custom-control-input" 
+		    id="is-movs-grouped" 
+		    checked={props.checked} 
+		    onChange={props.onChange} 
+	    />
+	    <label className="custom-control-label" htmlFor="is-movs-grouped">Згорнуті категорії</label>
+		</div>	
+	)
+
+}
 
 export class TableHead extends React.Component{
 	constructor(props){
@@ -25,33 +40,15 @@ export class TableHead extends React.Component{
 	  			<th colSpan="3" className="clong">Отримано</th>
 
 					<th rowSpan="2" className="cshort">Примітки
-						<div className="custom-control custom-checkbox">
-						    <input 
-							    type="checkbox" 
-							    className="custom-control-input" 
-							    id="is-movs-grouped" 
-							    checked={isGrouped} 
-							    onChange={this.handleMGroupClick} 
-						    />
-						    <label className="custom-control-label" htmlFor="is-movs-grouped">Згорнуті категорії</label>
-						</div>
+						
+						<GroupCheckbox checked={isGrouped} onChange={this.handleMGroupClick} />
 
 					</th>
 
 	  			<th colSpan="3" className="clong">Витрачено</th>
 
 		  		<th rowSpan="2" className="cshort">Примітки
-						<div className="custom-control custom-checkbox">
-						    <input 
-							    type="checkbox" 
-							    className="custom-control-input" 
-							    id="is-movs-grouped2" 
-							    checked={isGrouped} 
-							    onChange={this.handleMGroupClick} 
-						    />
-						    <label className="custom-control-label" htmlFor="is-movs-grouped2">Згорнуті категорії</label>
-						</div>
-
+						<GroupCheckbox checked={isGrouped} onChange={this.handleMGroupClick} />
 
 		  		</th>
 		  		<th colSpan="3" className="clong">Вих. залишок</th>
@@ -110,6 +107,7 @@ export class CompaniesMovements extends React.Component{
 									company={c} 
 									movements={this.props.allMovements.filter( m => m.company_id == c.id)} 
 									isGrouped={this.props.isGrouped}
+									voc={this.props.voc}
 								/>) 
 							) 
 						}
@@ -127,5 +125,6 @@ CompaniesMovements.propTypes = {
 	date: PropTypes.string.isRequired,
 	allMovements: PropTypes.array.isRequired,
 	isGrouped:PropTypes.bool.isRequired,
-	mGroupClick:PropTypes.func.isRequired
+	mGroupClick:PropTypes.func.isRequired,
+	voc:PropTypes.object.isRequired
 }
