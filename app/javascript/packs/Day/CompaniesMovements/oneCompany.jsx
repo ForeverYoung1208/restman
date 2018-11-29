@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import Gcomment from "./gcomment"
-import NewMovement from "./NewMovement/newmovement"
+import {NewMovement} from "./NewMovement/newmovement"
 
 
 const Comment = (props) => {
@@ -10,7 +10,7 @@ const Comment = (props) => {
 	if (movement.direction==ddirection && movement.currency == dcurrency ){
 		res = `${movement.value} ${movement.currency_ukr} - ${movement.group_name} (${movement.comment});`
 	}
-	return res;
+	return (<div> {res} </div>);
 }
 Comment.propTypes = {
 	movement: PropTypes.object.isRequired,
@@ -21,6 +21,11 @@ Comment.propTypes = {
 
 const CommentsBlock = (props) => {
 	const {movements, direction, mGroupsList} = props
+	const defMovVals = {
+		company_id: 0,
+		day_id: 0,
+		direction: direction
+	}
 
 	return(
 		<div>
@@ -31,7 +36,7 @@ const CommentsBlock = (props) => {
 			{movements.map( m => 
 				<Comment key ={m.id} movement = {m} ddirection={direction} dcurrency='EUR' /> ) }
 
-			<NewMovement voc = {props.voc}/>
+			<NewMovement voc = {props.voc} defMovVals = {defMovVals}/>
 
 		</div>
 	)
@@ -53,8 +58,8 @@ export class OneCompany extends React.Component{
 		let income = 0, outcome = 0
 		let sum = 0
 		if (allMovs && allMovs.length>0){
-			income = allMovs.reduce( (sum, m) =>  (m.direction=='Income' && m.currency==currency) ? (sum += parseFloat(m.value) ) : sum, sum = 0)
-			outcome = allMovs.reduce( (sum, m) =>  (m.direction=='Outcome' && m.currency==currency) ? (sum += parseFloat(m.value) ) : sum, sum = 0)
+			income = allMovs.reduce( (sum, m) =>  (m.direction=='Income' && m.currency==currency) ? (sum += m.value ) : sum, sum = 0)
+			outcome = allMovs.reduce( (sum, m) =>  (m.direction=='Outcome' && m.currency==currency) ? (sum += m.value ) : sum, sum = 0)
 		}
 	  return {income: income, outcome:outcome}
 	}
@@ -77,7 +82,12 @@ export class OneCompany extends React.Component{
 				<td>{this.sumMovsByCurrency('EUR', movements).income}</td>
 				<td className="i-text">
 
-					{isGrouped ? <Gcomment/> : <CommentsBlock movements={movements} voc={this.props.voc} direction='Income'/> }
+					{isGrouped ? <Gcomment/> : <CommentsBlock 
+																				movements={movements} 
+																				voc={{...this.props.voc, company_id: company.id}}
+																				direction='Income'
+																			/> 
+					}
 
 				</td>
 
@@ -87,7 +97,12 @@ export class OneCompany extends React.Component{
 				<td>{this.sumMovsByCurrency('EUR', movements).outcome}</td>
 				<td className="i-text">
 
-					{isGrouped ? <Gcomment/> : <CommentsBlock movements={movements} voc={this.props.voc} direction='Outcome'/> }
+					{isGrouped ? <Gcomment/> : <CommentsBlock 
+																				movements={movements} 
+																				voc={{...this.props.voc, company_id: company.id}}
+																				direction='Outcome'
+																			/> 
+					}
 
 				</td>
 				

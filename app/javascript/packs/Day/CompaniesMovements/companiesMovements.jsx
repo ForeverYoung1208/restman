@@ -12,7 +12,7 @@ const GroupCheckbox = (props) => {
 		    checked={props.checked} 
 		    onChange={props.onChange} 
 	    />
-	    <label className="custom-control-label" htmlFor="is-movs-grouped">Згорнуті категорії</label>
+	    <label className="custom-control-label" htmlFor="is-movs-grouped">Згорнути категорії</label>
 		</div>	
 	)
 

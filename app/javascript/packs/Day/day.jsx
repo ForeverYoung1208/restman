@@ -41,8 +41,9 @@ export class Day extends React.Component {
 			isMovsGrouped: false,
 			voc:{
 					compList: [],
+					movsGroupsList: [],
 					currsList:[],
-			  	movsGroupsList: [],
+			  	accsList:[]
 				}
 		}
 	}
@@ -56,15 +57,18 @@ export class Day extends React.Component {
 	getVoc = () => {
 	  Promise.all( [
 	  	fetchJSONfrom('/currencies.json'), 
-	  	fetchJSONfrom('/movement_groups.json')
+	  	fetchJSONfrom('/movement_groups.json'),
+	  	fetchJSONfrom('/accounts.json')
 	  ] )
 	  .then( (res) =>{
-	  	let [vl, gl] = res
+	  	let [vl, gl, al] = res
 			this.setState((prevState)=>({
 				voc: {
 					...prevState.voc,
 			  	movsGroupsList: gl,
-			  	currsList:vl
+			  	currsList:vl,
+			  	accsList:al
+
 				}
 			}));		  
 	  })	  
@@ -80,6 +84,8 @@ export class Day extends React.Component {
 		let date = dateDefault
 		this.props.date ? date = this.props.date : null
 		fetchJSONfrom('/movements/by_date/'+dashDateFormat(date)+'.json').then( resj => {
+			resj = resj.map( (r)=> ({...r, value: parseFloat(r.value)}) )
+
 			this.setState({
 				allMovements: [...resj]
 			});
