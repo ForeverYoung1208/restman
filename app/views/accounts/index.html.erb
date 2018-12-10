@@ -5,6 +5,7 @@
 <table class="table-bordered">
   <thead>
     <tr>
+      <th>ID</th>
       <th>Number</th>
       <th>Bank</th>
       <th>Currency</th>
@@ -20,13 +21,14 @@
   <tbody>
     <% @accounts.each do |account| %>
       <tr>
+        <td><%= account.id %></td>
         <td><%= account.number %></td>
         <td><%= account.bank.name + ' ' + account.bank.code %></td>
         <td><%= account.currency.name_int %></td>
         <td><%= account.saldo_begin_year %></td>
         <td><%= account.company.code_name %></td>
         <td><%= account.acc_type.name_ukr %></td>
-        <td><%= account.term.strftime("%d.%m.%Y") %></td>
+        <td><%= account.term.try( :strftime, "%d.%m.%Y" ) %></td>
 
 
         <td><%= link_to 'Show', account %></td>

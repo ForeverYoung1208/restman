@@ -15,9 +15,10 @@ export default class Gcomment extends React.Component {
 	}
 }
 
-Comment.propTypes = {
-	movement: PropTypes.object.isRequired,
-	ddirection: PropTypes.string.isRequired,
-	dcurrency: PropTypes.string.isRequired
+Gcomment.propTypes = {
+	movements: PropTypes.array.isRequired,
+	company_id: PropTypes.number.isRequired,
+	direction: PropTypes.string.isRequired,
+
 }
 

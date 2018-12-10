@@ -4,7 +4,7 @@ import { Input, Button } from 'reactstrap'
 import { fetchJSONfrom } from '../../../i-services'
 
 
-export class NewMovement extends React.Component{
+export class EditMovement extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
@@ -112,7 +112,7 @@ export class NewMovement extends React.Component{
 	
 }
 
-NewMovement.propTypes = {
+EditMovement.propTypes = {
 	voc: PropTypes.object.isRequired, // + company_id from OneCompany
 	defMovVals: PropTypes.shape({
 		account_id: PropTypes.number,

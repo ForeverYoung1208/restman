@@ -1,17 +1,32 @@
 import React from "react"
 import PropTypes from "prop-types"
 import Gcomment from "./gcomment"
-import {NewMovement} from "./NewMovement/newmovement"
+import {EditMovement} from "./EditMovement/editMovement"
+import {Button } from 'reactstrap'
 
 
 const Comment = (props) => {
 	const {movement, ddirection, dcurrency} = props
 	let res = ''
 	if (movement.direction==ddirection && movement.currency == dcurrency ){
-		res = `${movement.value} ${movement.currency_ukr} - ${movement.group_name} (${movement.comment});`
+		res = <div className="row">
+						<div className="col-md-11 p-0">
+							{movement.value} {movement.currency_ukr} - {movement.group_name} ({movement.comment})
+						</div>
+
+						<div className="col-md-1 p-0">
+							<Button type="button" className="btn btn-light p-0">
+								<span className="far fa-edit"></span>
+							</Button>
+						</div>			
+					</div>
 	}
-	return (<div> {res} </div>);
+	return (
+		<div> 
+			{res} 
+		</div>);
 }
+
 Comment.propTypes = {
 	movement: PropTypes.object.isRequired,
 	ddirection: PropTypes.string.isRequired,
@@ -19,27 +34,39 @@ Comment.propTypes = {
 }
 
 
-const CommentsBlock = (props) => {
-	const {movements, direction, mGroupsList} = props
-	const defMovVals = {
-		company_id: 0,
-		day_id: 0,
-		direction: direction
+class CommentsBlock extends React.Component{
+	constructor(props){
+		super(props)
+		this.state={
+			edMovId: null
+		}
 	}
 
-	return(
-		<div>
-			{movements.map( m => 
-				<Comment key ={m.id} movement = {m} ddirection={direction} dcurrency='UAH' /> ) }
-			{movements.map( m => 
-				<Comment key ={m.id} movement = {m} ddirection={direction} dcurrency='USD' /> ) }
-			{movements.map( m => 
-				<Comment key ={m.id} movement = {m} ddirection={direction} dcurrency='EUR' /> ) }
+	render(){
+		const {movements, direction, mGroupsList, voc} = this.props
+		const emptyMovVals = {
+			company_id: 0,
+			day_id: 0,
+			direction: direction
+		}
 
-			<NewMovement voc = {props.voc} defMovVals = {defMovVals}/>
+		return(
+			<div>
+				<div className="container-fluid">
 
-		</div>
-	)
+					{movements.map( m => 
+						<Comment key ={m.id} movement = {m} ddirection={direction} dcurrency='UAH' /> ) }
+					{movements.map( m => 
+						<Comment key ={m.id} movement = {m} ddirection={direction} dcurrency='USD' /> ) }
+					{movements.map( m => 
+						<Comment key ={m.id} movement = {m} ddirection={direction} dcurrency='EUR' /> ) }
+				</div>
+
+				<EditMovement voc = {voc} defMovVals = {emptyMovVals}/>			
+
+			</div>
+		)
+	}
 }
 CommentsBlock.propTypes = {
 	movements: PropTypes.array.isRequired,
@@ -67,7 +94,7 @@ export class OneCompany extends React.Component{
 
 	
 	render(){
-		const {company, movements, isGrouped} = this.props
+		const {company, movements, isGrouped, voc} = this.props
 		return(
 
 			<tr >
@@ -82,11 +109,17 @@ export class OneCompany extends React.Component{
 				<td>{this.sumMovsByCurrency('EUR', movements).income}</td>
 				<td className="i-text">
 
-					{isGrouped ? <Gcomment/> : <CommentsBlock 
-																				movements={movements} 
-																				voc={{...this.props.voc, company_id: company.id}}
-																				direction='Income'
-																			/> 
+
+					{isGrouped ? <Gcomment
+												movements={movements} 
+												company_id={company.id}
+												direction='Income'
+											/> 
+										: <CommentsBlock 
+												movements={movements} 
+												voc={{...this.props.voc, company_id: company.id}}
+												direction='Income'
+											/> 
 					}
 
 				</td>
@@ -97,11 +130,16 @@ export class OneCompany extends React.Component{
 				<td>{this.sumMovsByCurrency('EUR', movements).outcome}</td>
 				<td className="i-text">
 
-					{isGrouped ? <Gcomment/> : <CommentsBlock 
-																				movements={movements} 
-																				voc={{...this.props.voc, company_id: company.id}}
-																				direction='Outcome'
-																			/> 
+					{isGrouped ? <Gcomment
+												movements={movements} 
+												company_id={company.id}
+												direction='Outcome'
+											/> 
+										: <CommentsBlock 
+												movements={movements} 
+												voc={{...this.props.voc, company_id: company.id}}
+												direction='Outcome'
+											/> 
 					}
 
 				</td>
