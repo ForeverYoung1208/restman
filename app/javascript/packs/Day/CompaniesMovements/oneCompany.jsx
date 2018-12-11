@@ -6,16 +6,16 @@ import {Button } from 'reactstrap'
 
 
 const Comment = (props) => {
-	const {movement, ddirection, dcurrency} = props
+	const {movement, ddirection, dcurrency, edMovId} = props
 	let res = ''
 	if (movement.direction==ddirection && movement.currency == dcurrency ){
 		res = <div className="row">
 						<div className="col-md-11 p-0">
-							{movement.value} {movement.currency_ukr} - {movement.group_name} ({movement.comment})
+							(id:{movement.id}){movement.value} {movement.currency_ukr} - {movement.group_name} ({movement.comment})
 						</div>
 
 						<div className="col-md-1 p-0">
-							<Button type="button" className="btn btn-light p-0">
+							<Button type="button" className="btn btn-light p-0" onClick={ ()=> props.edClick(movement.id) }>
 								<span className="far fa-edit"></span>
 							</Button>
 						</div>			
@@ -30,7 +30,9 @@ const Comment = (props) => {
 Comment.propTypes = {
 	movement: PropTypes.object.isRequired,
 	ddirection: PropTypes.string.isRequired,
-	dcurrency: PropTypes.string.isRequired
+	dcurrency: PropTypes.string.isRequired,
+	edMovId: PropTypes.number,
+	edClick: PropTypes.func.isRequired
 }
 
 
@@ -42,8 +44,16 @@ class CommentsBlock extends React.Component{
 		}
 	}
 
+	edClickHandle = (edId) =>{
+		this.setState({
+			edMovId: edId
+		})
+		console.log(this.state)
+	}
+
 	render(){
 		const {movements, direction, mGroupsList, voc} = this.props
+		const {edMovId} = this.state
 		const emptyMovVals = {
 			company_id: 0,
 			day_id: 0,
@@ -55,14 +65,33 @@ class CommentsBlock extends React.Component{
 				<div className="container-fluid">
 
 					{movements.map( m => 
-						<Comment key ={m.id} movement = {m} ddirection={direction} dcurrency='UAH' /> ) }
+						<Comment key ={m.id} movement = {m} ddirection={direction} dcurrency='UAH' edMovId={edMovId} 
+							edClick = {this.edClickHandle}
+						/> 
+					)}
 					{movements.map( m => 
-						<Comment key ={m.id} movement = {m} ddirection={direction} dcurrency='USD' /> ) }
+						<Comment key ={m.id} movement = {m} ddirection={direction} dcurrency='USD' edMovId={edMovId} 
+							edClick = {this.edClickHandle}
+						/> 
+					)}
 					{movements.map( m => 
-						<Comment key ={m.id} movement = {m} ddirection={direction} dcurrency='EUR' /> ) }
+						<Comment key ={m.id} movement = {m} ddirection={direction} dcurrency='EUR' edMovId={edMovId} 
+							edClick = {this.edClickHandle}
+						/> 
+					)}
+				</div>
+				<div className="container-fluid">
+					<div className="row justify-content-center">
+						<div className="col-6">
+							<Button type="button" className="btn btn-light p-0 my-vButton" onClick={()=>this.edClickHandle(0)}>
+								<span className="fa fa-plus"></span>
+							</Button>
+						</div>
+					</div>
+
 				</div>
 
-				<EditMovement voc = {voc} defMovVals = {emptyMovVals}/>			
+				<EditMovement voc = {voc} defMovVals = {emptyMovVals}/>
 
 			</div>
 		)
