@@ -54,7 +54,7 @@ export class EditMovement extends React.Component{
 		const {alf} = this.state
 	
 		return (
-			<div className = "container-fluid">
+			<div className = "container-fluid p-0">
 				<div className="row">
 					<Input type="text" className="col-md-4"
 						onChange={ (e) => this.setState({val: e.target.value, is_changed: true }) }
