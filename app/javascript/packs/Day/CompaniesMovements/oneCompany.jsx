@@ -23,7 +23,8 @@ const Comment = (props) => {
 					id: movement.id,
 					log: movement.log,
 					value: movement.value,
-					currency: movement.currency
+					currency: movement.currency,
+					currency_id: movement.currency_id
 				}}
 			/>
 		} else {

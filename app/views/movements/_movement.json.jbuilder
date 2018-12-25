@@ -16,3 +16,4 @@ json.created_at movement.created_at
 json.updated_at movement.updated_at
 json.currency movement.account.currency.name_int
 json.currency_ukr movement.account.currency.name_ukr
+json.currency_id movement.account.currency_id

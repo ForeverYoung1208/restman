@@ -7,26 +7,32 @@ import { fetchJSONfrom } from '../../../i-services'
 export class EditMovement extends React.Component{
 	constructor(props){
 		super(props);
-		this.state = {
-			currSId: 0,
-			movsGroupSId: 0,
-			accSId: 0,
-			val: 0,
-			alf:[],
-			is_changed: false,
+		let m = {};
+		if (props.defMovVals) {
+			m = this.props.defMovVals
+		} else {
+			m = { currency_id: 0, group_id: 0, account_id: 0, value: 0, comment: ''}
+		}
 
+		this.state = {
+			alf:[], 				//accs List filtered
+			is_changed: false,
+			m: m 						//current movement being editted
 		}
 	}
 
 	componentDidMount= () => {
 		const {accsList, company_id} = this.props.voc
 		const alf = accsList.filter((acc) => acc.company_id == company_id)
-	  this.setState({alf: alf, is_changed: false })
+	  this.setState({
+	  	alf: alf, 
+	  	is_changed: false,
+	 	})
 	}
 
 	handleMovsGroupChange = (e) => {
 	  this.setState({
-	  	movsGroupSId: e.target.value, 
+	  	m: {...this.state.m, group_id: e.target.value}, 
 	  	is_changed: true  
 	  })
 	}
@@ -35,7 +41,7 @@ export class EditMovement extends React.Component{
 		const {accsList, company_id} = this.props.voc
 		const alf = accsList.filter((acc) => acc.company_id == company_id && acc.currency.id == e.target.value )
 	  this.setState({
-	  	currSId: e.target.value,
+			m:{...this.state.m, currency_id: e.target.value},
 	  	alf: alf, 
 	  	is_changed: true,
 	  })
@@ -43,7 +49,14 @@ export class EditMovement extends React.Component{
 
 	handleAccChange = (e) => {
 	  this.setState({
-	  	accSId: e.target.value,
+			m:{...this.state.m, account_id: e.target.value},
+	  	is_changed: true,
+	  })
+	}
+
+	handleCommentChange = (e) => {
+	  this.setState({
+			m:{...this.state.m, comment: e.target.value},
 	  	is_changed: true,
 	  })
 	}
@@ -57,11 +70,12 @@ export class EditMovement extends React.Component{
 			<div className = "container-fluid p-0">
 				<div className="row">
 					<Input type="text" className="col-md-4"
+						defaultValue = {this.state.m.value}
 						onChange={ (e) => this.setState({val: e.target.value, is_changed: true }) }
 					/>
 
 					<Input id="groups-select" type="select" className="col-md-4"
-						defaultValue={this.state.currSId}
+						defaultValue={this.state.m.currency_id}
 						onChange = {this.handleCurrChange}
 					>
 						<option value="0" disabled>Валюта</option>  			
@@ -70,7 +84,7 @@ export class EditMovement extends React.Component{
 
 
 					<Input id="groups-select" type="select" className="col-md-4"
-									defaultValue={this.state.movsGroupSId}
+									defaultValue={this.state.m.group_id}
 									onChange={this.handleMovsGroupChange}
 					>
 						<option value="0" disabled>Категорія</option>  			
@@ -81,7 +95,7 @@ export class EditMovement extends React.Component{
 					<div className="col-md-11">
 						<div className="row">
 							<Input id="groups-select" type="select" className="col-md-12"
-											defaultValue={this.state.accsSId}
+											defaultValue={this.state.m.account_id}
 											onChange={this.handleAccChange}
 							>
 								<option value="0" disabled>Рахунок</option>  			
@@ -91,7 +105,8 @@ export class EditMovement extends React.Component{
 						</div>
 						<div className="row">
 							<Input type="textarea" name="text" className="col-md-12" 
-								onChange={ (e) => this.setState({notes: e.target.value, is_changed: true }) }
+								defaultValue={this.state.m.comment}
+								onChange={ this.handleCommentChange }
 							/>
 						</div>
 					</div>
@@ -128,6 +143,9 @@ EditMovement.propTypes = {
 		log: PropTypes.string,
 		updated_at: PropTypes.string,
 		value: PropTypes.number,
-		currency: PropTypes.string
+		currency: PropTypes.string,
+		currency_id: PropTypes.number
 	})
 }
+
+
