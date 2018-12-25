@@ -30,6 +30,13 @@ export class EditMovement extends React.Component{
 	 	})
 	}
 
+	handleValueChange = (e) => {
+	  this.setState({
+	  	m: {...this.state.m, value: e.target.value}, 
+	  	is_changed: true  
+	  })
+	}
+
 	handleMovsGroupChange = (e) => {
 	  this.setState({
 	  	m: {...this.state.m, group_id: e.target.value}, 
@@ -63,7 +70,7 @@ export class EditMovement extends React.Component{
 
 
 	render(){
-		const {movsGroupsList, currsList} = this.props.voc
+		const {movsGroupsList, currsList, handleMovSave} = this.props.voc
 		const {alf} = this.state
 	
 		return (
@@ -71,7 +78,7 @@ export class EditMovement extends React.Component{
 				<div className="row">
 					<Input type="text" className="col-md-4"
 						defaultValue = {this.state.m.value}
-						onChange={ (e) => this.setState({val: e.target.value, is_changed: true }) }
+						onChange={ this.handleValueChange }
 					/>
 
 					<Input id="groups-select" type="select" className="col-md-4"
@@ -111,7 +118,10 @@ export class EditMovement extends React.Component{
 						</div>
 					</div>
 					<div className="col-md-1 p-0">
-						<Button type="button" className={`btn ${this.state.is_changed ? 'btn-warning' : 'btn-light' } my-vButton p-0`}>
+						<Button type="button" className={`btn ${this.state.is_changed ? 'btn-warning' : 'btn-light' } my-vButton p-0`}
+							onClick = {()=>handleMovSave(this.state.m)}
+							// onClick = {()=> console.log(this.state.m)}
+						>
 							<span className="far fa-save"></span>
 						</Button>
 					</div>

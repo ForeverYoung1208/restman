@@ -43,9 +43,15 @@ export class Day extends React.Component {
 					compList: [],
 					movsGroupsList: [],
 					currsList:[],
-			  	accsList:[]
+			  	accsList:[],
+			  	handleMovSave: this.handleMovSaving
 				}
 		}
+	}
+	
+	handleMovSaving = (m) => {
+		console.log('---saving movement (stub)----')
+		console.log( m )
 	}
 
 	componentDidMount = () => {
