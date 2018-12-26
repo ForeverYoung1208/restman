@@ -6,40 +6,38 @@ import {Button } from 'reactstrap'
 
 
 const Comment = (props) => {
-	const {movement, ddirection, dcurrency, edMovId, voc} = props
+	const {movement, edMovId, voc, cancelClick} = props
 	let res = ''
-	
-	if (movement.direction==ddirection && movement.currency == dcurrency ){
-		if (edMovId.includes(movement.id)){
-			res = <EditMovement 
-				voc = {voc} 
-				defMovVals = {{
-					account_id: movement.account_id,
-					comment: movement.comment,
-					company_id: movement.company_id,
-					day_id: movement.day_id,
-					direction: movement.direction,
-					group_id: movement.group_id,
-					id: movement.id,
-					log: movement.log,
-					value: movement.value,
-					currency: movement.currency,
-					currency_id: movement.currency_id
-				}}
-			/>
-		} else {
-			res = <div className="row">
-							<div className="col-md-11 p-0">
-								(id:{movement.id}){movement.value} {movement.currency_ukr} - {movement.group_name} ({movement.comment})
-							</div>
-
-							<div className="col-md-1 p-0">
-								<Button type="button" className="btn btn-light p-0" onClick={ ()=> props.edClick(movement.id) }>
-									<span className="far fa-edit"></span>
-								</Button>
-							</div>			
+	if (edMovId.includes(movement.id)){
+		res = <EditMovement 
+			voc = {voc}
+			cancelClick = {cancelClick}
+			defMovVals = {{
+				account_id: movement.account_id,
+				comment: movement.comment,
+				company_id: movement.company_id,
+				day_id: movement.day_id,
+				direction: movement.direction,
+				group_id: movement.group_id,
+				id: movement.id,
+				log: movement.log,
+				value: movement.value,
+				currency: movement.currency,
+				currency_id: movement.currency_id
+			}}
+		/>
+	} else {
+		res = <div className="row">
+						<div className="col-md-11 p-0">
+							(id:{movement.id}){movement.value} {movement.currency_ukr} - {movement.group_name} ({movement.comment})
 						</div>
-		}
+
+						<div className="col-md-1 p-0">
+							<Button type="button" className="btn btn-light p-0" onClick={ ()=> props.edClick(movement.id) }>
+								<span className="far fa-edit"></span>
+							</Button>
+						</div>			
+					</div>
 	}
 	return (
 		<div> 
@@ -49,8 +47,6 @@ const Comment = (props) => {
 
 Comment.propTypes = {
 	movement: PropTypes.object.isRequired,
-	ddirection: PropTypes.string.isRequired,
-	dcurrency: PropTypes.string.isRequired,
 	edMovId: PropTypes.array,
 	edClick: PropTypes.func.isRequired
 }
@@ -71,10 +67,17 @@ class CommentsBlock extends React.Component{
 		
 	}
 
+	edCancelHandle = (m) => {
+		this.setState({
+			edMovId: this.state.edMovId.filter(id => id !== m.id)
+		})
+	}
+
 	render(){
-		const {movements, direction, mGroupsList, voc} = this.props
+		const {movements, direction, voc} = this.props
 		const {edMovId} = this.state
 		const emptyMovVals = {
+			id:0,
 			company_id: 0,
 			day_id: 0,
 			direction: direction
@@ -92,27 +95,28 @@ class CommentsBlock extends React.Component{
 			<div>
 				<div className="container-fluid">
 
-					{movements.map( m => 
-						<Comment key ={m.id} movement = {m} ddirection={direction} dcurrency='UAH' edMovId={edMovId} 
-							edClick = {this.edClickHandle}
-							voc = {{...voc, emptyMovVals}}
-						/> 
-					)}
-					{movements.map( m => 
-						<Comment key ={m.id} movement = {m} ddirection={direction} dcurrency='USD' edMovId={edMovId} 
-							edClick = {this.edClickHandle}
-							voc = {{...voc, emptyMovVals}}
-						/> 
-					)}
-					{movements.map( m => 
-						<Comment key ={m.id} movement = {m} ddirection={direction} dcurrency='EUR' edMovId={edMovId} 
-							edClick = {this.edClickHandle}
-							voc = {{...voc, emptyMovVals}}
-						/> 
-					)}
+					{	['UAH','USD','EUR'].map( (curr_name) => 
+						{
+							return movements.filter(m => m.currency==curr_name && m.direction==direction ).map( m => 
+								<Comment key ={curr_name+m.id} 
+									movement = {m} 
+									edMovId={edMovId} 
+									edClick = {this.edClickHandle}
+									cancelClick = {this.edCancelHandle}
+									voc = {{...voc, emptyMovVals}}
+								/> 
+							)
+						})
+					}
+
 				</div>
 				<div className="container-fluid">
-					{this.state.edMovId.includes(0) ? <EditMovement voc = {voc} defMovVals = {emptyMovVals}/> : addButton }
+					{this.state.edMovId.includes(0) ? <EditMovement
+																							voc = {voc} 
+																							defMovVals = {emptyMovVals} 
+																							cancelClick = {this.edCancelHandle}/> 
+																					: addButton 
+					}
 				</div>
 			</div>
 		)

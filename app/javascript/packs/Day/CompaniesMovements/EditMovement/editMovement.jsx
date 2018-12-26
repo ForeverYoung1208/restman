@@ -8,11 +8,13 @@ export class EditMovement extends React.Component{
 	constructor(props){
 		super(props);
 		let m = {};
-		if (props.defMovVals) {
-			m = this.props.defMovVals
-		} else {
-			m = { currency_id: 0, group_id: 0, account_id: 0, value: 0, comment: ''}
-		}
+		// if (props.defMovVals) {
+		// 	m = this.props.defMovVals
+		// } else {
+		// 	m = { currency_id: 0, group_id: 0, account_id: 0, value: 0, comment: ''}
+		// }
+
+		m = this.props.defMovVals   // 		defMovVals is required
 
 		this.state = {
 			alf:[], 				//accs List filtered
@@ -71,7 +73,8 @@ export class EditMovement extends React.Component{
 
 	render(){
 		const {movsGroupsList, currsList, handleMovSave} = this.props.voc
-		const {alf} = this.state
+		const {cancelClick} = this.props
+		const {alf, m} = this.state
 	
 		return (
 			<div className = "container-fluid p-0">
@@ -95,7 +98,8 @@ export class EditMovement extends React.Component{
 									onChange={this.handleMovsGroupChange}
 					>
 						<option value="0" disabled>Категорія</option>  			
-						{movsGroupsList.map( (mg) => ( <option key={mg.id} value={mg.id}> {mg.name} </option>	))}
+						{movsGroupsList.filter(mg=> mg.direction==m.direction)
+							.map( (mg) => ( <option key={mg.id} value={mg.id}> {mg.name} </option>	))}
 					</Input>
 				</div>
 				<div className="row">
@@ -119,10 +123,9 @@ export class EditMovement extends React.Component{
 					</div>
 					<div className="col-md-1 p-0">
 						<Button type="button" className={`btn ${this.state.is_changed ? 'btn-warning' : 'btn-light' } my-vButton p-0`}
-							onClick = {()=>handleMovSave(this.state.m)}
-							// onClick = {()=> console.log(this.state.m)}
+							onClick = {()=> this.state.is_changed ? handleMovSave(this.state.m) : cancelClick(this.state.m)}
 						>
-							<span className="far fa-save"></span>
+							<span className={`fa ${this.state.is_changed ? 'fa-save' : 'fa-angle-up' }`}></span>
 						</Button>
 					</div>
 
@@ -139,6 +142,7 @@ export class EditMovement extends React.Component{
 
 EditMovement.propTypes = {
 	voc: PropTypes.object.isRequired, // + company_id from OneCompany
+	cancelClick: PropTypes.func.isRequired,
 	defMovVals: PropTypes.shape({
 		account_id: PropTypes.number,
 		comment: PropTypes.string,
@@ -155,7 +159,7 @@ EditMovement.propTypes = {
 		value: PropTypes.number,
 		currency: PropTypes.string,
 		currency_id: PropTypes.number
-	})
+	}).isRequired
 }
 
 
