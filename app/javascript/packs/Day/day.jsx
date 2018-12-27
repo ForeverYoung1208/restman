@@ -50,8 +50,16 @@ export class Day extends React.Component {
 	}
 	
 	handleMovSaving = (m) => {
-		console.log('---saving movement (stub)----')
-		console.log( m )
+		m.day_id = this.state.day.id
+		if(	m.account_id > 0 &&	m.company_id > 0 &&
+				m.currency_id > 0 &&	m.group_id > 0 && m.day_id >0	){
+			console.log('---saving movement (stub)----')
+			console.log( m )
+		} else{
+			alert(`день ${m.day_id}, компанія ${m.company_id}, рахунок ${m.account_id}, валюта ${m.currency_id} та категорія платежів ${m.group_id} мають бути обрані! (Не нуль)`)
+		}
+
+
 	}
 
 	componentDidMount = () => {

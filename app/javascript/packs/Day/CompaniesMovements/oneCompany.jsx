@@ -78,8 +78,11 @@ class CommentsBlock extends React.Component{
 		const {edMovId} = this.state
 		const emptyMovVals = {
 			id:0,
-			company_id: 0,
+			company_id: voc.company_id,
 			day_id: 0,
+			currency_id: 0,
+			group_id: 0,
+			account_id: 0,
 			direction: direction
 		}
 
@@ -125,7 +128,7 @@ class CommentsBlock extends React.Component{
 CommentsBlock.propTypes = {
 	movements: PropTypes.array.isRequired,
 	direction: PropTypes.string.isRequired,
-	voc: PropTypes.object.isRequired
+	voc: PropTypes.object.isRequired   //+ company_id needed
 }
 
 
