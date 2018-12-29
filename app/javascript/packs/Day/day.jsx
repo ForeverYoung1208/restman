@@ -38,6 +38,7 @@ export class Day extends React.Component {
 			companiesSelected: [],
 			group: null,
 			allMovements: [],
+			loadingMovementsIds: [],
 			isMovsGrouped: false,
 			voc:{
 					compList: [],
@@ -53,13 +54,12 @@ export class Day extends React.Component {
 		m.day_id = this.state.day.id
 		if(	m.account_id > 0 &&	m.company_id > 0 &&
 				m.currency_id > 0 &&	m.group_id > 0 && m.day_id >0	){
-			console.log('---saving movement (stub)----')
+			console.log('---saving movement ----')
+			this.setState({loadingMovementsIds: [...this.state.loadingMovementsIds, m.id]})
 			console.log( m )
 		} else{
-			alert(`день ${m.day_id}, компанія ${m.company_id}, рахунок ${m.account_id}, валюта ${m.currency_id} та категорія платежів ${m.group_id} мають бути обрані! (Не нуль)`)
+			alert(`${m.day_id>0 ? '':'день,'} ${m.company_id>0 ? '':'компанія,'} ${m.account_id>0 ? '':'рахунок,' }${m.currency_id>0 ? '':'валюта,'} ${m.group_id>0 ? '': 'категорія платежів'} мають бути обрані!`)
 		}
-
-
 	}
 
 	componentDidMount = () => {
@@ -201,6 +201,7 @@ export class Day extends React.Component {
 							isGrouped = {this.state.isMovsGrouped}
 							mGroupClick = {this.handleMGroupClick}
 							voc = {this.state.voc}
+							loadingMovementsIds = {this.state.loadingMovementsIds}
 						/>
 				</div>
 			</div>

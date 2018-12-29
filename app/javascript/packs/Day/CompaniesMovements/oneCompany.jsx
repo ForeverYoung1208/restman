@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import Gcomment from "./gcomment"
 import {EditMovement} from "./EditMovement/editMovement"
 import {Button } from 'reactstrap'
+import {Spinner} from "../../i-services"
 
 
 const Comment = (props) => {
@@ -74,7 +75,7 @@ class CommentsBlock extends React.Component{
 	}
 
 	render(){
-		const {movements, direction, voc} = this.props
+		const {movements, direction, voc, loadingMovementsIds} = this.props
 		const {edMovId} = this.state
 		const emptyMovVals = {
 			id:0,
@@ -101,12 +102,21 @@ class CommentsBlock extends React.Component{
 					{	['UAH','USD','EUR'].map( (curr_name) => 
 						{
 							return movements.filter(m => m.currency==curr_name && m.direction==direction ).map( m => 
+								loadingMovementsIds.includes(m.id) ? 
+								<div className="row" key ={curr_name+m.id}>
+									<div className="col-md-11 p-0">
+										...Loading...
+										<Spinner /> 
+									</div>
+								</div>
+								:
 								<Comment key ={curr_name+m.id} 
 									movement = {m} 
 									edMovId={edMovId} 
 									edClick = {this.edClickHandle}
 									cancelClick = {this.edCancelHandle}
 									voc = {{...voc, emptyMovVals}}
+									loadingMovementsIds = {loadingMovementsIds}
 								/> 
 							)
 						})
@@ -114,10 +124,12 @@ class CommentsBlock extends React.Component{
 
 				</div>
 				<div className="container-fluid">
-					{this.state.edMovId.includes(0) ? <EditMovement
+					{this.state.edMovId.includes(0) ? (
+																							<EditMovement
 																							voc = {voc} 
 																							defMovVals = {emptyMovVals} 
 																							cancelClick = {this.edCancelHandle}/> 
+																						)
 																					: addButton 
 					}
 				</div>
@@ -128,7 +140,8 @@ class CommentsBlock extends React.Component{
 CommentsBlock.propTypes = {
 	movements: PropTypes.array.isRequired,
 	direction: PropTypes.string.isRequired,
-	voc: PropTypes.object.isRequired   //+ company_id needed
+	voc: PropTypes.object.isRequired,   //+ company_id needed
+	loadingMovementsIds: PropTypes.array.isRequired
 }
 
 
@@ -151,7 +164,24 @@ export class OneCompany extends React.Component{
 
 	
 	render(){
-		const {company, movements, isGrouped, voc} = this.props
+		const {company, movements, isGrouped, voc, loadingMovementsIds} = this.props
+		const commentsWrapper = (direction) => {
+			return(
+					isGrouped ? <Gcomment
+												movements={movements} 
+												company_id={company.id}
+												direction={p.direction}
+												loadingMovementsIds={loadingMovementsIds}
+											/> 
+										: <CommentsBlock 
+												movements={movements} 
+												voc={{...this.props.voc, company_id: company.id}}
+												direction={direction}
+												loadingMovementsIds={loadingMovementsIds}
+											/> 
+			)
+		}
+
 		return(
 
 			<tr >
@@ -165,19 +195,7 @@ export class OneCompany extends React.Component{
 				<td>{this.sumMovsByCurrency('USD', movements).income}</td>
 				<td>{this.sumMovsByCurrency('EUR', movements).income}</td>
 				<td className="i-text">
-
-
-					{isGrouped ? <Gcomment
-												movements={movements} 
-												company_id={company.id}
-												direction='Income'
-											/> 
-										: <CommentsBlock 
-												movements={movements} 
-												voc={{...this.props.voc, company_id: company.id}}
-												direction='Income'
-											/> 
-					}
+					{	commentsWrapper('Income')	}
 
 				</td>
 
@@ -186,19 +204,7 @@ export class OneCompany extends React.Component{
 				<td>{this.sumMovsByCurrency('USD', movements).outcome}</td>
 				<td>{this.sumMovsByCurrency('EUR', movements).outcome}</td>
 				<td className="i-text">
-
-					{isGrouped ? <Gcomment
-												movements={movements} 
-												company_id={company.id}
-												direction='Outcome'
-											/> 
-										: <CommentsBlock 
-												movements={movements} 
-												voc={{...this.props.voc, company_id: company.id}}
-												direction='Outcome'
-											/> 
-					}
-
+					{	commentsWrapper('Outcome')	}
 				</td>
 				
 				<td>UAH</td>
@@ -236,7 +242,8 @@ OneCompany.propTypes = {
 // value: "1010.23"
 // currency: 'UAH'
 	isGrouped: PropTypes.bool.isRequired,
-	voc: PropTypes.object.isRequired
+	voc: PropTypes.object.isRequired,
+	loadingMovementsIds: PropTypes.array.isRequired
 
 }
 

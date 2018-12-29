@@ -108,6 +108,7 @@ export class CompaniesMovements extends React.Component{
 									movements={this.props.allMovements.filter( m => m.company_id == c.id)} 
 									isGrouped={this.props.isGrouped}
 									voc={this.props.voc}
+									loadingMovementsIds={this.props.loadingMovementsIds}
 								/>) 
 							) 
 						}
@@ -126,5 +127,6 @@ CompaniesMovements.propTypes = {
 	allMovements: PropTypes.array.isRequired,
 	isGrouped:PropTypes.bool.isRequired,
 	mGroupClick:PropTypes.func.isRequired,
-	voc:PropTypes.object.isRequired
+	voc:PropTypes.object.isRequired,
+	loadingMovementsIds: PropTypes.array.isRequired
 }

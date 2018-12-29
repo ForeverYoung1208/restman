@@ -1,3 +1,4 @@
+import React from 'react'
 
 export const fetchJSONfrom = (url) => {
 	return fetch(url,
@@ -13,4 +14,18 @@ export const dashDateFormat = (date) =>{
 	}
 }
 
+export const Spinner = ()=>{
+	return(
+		<div id="circle">
+		  <div className="loader">
+		    <div className="loader">
+		        <div className="loader">
+		           <div className="loader">
 
+		           </div>
+		        </div>
+		    </div>
+		  </div>
+		</div> 
+	)
+}
