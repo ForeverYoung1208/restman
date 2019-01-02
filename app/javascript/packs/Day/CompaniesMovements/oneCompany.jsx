@@ -40,10 +40,7 @@ const Comment = (props) => {
 						</div>			
 					</div>
 	}
-	return (
-		<div> 
-			{res} 
-		</div>);
+	return (res);
 }
 
 Comment.propTypes = {
@@ -104,8 +101,8 @@ class CommentsBlock extends React.Component{
 							return movements.filter(m => m.currency==curr_name && m.direction==direction ).map( m => 
 								loadingMovementsIds.includes(m.id) ? 
 								<div className="row" key ={curr_name+m.id}>
-									<div className="col-md-11 p-0">
-										...Loading...
+									<div className="col-md-5 p-3 text-center ">...Processing...</div>
+									<div className="col-md-5 p-1 spinner">
 										<Spinner /> 
 									</div>
 								</div>
