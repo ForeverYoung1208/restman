@@ -122,6 +122,15 @@ class CommentsBlock extends React.Component{
 				</div>
 				<div className="container-fluid">
 					{this.state.edMovId.includes(0) ? (
+
+																							loadingMovementsIds.includes(0) ? 
+																							<div className="row">
+																								<div className="col-md-5 p-3 text-center ">...Processing...</div>
+																								<div className="col-md-5 p-1 spinner">
+																									<Spinner /> 
+																								</div>
+																							</div>
+																							:
 																							<EditMovement
 																							voc = {voc} 
 																							defMovVals = {emptyMovVals} 

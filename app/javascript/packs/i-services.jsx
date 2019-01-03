@@ -8,7 +8,7 @@ export const fetchJSONfrom = (url) => {
 	).then( (r) => r.json() )
 }
 
-export const postJSONto = (url,data) => {
+export const postDataAsJSON = (url,data,okCBK,errCBK) => {
 	return fetch(url,
 		{	method: 'POST',
 			body: JSON.stringify(data),
@@ -16,9 +16,8 @@ export const postJSONto = (url,data) => {
 						{'Content-Type': 'application/json',
 			      'Accept': 'application/json' }
 		}
-	).then( (r) => r.json() )
-	.catch (function (error) { alert('Request failed' + error);
-})
+	).then( (result) => okCBK(result.json()) )
+	.catch ((error) => errCBK(error))
 }
 
 export const dashDateFormat = (date) =>{

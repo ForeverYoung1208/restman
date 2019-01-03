@@ -6,7 +6,7 @@ import {Datepicker} from './Datepicker/datepicker'
 import {CompaniesSelect} from './CompaniesSelect/companiesSelect'
 import {GroupsSelect} from './GroupsSelect/groupsSelect'
 import {CompaniesMovements} from './CompaniesMovements/companiesMovements'
-import {fetchJSONfrom, dashDateFormat} from '../i-services'
+import {fetchJSONfrom, postDataAsJSON, dashDateFormat} from '../i-services'
 
 
 const DayInfo = (props) => {
@@ -55,8 +55,10 @@ export class Day extends React.Component {
 		if(	m.account_id > 0 &&	m.company_id > 0 &&
 				m.currency_id > 0 &&	m.group_id > 0 && m.day_id >0	){
 			console.log('---saving movement ----')
-			this.setState({loadingMovementsIds: [...this.state.loadingMovementsIds, m.id]})
 			console.log( m )
+			postDataAsJSON('/movements.json', m, (res)=> console.log(res), (err)=>console.log(err)	 )
+			this.setState({loadingMovementsIds: [...this.state.loadingMovementsIds, m.id]})
+			
 		} else{
 			alert(`${m.day_id>0 ? '':'день,'} ${m.company_id>0 ? '':'компанія,'} ${m.account_id>0 ? '':'рахунок,' }${m.currency_id>0 ? '':'валюта,'} ${m.group_id>0 ? '': 'категорія платежів'} мають бути обрані!`)
 		}
