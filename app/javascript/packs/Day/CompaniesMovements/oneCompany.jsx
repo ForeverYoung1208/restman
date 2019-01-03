@@ -19,7 +19,7 @@ const Comment = (props) => {
 				company_id: movement.company_id,
 				day_id: movement.day_id,
 				direction: movement.direction,
-				group_id: movement.group_id,
+				movement_group_id: movement.movement_group_id,
 				id: movement.id,
 				log: movement.log,
 				value: movement.value,
@@ -79,7 +79,7 @@ class CommentsBlock extends React.Component{
 			company_id: voc.company_id,
 			day_id: 0,
 			currency_id: 0,
-			group_id: 0,
+			movement_group_id: 0,
 			account_id: 0,
 			direction: direction
 		}

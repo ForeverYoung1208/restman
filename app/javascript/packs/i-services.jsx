@@ -9,16 +9,23 @@ export const fetchJSONfrom = (url) => {
 }
 
 export const postDataAsJSON = (url,data,okCBK,errCBK) => {
+	const token = $('meta[name="csrf-token"]').attr('content');	
 	return fetch(url,
 		{	method: 'POST',
 			body: JSON.stringify(data),
+      credentials: 'same-origin',
 			headers: 
 						{'Content-Type': 'application/json',
-			      'Accept': 'application/json' }
+			      'Accept': 'application/json',
+		        'X-Requested-With': 'XMLHttpRequest',
+		        'X-CSRF-Token': token
+			      }
 		}
-	).then( (result) => okCBK(result.json()) )
+	).then( (result) => okCBK(result) )
 	.catch ((error) => errCBK(error))
 }
+
+
 
 export const dashDateFormat = (date) =>{
 	if(date){

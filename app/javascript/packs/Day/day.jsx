@@ -53,14 +53,27 @@ export class Day extends React.Component {
 	handleMovSaving = (m) => {
 		m.day_id = this.state.day.id
 		if(	m.account_id > 0 &&	m.company_id > 0 &&
-				m.currency_id > 0 &&	m.group_id > 0 && m.day_id >0	){
+				m.currency_id > 0 &&	m.movement_group_id > 0 && m.day_id >0	){
+			this.setState({loadingMovementsIds: [...this.state.loadingMovementsIds, m.id]})
 			console.log('---saving movement ----')
 			console.log( m )
-			postDataAsJSON('/movements.json', m, (res)=> console.log(res), (err)=>console.log(err)	 )
-			this.setState({loadingMovementsIds: [...this.state.loadingMovementsIds, m.id]})
+			postDataAsJSON('/movements.json', m, 
+				(response)=>{ 
+					console.log('server response:')
+					console.log(response)
+					this.setState({loadingMovementsIds: this.state.loadingMovementsIds.filter(id => id!=m.id)})
+					response.ok ? console.log('ok') : alert('error saving to database: '+response.status+ '-'+response.statusText)
+				},
+				(err)=>{
+					alert('error connecting server') 
+					console.log(err)
+					this.setState({loadingMovementsIds: this.state.loadingMovementsIds.filter(id => id!=m.id)})
+				}
+			)
+			
 			
 		} else{
-			alert(`${m.day_id>0 ? '':'день,'} ${m.company_id>0 ? '':'компанія,'} ${m.account_id>0 ? '':'рахунок,' }${m.currency_id>0 ? '':'валюта,'} ${m.group_id>0 ? '': 'категорія платежів'} мають бути обрані!`)
+			alert(`${m.day_id>0 ? '':'день,'} ${m.company_id>0 ? '':'компанія,'} ${m.account_id>0 ? '':'рахунок,' }${m.currency_id>0 ? '':'валюта,'} ${m.movement_group_id>0 ? '': 'категорія платежів'} мають бути обрані!`)
 		}
 	}
 

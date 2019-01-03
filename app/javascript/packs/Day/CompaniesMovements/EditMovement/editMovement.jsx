@@ -41,7 +41,7 @@ export class EditMovement extends React.Component{
 
 	handleMovsGroupChange = (e) => {
 	  this.setState({
-	  	m: {...this.state.m, group_id: e.target.value}, 
+	  	m: {...this.state.m, movement_group_id: e.target.value}, 
 	  	is_changed: true  
 	  })
 	}
@@ -94,7 +94,7 @@ export class EditMovement extends React.Component{
 
 
 					<Input id="groups-select" type="select" className="col-md-4"
-									defaultValue={this.state.m.group_id}
+									defaultValue={this.state.m.movement_group_id}
 									onChange={this.handleMovsGroupChange}
 					>
 						<option value="0" disabled>Категорія</option>  			
@@ -151,7 +151,7 @@ EditMovement.propTypes = {
 		day_id: PropTypes.number.isRequired,
 		deleted_at: PropTypes.string,
 		direction: PropTypes.string.isRequired,
-		group_id: PropTypes.number,
+		movement_group_id: PropTypes.number.isRequired,
 		id: PropTypes.number,
 		last_editor_id: PropTypes.number,
 		log: PropTypes.string,
