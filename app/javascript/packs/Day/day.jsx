@@ -62,7 +62,13 @@ export class Day extends React.Component {
 					console.log('server response:')
 					console.log(response)
 					this.setState({loadingMovementsIds: this.state.loadingMovementsIds.filter(id => id!=m.id)})
-					response.ok ? console.log('ok') : alert('error saving to database: '+response.status+ '-'+response.statusText)
+					if (!response.ok) {
+						alert('error saving to database: '+response.status+ '-'+response.statusText)
+					} else {
+						console.log('ok')
+						this.getMovements(this.state.date)
+						console.log( this.state)
+					}
 				},
 				(err)=>{
 					alert('error connecting server') 
@@ -114,7 +120,6 @@ export class Day extends React.Component {
 		this.props.date ? date = this.props.date : null
 		fetchJSONfrom('/movements/by_date/'+dashDateFormat(date)+'.json').then( resj => {
 			resj = resj.map( (r)=> ({...r, value: parseFloat(r.value)}) )
-
 			this.setState({
 				allMovements: [...resj]
 			});

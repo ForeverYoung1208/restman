@@ -41,7 +41,7 @@ export class EditMovement extends React.Component{
 
 	handleMovsGroupChange = (e) => {
 	  this.setState({
-	  	m: {...this.state.m, movement_group_id: e.target.value}, 
+	  	m: {...this.state.m, movement_group_id: e.target.value, group_id: e.target.value},  // double movement_group_id as "group_id" to create movement parameter to send it to understandable rails model parameter
 	  	is_changed: true  
 	  })
 	}

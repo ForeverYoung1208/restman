@@ -53,11 +53,12 @@ class MovementsController < ApplicationController
 
   # POST /movements
   # POST /movements.json
-  def create
-    @movement = Movement.new(movement_params)
+  def create # create/update
+    movement_params[:id]>=1 ? @movement = Movement.find(movement_params[:id]) : @movement = Movement.new
+    @movement.last_editor_id = @current_user.id
 
     respond_to do |format|
-      if @movement.save
+      if @movement.update(movement_params)
         format.html { redirect_to @movement, notice: 'Movement was successfully created.' }
         format.json { render :show, status: :created, location: @movement }
       else
@@ -69,7 +70,7 @@ class MovementsController < ApplicationController
 
   # PATCH/PUT /movements/1
   # PATCH/PUT /movements/1.json
-  def update
+  def update # not used
     respond_to do |format|
       if @movement.update(movement_params)
         format.html { redirect_to @movement, notice: 'Movement was successfully updated.' }
@@ -99,6 +100,6 @@ class MovementsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def movement_params
-      params.require(:movement).permit(:id, :value, :direction, :movement_group_id, :comment, :account_id, :last_editor_id, :day_id, :deleted_at, :log, :date)
+      params.require(:movement).permit(:id, :value, :direction, :group_id, :comment, :account_id, :last_editor_id, :day_id, :deleted_at, :log, :date)
     end
 end

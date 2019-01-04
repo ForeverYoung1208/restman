@@ -176,7 +176,7 @@ export class OneCompany extends React.Component{
 					isGrouped ? <Gcomment
 												movements={movements} 
 												company_id={company.id}
-												direction={p.direction}
+												direction={direction}
 												loadingMovementsIds={loadingMovementsIds}
 											/> 
 										: <CommentsBlock 
