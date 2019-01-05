@@ -56,18 +56,26 @@ export class Day extends React.Component {
 				m.currency_id > 0 &&	m.movement_group_id > 0 && m.day_id >0	){
 			this.setState({loadingMovementsIds: [...this.state.loadingMovementsIds, m.id]})
 			console.log('---saving movement ----')
-			console.log( m )
+			// console.log( m )
 			postDataAsJSON('/movements.json', m, 
 				(response)=>{ 
-					console.log('server response:')
-					console.log(response)
-					this.setState({loadingMovementsIds: this.state.loadingMovementsIds.filter(id => id!=m.id)})
 					if (!response.ok) {
+						this.setState({loadingMovementsIds: this.state.loadingMovementsIds.filter(id => id!=m.id)})
 						alert('error saving to database: '+response.status+ '-'+response.statusText)
 					} else {
 						console.log('ok')
-						this.getMovements(this.state.date)
-						console.log( this.state)
+						response.json().then( (result) => {
+							result.value = parseFloat(result.value)
+							
+							const newAllMovements = this.state.allMovements.map( 
+								mOld => (mOld.id != result.id ? mOld : result)
+							)
+							console.log(result)
+							this.setState({
+								loadingMovementsIds: this.state.loadingMovementsIds.filter(id => id!=m.id),
+								allMovements: newAllMovements
+							})
+						})
 					}
 				},
 				(err)=>{
