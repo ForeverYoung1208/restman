@@ -57,7 +57,6 @@ class MovementsController < ApplicationController
     movement_params[:id]>=1 ? @movement = Movement.find(movement_params[:id]) : @movement = Movement.new
     @movement.last_editor_id = @current_user.id
 
-    debugger
 
     respond_to do |format|
       if @movement.update(movement_params)
