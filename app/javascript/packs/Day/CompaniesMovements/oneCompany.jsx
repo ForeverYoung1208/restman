@@ -30,7 +30,7 @@ const Comment = (props) => {
 	} else {
 		res = <div className="row">
 						<div className="col-md-11 p-0">
-							(id:{movement.id}){movement.value} {movement.currency_ukr} - {movement.group_name} ({movement.comment})
+							(id:{movement.id}) {movement.value} {movement.currency_ukr} - {movement.group_name} ({movement.comment})
 						</div>
 
 						<div className="col-md-1 p-0">
@@ -75,7 +75,7 @@ class CommentsBlock extends React.Component{
 		const {movements, direction, voc, loadingMovementsIds} = this.props
 		const {edMovId} = this.state
 		const emptyMovVals = {
-			id:0,
+			id: -1,
 			company_id: voc.company_id,
 			day_id: 0,
 			currency_id: 0,
@@ -86,7 +86,7 @@ class CommentsBlock extends React.Component{
 
 		const addButton = <div className="row justify-content-center">
 						<div className="col-6">
-							<Button type="button" className="btn btn-light p-0 my-vButton" onClick={()=>this.edClickHandle(0)}>
+							<Button type="button" className="btn btn-light p-0 my-vButton" onClick={()=>this.edClickHandle(-1)}>
 								<span className="fa fa-plus"></span>
 							</Button>
 						</div>
@@ -121,9 +121,9 @@ class CommentsBlock extends React.Component{
 
 				</div>
 				<div className="container-fluid">
-					{this.state.edMovId.includes(0) ? (
+					{this.state.edMovId.includes(-1) ? (
 
-																							loadingMovementsIds.includes(0) ? 
+																							loadingMovementsIds.includes(-1) ? 
 																							<div className="row">
 																								<div className="col-md-5 p-3 text-center ">...Processing...</div>
 																								<div className="col-md-5 p-1 spinner">

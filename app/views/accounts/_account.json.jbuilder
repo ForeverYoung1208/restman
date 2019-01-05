@@ -1,2 +1,9 @@
-json.extract! account, :id, :number, :bank, :currency, :saldo_begin_year, :company_id, :created_at, :updated_at
-json.url account_url(account, format: :json)
+# json.extract! account, :id, :number, :bank, :currency, :saldo_begin_year, :company_id, :created_at, :updated_at
+json.id account.id
+json.number("#{account.currency.name_int} - #{account.number}")
+json.bank account.bank
+json.currency account.currency
+json.saldo_begin_year account.saldo_begin_year
+json.company_id account.company_id
+json.created_at account.created_at
+json.updated_at account.updated_at

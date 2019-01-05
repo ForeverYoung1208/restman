@@ -8,10 +8,10 @@ export const fetchJSONfrom = (url) => {
 	).then( (r) => r.json() )
 }
 
-export const postDataAsJSON = (url,data,okCBK,errCBK) => {
+export const postDataAsJSON = (url,method,data,okCBK,errCBK) => {
 	const token = $('meta[name="csrf-token"]').attr('content');	
 	return fetch(url,
-		{	method: 'POST',
+		{	method: method,
 			body: JSON.stringify(data),
       credentials: 'same-origin',
 			headers: 

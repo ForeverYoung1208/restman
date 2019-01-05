@@ -7,7 +7,15 @@ import { fetchJSONfrom } from '../../../i-services'
 export class EditMovement extends React.Component{
 	constructor(props){
 		super(props);
-		const m = this.props.defMovVals   // 		defMovVals is required
+		let m = {};
+		// if (props.defMovVals) {
+		// 	m = this.props.defMovVals
+		// } else {
+		// 	m = { currency_id: 0, group_id: 0, account_id: 0, value: 0, comment: ''}
+		// }
+
+		m = this.props.defMovVals   // 		defMovVals is required
+
 		this.state = {
 			alf:[], 				//accs List filtered
 			is_changed: false,
@@ -38,6 +46,16 @@ export class EditMovement extends React.Component{
 	  })
 	}
 
+-	handleCurrChange = (e) => {
+-		const {accsList, company_id} = this.props.voc
+-		const alf = accsList.filter((acc) => acc.company_id == company_id && acc.currency.id == e.target.value )
+-	  this.setState({
+-			m:{...this.state.m, currency_id: e.target.value},
+-	  	alf: alf, 
+-	  	is_changed: true,
+-	  })
+-	}
+
 	handleAccChange = (e) => {
 	  this.setState({
 			m:{...this.state.m, account_id: e.target.value},
@@ -56,19 +74,30 @@ export class EditMovement extends React.Component{
 	render(){
 		const {movsGroupsList, currsList, handleMovSave} = this.props.voc
 		const {cancelClick} = this.props
-		const {alf, m, is_changed} = this.state
+		const {alf, m} = this.state
 	
 		return (
 			<div className = "container-fluid p-0">
 				<div className="row">
 					<Input type="text" className="col-md-4"
-						defaultValue = {m.value}
+						defaultValue = {this.state.m.value}
 						onChange={ this.handleValueChange }
 					/>
 
 
+
+-					<Input id="groups-select" type="select" className="col-md-4"
+-						defaultValue={this.state.m.currency_id}
+-						onChange = {this.handleCurrChange}
+-					>
+-						<option value="0" disabled>Валюта</option>  			
+-						{currsList.map( (v) => ( <option key={v.id} value={v.id}> {v.name_int} </option>	))}
+-					</Input>
+
+
+
 					<Input id="groups-select" type="select" className="col-md-4"
-									defaultValue={m.movement_group_id}
+									defaultValue={this.state.m.movement_group_id}
 									onChange={this.handleMovsGroupChange}
 					>
 						<option value="0" disabled>Категорія</option>  			
@@ -80,7 +109,7 @@ export class EditMovement extends React.Component{
 					<div className="col-md-11">
 						<div className="row">
 							<Input id="groups-select" type="select" className="col-md-12"
-											defaultValue={m.account_id}
+											defaultValue={this.state.m.account_id}
 											onChange={this.handleAccChange}
 							>
 								<option value="0" disabled>Рахунок</option>  			
@@ -90,16 +119,16 @@ export class EditMovement extends React.Component{
 						</div>
 						<div className="row">
 							<Input type="textarea" name="text" className="col-md-12" 
-								defaultValue={m.comment}
+								defaultValue={this.state.m.comment}
 								onChange={ this.handleCommentChange }
 							/>
 						</div>
 					</div>
 					<div className="col-md-1 p-0">
-						<Button type="button" className={`btn ${is_changed ? 'btn-warning' : 'btn-light' } my-vButton p-0`}
-							onClick = {()=> is_changed ? handleMovSave(m) : cancelClick(m)}
+						<Button type="button" className={`btn ${this.state.is_changed ? 'btn-warning' : 'btn-light' } my-vButton p-0`}
+							onClick = {()=> this.state.is_changed ? handleMovSave(this.state.m) : cancelClick(this.state.m)}
 						>
-							<span className={`fa ${is_changed ? 'fa-save' : 'fa-angle-up' }`}></span>
+							<span className={`fa ${this.state.is_changed ? 'fa-save' : 'fa-angle-up' }`}></span>
 						</Button>
 					</div>
 
