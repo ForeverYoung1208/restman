@@ -3,8 +3,11 @@ class AccountsController < ApplicationController
 
   # GET /accounts
   # GET /accounts.json
+  
+  ## TODO index only permitted for current user
   def index
-    @accounts = Account.all
+    # @accounts = Account.all
+    @accounts = Account.all_with_saldo_on(account_params[:date])
   end
 
   # GET /accounts/1
