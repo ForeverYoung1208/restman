@@ -6,8 +6,7 @@ class AccountsController < ApplicationController
   
   ## TODO index only permitted for current user
   def index
-    # @accounts = Account.all
-    @accounts = Account.all_with_saldo_on(account_params[:date])
+    @accounts = Account.all
   end
 
   # GET /accounts/1

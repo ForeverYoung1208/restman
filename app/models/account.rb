@@ -12,8 +12,12 @@ class Account < ApplicationRecord
 
 	def self.all_with_saldo_on(date = DateTime.now.strftime("%Y-%m-%d"))
 		begin_of_year = DateTime.now.year.to_s+'-01-01'
+
 		income_movs = Movement.where("direction = ?", 0)
 			.joins(:day).where("days.date > ? and days.date < ?", begin_of_year, date)
+    outcom_movs = Movement.where("direction = ?", 1)
+      .joins(:day).where("days.date > ? and days.date < ?", begin_of_year, date)
+    res = income_movs.sum(:value) - outcom_movs.sum(:value)
 
 
 
