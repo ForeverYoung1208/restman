@@ -1,4 +1,8 @@
 <p><h1>Вітаю, <%= @current_user.name%> </h1></p>
+<pre> Notes:</pre>
+<ul>
+	<li>Year restriction: account's saldo is calculated by target year movements plus global 'saldo on year begin' setting - this value is added to any day saldo value.</li>
+</ul> 
 <pre>Ваші права у системі icontract:
 	<ul>
 		<% @current_user.roles.active.each do |role|%>

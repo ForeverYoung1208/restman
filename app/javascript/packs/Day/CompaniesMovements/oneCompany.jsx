@@ -22,7 +22,8 @@ export class OneCompany extends React.Component{
 	companyAccountsSaldo = (allAccounts) =>{
 		const sumByCurr = (curr)=>{
 			return(
-				allAccounts.filter(a => a.currency == curr).reduce( (sum=0, a) => sum+=a.saldo_on_date)
+				allAccounts.filter(a => (a.currency.name_int == curr)&&(a.company_id == this.props.company.id))
+					.reduce( (sum, a) => sum+=parseFloat(a.saldo_on_date), 0)
 			)
 		}
 		return{

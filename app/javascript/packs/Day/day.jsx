@@ -61,7 +61,6 @@ export class Day extends React.Component {
 				url = '/movements.json'
 				httpMethod = 'POST'
 				m.id = null
-				console.log( m )
 			}else{
 				url = `/movements/${m.id}.json`
 				httpMethod = 'PUT'
@@ -78,8 +77,6 @@ export class Day extends React.Component {
 							let newAllMovements
 							m.id ? newAllMovements = this.state.allMovements.map(	mOld => (mOld.id != result.id ? mOld : result))
 									:	newAllMovements = [...this.state.allMovements, result]
-
-							console.log(result)
 							this.setState({
 								loadingMovementsIds: this.state.loadingMovementsIds.filter(id => (id!=m.id&&id!=-1)),
 								allMovements: newAllMovements
@@ -110,7 +107,6 @@ export class Day extends React.Component {
 	  Promise.all( [
 	  	fetchJSONfrom('/currencies.json'), 
 	  	fetchJSONfrom('/movement_groups.json'),
-	  	fetchJSONfrom('/accounts.json')
 	  ] )
 	  .then( (res) =>{
 	  	let [vl, gl, al] = res
@@ -119,8 +115,6 @@ export class Day extends React.Component {
 					...prevState.voc,
 			  	movsGroupsList: gl,
 			  	currsList:vl,
-			  	accsList:al
-
 				}
 			}));		  
 	  })	  
@@ -135,11 +129,18 @@ export class Day extends React.Component {
 	getMovements = (dateDefault) => {
 		let date = dateDefault
 		this.props.date ? date = this.props.date : null
-		fetchJSONfrom('/movements/by_date/'+dashDateFormat(date)+'.json').then( resj => {
-			resj = resj.map( (r)=> ({...r, value: parseFloat(r.value)}) )
-			this.setState({
-				allMovements: [...resj]
-			});
+
+		Promise.all([
+				fetchJSONfrom('/movements/by_date/'+dashDateFormat(date)+'.json'),
+				fetchJSONfrom('/accounts/on_date/'+dashDateFormat(date)+'.json')
+			])
+			.then( (res) => {
+			let [movements, accounts ] = res
+			movements = movements.map( (r)=> ({...r, value: parseFloat(r.value)}) )
+			this.setState((prevState)=>({
+				allMovements: [...movements],
+				voc: {...prevState.voc, accsList: accounts} 
+			}));
 		})	  
 	}
 

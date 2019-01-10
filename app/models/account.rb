@@ -9,13 +9,15 @@ class Account < ApplicationRecord
 	validates :number, :bank, :currency, :company, :acc_type, presence: true
 
 	def saldo_on_date(date = nil)
+    begin_of_year = date ? date[0..3]+'-01-01' : DateTime.now.year.to_s+'-01-01'
     date ||= DateTime.now.strftime("%Y-%m-%d")
-		begin_of_year = DateTime.now.year.to_s+'-01-01'
+		# begin_of_year = DateTime.now.year.to_s+'-01-01'
+
 
 		income_movs = Movement.where("direction = ?", 0).where("account_id = ?", id )
-			.joins(:day).where("days.date > ? and days.date < ?", begin_of_year, date)
+			.joins(:day).where("days.date >= ? and days.date < ?", begin_of_year, date)
     outcom_movs = Movement.where("direction = ?", 1).where("account_id = ?", id )
-      .joins(:day).where("days.date > ? and days.date < ?", begin_of_year, date)
+      .joins(:day).where("days.date >= ? and days.date < ?", begin_of_year, date)
     res = saldo_begin_year + income_movs.sum(:value) - outcom_movs.sum(:value)
 
 	end

@@ -62,7 +62,8 @@ export class Datepicker extends React.Component {
 		$('.date').datepicker({
 			language: 'ua',
 			format: "dd.mm.yyyy",
-			todayBtn: true,
+			// todayBtn: true,
+			todayHighlight: true,	
 			autoclose: true,
 		}).on('change', (e) => {
 				this.toggleModal(e.target.value)

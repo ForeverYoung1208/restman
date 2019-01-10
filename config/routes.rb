@@ -17,7 +17,9 @@ Rails.application.routes.draw do
   resources :groups
   resources :currencies
   resources :banks
-  resources :accounts
+  resources :accounts do
+    get 'on_date/:date_of_saldo', to: 'accounts#index', on: :collection, as: 'on_date'
+  end
   resources :sessions
   resources :roles
   resources :users, only: [:index, :show]
