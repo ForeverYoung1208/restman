@@ -19,10 +19,25 @@ export class OneCompany extends React.Component{
 	  return {income: income, outcome:outcome}
 	}
 
+	companyAccountsSaldo = (allAccounts) =>{
+		const sumByCurr = (curr)=>{
+			return(
+				allAccounts.filter(a => a.currency == curr).reduce( (sum=0, a) => sum+=a.saldo_on_date)
+			)
+		}
+		return{
+			uah: sumByCurr('UAH'),
+			usd: sumByCurr('USD'),
+			eur: sumByCurr('EUR'),
+		}
+
+	}
+
 
 	
 	render(){
 		const {company, movements, isGrouped, voc, loadingMovementsIds} = this.props
+		const saldo_on_date = this.companyAccountsSaldo(voc.accsList)
 		const commentsWrapper = (direction) => {
 			return(
 					isGrouped ? <Gcomment
@@ -45,9 +60,9 @@ export class OneCompany extends React.Component{
 			<tr >
 				<td className="i-text">{	company.code_name}, (id: {company.id})</td>
 
-				<td>UAH</td>
-				<td>USD</td>
-				<td>EUR</td>
+				<td>{saldo_on_date.uah}</td>
+				<td>{saldo_on_date.usd}</td>
+				<td>{saldo_on_date.eur}</td>
 
 				<td>{this.sumMovsByCurrency('UAH', movements).income}</td>
 				<td>{this.sumMovsByCurrency('USD', movements).income}</td>
