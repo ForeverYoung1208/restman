@@ -8,25 +8,21 @@ class Account < ApplicationRecord
 
 	validates :number, :bank, :currency, :company, :acc_type, presence: true
 
-	#TODO: stuck here (((( can't implement easy one-query saldo cunting due to income and outcome calculations
-
-	def self.all_with_saldo_on(date = DateTime.now.strftime("%Y-%m-%d"))
+	def saldo_on_date(date = nil)
+    date ||= DateTime.now.strftime("%Y-%m-%d")
 		begin_of_year = DateTime.now.year.to_s+'-01-01'
 
-		income_movs = Movement.where("direction = ?", 0)
+		income_movs = Movement.where("direction = ?", 0).where("account_id = ?", id )
 			.joins(:day).where("days.date > ? and days.date < ?", begin_of_year, date)
-    outcom_movs = Movement.where("direction = ?", 1)
+    outcom_movs = Movement.where("direction = ?", 1).where("account_id = ?", id )
       .joins(:day).where("days.date > ? and days.date < ?", begin_of_year, date)
-    res = income_movs.sum(:value) - outcom_movs.sum(:value)
+    res = saldo_begin_year + income_movs.sum(:value) - outcom_movs.sum(:value)
 
-
-
-		# joins(:movements).where("movements.id < ?", 3)
 	end
 
 
 
-	# TODO: implement this
+	# TODO: implement this user access restriction
 
   # def self.permitted_for_user(user)
   #   if user.roles.active.pluck(:id).include?(::ADMIN_ROLE_ID)

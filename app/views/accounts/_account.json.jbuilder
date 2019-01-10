@@ -4,6 +4,7 @@ json.number("#{account.currency.name_int} - #{account.number}")
 json.bank account.bank
 json.currency account.currency
 json.saldo_begin_year account.saldo_begin_year
+json.saldo_on_date account.saldo_on_date(@date_of_saldo)
 json.company_id account.company_id
 json.created_at account.created_at
 json.updated_at account.updated_at
