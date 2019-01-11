@@ -46,9 +46,6 @@ export class OneCompany extends React.Component{
 			return(
 					isGrouped ? <Gcomment
 												movements={movements} 
-												company_id={company.id}
-												direction={direction}
-												loadingMovementsIds={loadingMovementsIds}
 											/> 
 										: <CommentsBlock 
 												movements={movements} 

@@ -11,4 +11,8 @@ class Day < ApplicationRecord
 	  end
   end
 
+  def movements_list
+  	movements.pluck(:value).join(', ')
+  end
+
 end

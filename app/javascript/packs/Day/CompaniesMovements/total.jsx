@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import Gcomment from "./gcomment"
 
 
 export class Total extends React.Component{
@@ -11,18 +12,22 @@ export class Total extends React.Component{
 		return{income:10, outcome:20}
 	}
 
+
+
 	render(){
+
+
 		let saldo_on_date = {
 			uah:{begin:1, end:2},
 			usd:{begin:1, end:2},
 			eur:{begin:1, end:2},
 		}
-		let movements = 1
 
+		const {movements} = this.props
 
 		return(
 			<tr >
-				<td className="i-text">	company.code_name, (id: company.id)</td>
+				<td className="i-text">	Загалом</td>
 
 				<td>{saldo_on_date.uah.begin}</td>
 				<td>{saldo_on_date.usd.begin}</td>
@@ -32,8 +37,7 @@ export class Total extends React.Component{
 				<td>{this.sumMovsByCurrency('USD', movements).income}</td>
 				<td>{this.sumMovsByCurrency('EUR', movements).income}</td>
 				<td className="i-text">
-						{this.allComments('Income')}
-
+					<Gcomment movements={movements.filter(m => m.direction=="Income")} /> 
 				</td>
 
 
@@ -41,7 +45,7 @@ export class Total extends React.Component{
 				<td>{this.sumMovsByCurrency('USD', movements).outcome}</td>
 				<td>{this.sumMovsByCurrency('EUR', movements).outcome}</td>
 				<td className="i-text">
-						{this.allComments('Outcome')}
+					<Gcomment movements={movements.filter(m => m.direction=="Outcome")} /> 
 				</td>
 				
 				<td>{saldo_on_date.uah.end}</td>
@@ -53,4 +57,8 @@ export class Total extends React.Component{
 			</tr>
 		)
 	}
+}
+Total.propTypes = {
+	movements: PropTypes.array.isRequired,
+
 }

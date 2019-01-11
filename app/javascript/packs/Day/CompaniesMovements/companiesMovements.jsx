@@ -115,7 +115,8 @@ export class CompaniesMovements extends React.Component{
 						}
 
 						{
-							<Total			
+							<Total
+								movements={this.props.allMovements}
 
 							/>
 						}

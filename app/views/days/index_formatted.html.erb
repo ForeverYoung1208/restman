@@ -9,7 +9,7 @@
   </div>
   <div class="row">
 
-    <div class="col-md-5">
+    <div class="col-md-10">
       <table class="table p-2">
         <thead>
           <tr>
@@ -17,6 +17,7 @@
             <th>Дата</th>
             <th>Відкритий?</th>
             <th>Коментар</th>
+            <th>Рух</th>
           </tr>
         </thead>
 
@@ -27,6 +28,7 @@
               <td><%= link_to day.date, by_date_movements_path(date: day.date) %></td>
               <td><%= yn !day.is_closed %></td>
               <td><%= day.comment %></td>
+              <td><%= day.movements_list %></td>
              
             </tr>
           <% end %>
