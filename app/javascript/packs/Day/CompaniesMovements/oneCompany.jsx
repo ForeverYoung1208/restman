@@ -21,11 +21,14 @@ export class OneCompany extends React.Component{
 
 	companyAccountsSaldo = (allAccounts) =>{
 		const sumByCurr = (curr)=>{
-			return(
-				allAccounts.filter(a => (a.currency.name_int == curr)&&(a.company_id == this.props.company.id))
+			const begin = allAccounts.filter(a => (a.currency.name_int == curr)&&(a.company_id == this.props.company.id))
 					.reduce( (sum, a) => sum+=parseFloat(a.saldo_on_date), 0)
-			)
+			const movs = this.sumMovsByCurrency(curr, this.props.movements )
+			const end = begin + movs.income - movs.outcome
+
+			return({begin:begin, end: end})
 		}
+
 		return{
 			uah: sumByCurr('UAH'),
 			usd: sumByCurr('USD'),
@@ -61,9 +64,9 @@ export class OneCompany extends React.Component{
 			<tr >
 				<td className="i-text">{	company.code_name}, (id: {company.id})</td>
 
-				<td>{saldo_on_date.uah}</td>
-				<td>{saldo_on_date.usd}</td>
-				<td>{saldo_on_date.eur}</td>
+				<td>{saldo_on_date.uah.begin}</td>
+				<td>{saldo_on_date.usd.begin}</td>
+				<td>{saldo_on_date.eur.begin}</td>
 
 				<td>{this.sumMovsByCurrency('UAH', movements).income}</td>
 				<td>{this.sumMovsByCurrency('USD', movements).income}</td>
@@ -81,9 +84,10 @@ export class OneCompany extends React.Component{
 					{	commentsWrapper('Outcome')	}
 				</td>
 				
-				<td>UAH</td>
-				<td>USD</td>
-				<td>EUR</td>
+				<td>{saldo_on_date.uah.end}</td>
+				<td>{saldo_on_date.usd.end}</td>
+				<td>{saldo_on_date.eur.end}</td>
+
 
 
 			</tr>

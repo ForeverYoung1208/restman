@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import {OneCompany} from "./oneCompany"
+import {Total} from "./total"
 
 const GroupCheckbox = (props) => {
 	return(
@@ -112,6 +113,13 @@ export class CompaniesMovements extends React.Component{
 								/>) 
 							) 
 						}
+
+						{
+							<Total			
+
+							/>
+						}
+
 					</tbody>
 				</table>
 			</div>	
