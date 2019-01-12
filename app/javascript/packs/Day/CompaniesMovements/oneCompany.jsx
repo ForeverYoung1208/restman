@@ -45,11 +45,12 @@ export class OneCompany extends React.Component{
 		const commentsWrapper = (direction) => {
 			return(
 					isGrouped ? <Gcomment
-												movements={movements} 
+												movements={movements.filter(m => m.direction == direction)} 
+												voc={voc}
 											/> 
 										: <CommentsBlock 
 												movements={movements} 
-												voc={{...this.props.voc, company_id: company.id}}
+												voc={{...voc, company_id: company.id}}
 												direction={direction}
 												loadingMovementsIds={loadingMovementsIds}
 											/> 

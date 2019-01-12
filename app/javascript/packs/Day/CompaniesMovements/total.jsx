@@ -23,7 +23,7 @@ export class Total extends React.Component{
 			eur:{begin:1, end:2},
 		}
 
-		const {movements} = this.props
+		const {movements, voc} = this.props
 
 		return(
 			<tr >
@@ -37,7 +37,10 @@ export class Total extends React.Component{
 				<td>{this.sumMovsByCurrency('USD', movements).income}</td>
 				<td>{this.sumMovsByCurrency('EUR', movements).income}</td>
 				<td className="i-text">
-					<Gcomment movements={movements.filter(m => m.direction=="Income")} /> 
+					<Gcomment
+						movements={movements.filter(m => m.direction=="Income")} 
+						voc={voc}
+					/> 
 				</td>
 
 
@@ -45,7 +48,10 @@ export class Total extends React.Component{
 				<td>{this.sumMovsByCurrency('USD', movements).outcome}</td>
 				<td>{this.sumMovsByCurrency('EUR', movements).outcome}</td>
 				<td className="i-text">
-					<Gcomment movements={movements.filter(m => m.direction=="Outcome")} /> 
+					<Gcomment 
+						movements={movements.filter(m => m.direction=="Outcome")} 
+						voc={voc}
+					/> 
 				</td>
 				
 				<td>{saldo_on_date.uah.end}</td>
@@ -60,5 +66,6 @@ export class Total extends React.Component{
 }
 Total.propTypes = {
 	movements: PropTypes.array.isRequired,
+	voc:PropTypes.object.isRequired,
 
 }

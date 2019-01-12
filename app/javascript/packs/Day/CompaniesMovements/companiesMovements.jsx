@@ -117,6 +117,7 @@ export class CompaniesMovements extends React.Component{
 						{
 							<Total
 								movements={this.props.allMovements}
+								voc={this.props.voc}
 
 							/>
 						}

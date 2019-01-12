@@ -48,3 +48,8 @@ export const Spinner = ()=>{
 		</div> 
 	)
 }
+
+export const AddNaN = (...args)=> {
+	let res = args.reduce( (sum, arg) => sum += Number.isNaN(arg)||(!arg) ? 0 : parseFloat(arg) , 0 )
+  return( res  )
+}
