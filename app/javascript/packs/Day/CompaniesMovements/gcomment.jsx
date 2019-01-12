@@ -43,3 +43,4 @@ Gcomment.propTypes = {
 	voc:PropTypes.object.isRequired,
 }
 
+//test
