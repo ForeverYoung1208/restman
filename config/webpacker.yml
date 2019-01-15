@@ -36,13 +36,13 @@ development:
   dev_server:
     https: false
 
-    # host: 192.168.99.51
-    host: 192.168.0.162
+    host: 192.168.99.51
+    # host: 192.168.0.162
 
     port: 3035
 
-    # public: 192.168.99.51:3035
-    public: 192.168.0.162:3035
+    public: 192.168.99.51:3035
+    # public: 192.168.0.162:3035
 
     hmr: false
     # Inline should be set to true if using HMR

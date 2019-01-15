@@ -4,44 +4,45 @@ import Gcomment from "./gcomment"
 import {EditMovement} from "./EditMovement/editMovement"
 import {CommentsBlock} from "./commentsBlock"
 
+
+export const sumMovsByCurrency = (currency = 'UAH', allMovs) => {
+	let income = 0, outcome = 0
+	let sum = 0
+	if (allMovs && allMovs.length>0){
+		income = allMovs.reduce( (sum, m) =>  (m.direction=='Income' && m.currency==currency) ? (sum += m.value ) : sum, sum = 0)
+		outcome = allMovs.reduce( (sum, m) =>  (m.direction=='Outcome' && m.currency==currency) ? (sum += m.value ) : sum, sum = 0)
+	}
+  return {income: income, outcome:outcome}
+}
+
+export const accountsSaldo = (allAccounts, movements, company) =>{
+	const sumByCurr = (curr)=>{
+		const begin = allAccounts.filter(a => (a.currency.name_int == curr)&&(company ? a.company_id == company.id : true))
+				.reduce( (sum, a) => sum+=parseFloat(a.saldo_on_date), 0)
+		const movs = sumMovsByCurrency(curr, movements )
+		const end = begin + movs.income - movs.outcome
+
+		return({begin:begin, end: end})
+	}
+
+	return{
+		UAH: sumByCurr('UAH'),
+		USD: sumByCurr('USD'),
+		EUR: sumByCurr('EUR'),
+	}
+}
+
+
 export class OneCompany extends React.Component{
 	constructor(props){
 		super(props)
 	}
 
-	sumMovsByCurrency = (currency = 'UAH', allMovs) => {
-		let income = 0, outcome = 0
-		let sum = 0
-		if (allMovs && allMovs.length>0){
-			income = allMovs.reduce( (sum, m) =>  (m.direction=='Income' && m.currency==currency) ? (sum += m.value ) : sum, sum = 0)
-			outcome = allMovs.reduce( (sum, m) =>  (m.direction=='Outcome' && m.currency==currency) ? (sum += m.value ) : sum, sum = 0)
-		}
-	  return {income: income, outcome:outcome}
-	}
-
-	companyAccountsSaldo = (allAccounts) =>{
-		const sumByCurr = (curr)=>{
-			const begin = allAccounts.filter(a => (a.currency.name_int == curr)&&(a.company_id == this.props.company.id))
-					.reduce( (sum, a) => sum+=parseFloat(a.saldo_on_date), 0)
-			const movs = this.sumMovsByCurrency(curr, this.props.movements )
-			const end = begin + movs.income - movs.outcome
-
-			return({begin:begin, end: end})
-		}
-
-		return{
-			uah: sumByCurr('UAH'),
-			usd: sumByCurr('USD'),
-			eur: sumByCurr('EUR'),
-		}
-
-	}
-
-
-	
+		
 	render(){
 		const {company, movements, isGrouped, voc, loadingMovementsIds} = this.props
-		const saldo_on_date = this.companyAccountsSaldo(voc.accsList)
+		const saldo_on_date = accountsSaldo(voc.accsList,	movements, company)
+
 		const commentsWrapper = (direction) => {
 			return(
 					isGrouped ? <Gcomment
@@ -62,29 +63,29 @@ export class OneCompany extends React.Component{
 			<tr >
 				<td className="i-text">{	company.code_name}, (id: {company.id})</td>
 
-				<td>{saldo_on_date.uah.begin}</td>
-				<td>{saldo_on_date.usd.begin}</td>
-				<td>{saldo_on_date.eur.begin}</td>
+				<td>{saldo_on_date.UAH.begin}</td>
+				<td>{saldo_on_date.USD.begin}</td>
+				<td>{saldo_on_date.EUR.begin}</td>
 
-				<td>{this.sumMovsByCurrency('UAH', movements).income}</td>
-				<td>{this.sumMovsByCurrency('USD', movements).income}</td>
-				<td>{this.sumMovsByCurrency('EUR', movements).income}</td>
+				<td>{sumMovsByCurrency('UAH', movements).income}</td>
+				<td>{sumMovsByCurrency('USD', movements).income}</td>
+				<td>{sumMovsByCurrency('EUR', movements).income}</td>
 				<td className="i-text">
 					{	commentsWrapper('Income')	}
 
 				</td>
 
 
-				<td>{this.sumMovsByCurrency('UAH', movements).outcome}</td>
-				<td>{this.sumMovsByCurrency('USD', movements).outcome}</td>
-				<td>{this.sumMovsByCurrency('EUR', movements).outcome}</td>
+				<td>{sumMovsByCurrency('UAH', movements).outcome}</td>
+				<td>{sumMovsByCurrency('USD', movements).outcome}</td>
+				<td>{sumMovsByCurrency('EUR', movements).outcome}</td>
 				<td className="i-text">
 					{	commentsWrapper('Outcome')	}
 				</td>
 				
-				<td>{saldo_on_date.uah.end}</td>
-				<td>{saldo_on_date.usd.end}</td>
-				<td>{saldo_on_date.eur.end}</td>
+				<td>{saldo_on_date.UAH.end}</td>
+				<td>{saldo_on_date.USD.end}</td>
+				<td>{saldo_on_date.EUR.end}</td>
 
 
 

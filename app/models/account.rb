@@ -6,7 +6,7 @@ class Account < ApplicationRecord
 
   has_many :movements
 
-	validates :number, :bank, :currency, :company, :acc_type, presence: true
+	validates :number, :bank, :currency, :company, :acc_type, :saldo_begin_year, presence: true
 
 	def saldo_on_date(date = nil)
     begin_of_year = date ? date[0..3]+'-01-01' : DateTime.now.year.to_s+'-01-01'
