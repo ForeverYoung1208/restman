@@ -15,7 +15,10 @@ export const sumMovsByCurrency = (currency = 'UAH', allMovs) => {
   return {income: income, outcome:outcome}
 }
 
-export const accountsSaldo = (allAccounts, movements, company) =>{
+// counts saldo on all given allAccounts(using each account.saldo_on_date property) by given company (if given),
+// before movements (.begin) property and after movements (.end property) using all given movements 
+// (regardless of dates of account saldo's and movements) so take care of it)
+export const accountsSaldo = (allAccounts, movements, company=null) =>{
 	const sumByCurr = (curr)=>{
 		const begin = allAccounts.filter(a => (a.currency.name_int == curr)&&(company ? a.company_id == company.id : true))
 				.reduce( (sum, a) => sum+=parseFloat(a.saldo_on_date), 0)

@@ -13,13 +13,18 @@ export class Total extends React.Component{
 	render(){
 
 
-		let saldo_on_date = {
-			UAH:{begin:1, end:2},
-			USD:{begin:1, end:2},
-			EUR:{begin:1, end:2},
-		}
+		// let saldo_on_date = {
+		// 	UAH:{begin:1, end:2},
+		// 	USD:{begin:1, end:2},
+		// 	EUR:{begin:1, end:2},
+		// }
 
-		const {movements, voc} = this.props
+		const {movements, voc, companiesSelectedIds} = this.props
+		const movementsCounted = movements.filter(m=> companiesSelectedIds.includes(m.company_id))
+		const saldo_on_date = accountsSaldo(
+			voc.accsList.filter(a=> companiesSelectedIds.includes(a.company_id)), 
+			movementsCounted
+		)
 
 		return(
 			<tr >
@@ -29,23 +34,23 @@ export class Total extends React.Component{
 				<td>{saldo_on_date.USD.begin}</td>
 				<td>{saldo_on_date.EUR.begin}</td>
 
-				<td>{sumMovsByCurrency('UAH', movements).income}</td>
-				<td>{sumMovsByCurrency('USD', movements).income}</td>
-				<td>{sumMovsByCurrency('EUR', movements).income}</td>
+				<td>{sumMovsByCurrency('UAH', movementsCounted).income}</td>
+				<td>{sumMovsByCurrency('USD', movementsCounted).income}</td>
+				<td>{sumMovsByCurrency('EUR', movementsCounted).income}</td>
 				<td className="i-text">
 					<Gcomment
-						movements={movements.filter(m => m.direction=="Income")} 
+						movements={movementsCounted.filter(m => m.direction=="Income")} 
 						voc={voc}
 					/> 
 				</td>
 
 
-				<td>{sumMovsByCurrency('UAH', movements).outcome}</td>
-				<td>{sumMovsByCurrency('USD', movements).outcome}</td>
-				<td>{sumMovsByCurrency('EUR', movements).outcome}</td>
+				<td>{sumMovsByCurrency('UAH', movementsCounted).outcome}</td>
+				<td>{sumMovsByCurrency('USD', movementsCounted).outcome}</td>
+				<td>{sumMovsByCurrency('EUR', movementsCounted).outcome}</td>
 				<td className="i-text">
 					<Gcomment 
-						movements={movements.filter(m => m.direction=="Outcome")} 
+						movements={movementsCounted.filter(m => m.direction=="Outcome")} 
 						voc={voc}
 					/> 
 				</td>
@@ -63,5 +68,6 @@ export class Total extends React.Component{
 Total.propTypes = {
 	movements: PropTypes.array.isRequired,
 	voc:PropTypes.object.isRequired,
+	companiesSelectedIds: PropTypes.array.isRequired,
 
 }

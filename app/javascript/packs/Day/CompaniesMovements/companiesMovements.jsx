@@ -92,33 +92,34 @@ export class CompaniesMovements extends React.Component{
 	
 
 	render(){
+		const {companies, allMovements, isGrouped, voc, loadingMovementsIds} = this.props
 		return(
 			<div className='table-responsive'>
 				<table className="table movements-table">
 					<TableHead
-						isGrouped={this.props.isGrouped}
+						isGrouped={isGrouped}
 						mGroupClick={this.handleMGroupClick}
 
 					/>
 					<tbody>
 						{ 
-							this.props.companies.map( (c) => 
+							companies.map( (c) => 
 								(<OneCompany 
 									key={c.id} 
 									company={c} 
-									movements={this.props.allMovements.filter( m => m.company_id == c.id)} 
-									isGrouped={this.props.isGrouped}
-									voc={this.props.voc}
-									loadingMovementsIds={this.props.loadingMovementsIds}
+									movements={allMovements.filter( m => m.company_id == c.id)} 
+									isGrouped={isGrouped}
+									voc={voc}
+									loadingMovementsIds={loadingMovementsIds}
 								/>) 
 							) 
 						}
 
 						{
 							<Total
-								movements={this.props.allMovements}
-								voc={this.props.voc}
-
+								movements={allMovements}
+								voc={voc}
+								companiesSelectedIds = {companies.map(c=>c.id)}
 							/>
 						}
 

@@ -169,6 +169,7 @@ export class Day extends React.Component {
 				companiesSelected: [...resj]
 			}));
 		})
+
 	}
 
 	handleDateChanged = (newDate) => {
