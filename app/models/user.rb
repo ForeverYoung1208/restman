@@ -79,46 +79,56 @@ class User < ApplicationRecord
   end
   
   def can_view_movement_groups?
-    true
+    # true
+    is_admin
   end
   
   def can_view_days?
-    true
+    # true
+    is_admin
   end
   def can_view_companies?
-    true
+    # true
+    is_admin
   end
   def can_view_groups?
-    true
+    # true
+    is_admin
   end    
   def can_view_banks?
-    true
+    # true
+    is_admin
   end    
   def can_view_users?
-    true
+    # true
+    is_admin
   end  
   def can_view_roles?
-    true
+    # true
+    is_admin
   end    
   def can_view_accounts?
-    true
+    # true
+    is_admin
   end    
   def can_view_acc_types?
-    true
+    # true
+    is_admin
   end
 
   def can_view_currencies?
-    true
+    # true
+    is_admin
   end
 
   def can_edit_users?
-    true
+    # true
+    is_admin
   end  
 
   def can_update_roles?
-    true
-
-    # is_admin
+    # true
+    is_admin
   end  
 
 
