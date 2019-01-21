@@ -6,9 +6,9 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 const DateChangeConfirm = (props) => {
 	return(
 		<Modal isOpen={props.is_shown} toggle={props.toggle}>
-			<ModalHeader toggle={props.toggle}>Are You sure?</ModalHeader>
+			<ModalHeader toggle={props.toggle}>Попередження</ModalHeader>
 			<ModalBody>
-					The working date will be changed!!
+					Робочу дату буде змінено, незбережені зіни втрачено. Ок?
 			</ModalBody>
 			<ModalFooter>
 					<Button color="primary" onClick={props.onOk}>Ok</Button>{' '}

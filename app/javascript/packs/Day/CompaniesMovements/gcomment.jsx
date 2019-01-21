@@ -13,7 +13,7 @@ export default class Gcomment extends React.Component {
 		movements.forEach( (m) =>{
 			res[m.currency][m.group_name] = { 
 				value: AddNaN(res[m.currency][m.group_name] ? res[m.currency][m.group_name].value : 0 , m.value) ,
-				comment: ( (res[m.currency][m.group_name]&&res[m.currency][m.group_name].length>1) ? res[m.currency][m.group_name].comment+', ' : '') + (m.comment ? m.comment : '')
+				comment: ( (res[m.currency][m.group_name]&&res[m.currency][m.group_name].comment.length>1) ? res[m.currency][m.group_name].comment+', ' : '') + (m.comment ? m.comment : '')
 			}
 		})
 		return(res)

@@ -54,7 +54,7 @@ export class EditMovement extends React.Component{
 
 
 	render(){
-		const {movsGroupsList, currsList, handleMovSave} = this.props.voc
+		const {movsGroupsList, currsList, handleMovSave, handleMovDelete} = this.props.voc
 		const {cancelClick} = this.props
 		const {alf, m, is_changed} = this.state
 	
@@ -67,7 +67,7 @@ export class EditMovement extends React.Component{
 					/>
 
 
-					<Input id="groups-select" type="select" className="col-md-4"
+					<Input id="groups-select" type="select" className="col-md-6"
 									defaultValue={m.movement_group_id}
 									onChange={this.handleMovsGroupChange}
 					>
@@ -75,6 +75,14 @@ export class EditMovement extends React.Component{
 						{movsGroupsList.filter(mg=> mg.direction==m.direction)
 							.map( (mg) => ( <option key={mg.id} value={mg.id}> {mg.name} </option>	))}
 					</Input>
+
+					<Button className='btn-warning col-md-1 p-0 m-0'
+						onClick = {() => handleMovDelete(m)}>
+						<span className='fa fa-trash'></span>
+					</Button>
+
+
+
 				</div>
 				<div className="row">
 					<div className="col-md-11">
@@ -115,7 +123,12 @@ export class EditMovement extends React.Component{
 }
 
 EditMovement.propTypes = {
-	voc: PropTypes.object.isRequired, // + company_id from OneCompany
+	voc: PropTypes.shape({
+		handleMovSave: PropTypes.func.isRequired,
+		handleMovDelete: PropTypes.func.isRequired,
+	}).isRequired, // + company_id from OneCompany
+
+
 	cancelClick: PropTypes.func.isRequired,
 	defMovVals: PropTypes.shape({
 		account_id: PropTypes.number,
@@ -132,7 +145,7 @@ EditMovement.propTypes = {
 		updated_at: PropTypes.string,
 		value: PropTypes.number,
 		currency: PropTypes.string,
-		currency_id: PropTypes.number
+		currency_id: PropTypes.number,
 	}).isRequired
 }
 

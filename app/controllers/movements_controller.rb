@@ -84,10 +84,15 @@ class MovementsController < ApplicationController
   # DELETE /movements/1
   # DELETE /movements/1.json
   def destroy
-    @movement.destroy
-    respond_to do |format|
-      format.html { redirect_to movements_url, notice: 'Movement was successfully destroyed.' }
-      format.json { head :no_content }
+    # @movement.destroy
+    if @movement.update(deleted_at: DateTime.now)
+      respond_to do |format|
+        format.html { redirect_to movements_url, notice: 'Movement was marked as deleted.' }
+        format.json { head :no_content }
+      end
+    else
+      format.html { redirect_to movements_url, notice: 'error deleting movement.' }
+      format.json { render json: @movement.errors, status: :unprocessable_entity }
     end
   end
 

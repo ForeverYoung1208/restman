@@ -45,7 +45,8 @@ export class Day extends React.Component {
 					movsGroupsList: [],
 					currsList:[],
 			  	accsList:[],
-			  	handleMovSave: this.handleMovSaving
+			  	handleMovSave: this.handleMovSaving,
+			  	handleMovDelete: this.handleMovDelete
 				}
 		}
 	}
@@ -90,11 +91,37 @@ export class Day extends React.Component {
 					this.setState({loadingMovementsIds: this.state.loadingMovementsIds.filter(id => (id!=m.id&&id!=-1))})
 				}
 			)
-			
-			
 		} else{
 			alert(`${m.day_id>0 ? '':'день'} ${m.company_id>0 ? '':'компанія'} ${m.account_id>0 ? '':'рахунок ' } ${m.movement_group_id>0 ? '': 'категорія платежів '}мають бути обрані!`)
 		}
+	}
+
+	handleMovDelete = (m) => {
+	  if (confirm('Дісно видалити?')){
+	  	console.log({'deleting': m})
+
+			postDataAsJSON(`/movements/${m.id}.json`, 'DELETE', {}, 
+				(response)=>{ 
+					if (!response.ok) {
+						this.setState({loadingMovementsIds: this.state.loadingMovementsIds.filter(id => (id!=m.id&&id!=-1))})
+						alert('error saving to database: '+response.status+ '-'+response.statusText)
+					} else {
+						console.log({'ok-deleted':this.state.allMovements.filter(id => id != m.id)})
+
+						this.setState(prevState => ({
+							allMovements: prevState.allMovements.filter(mov => mov.id != m.id)
+						}))
+					}
+				},
+				(err)=>{
+					alert('error connecting server') 
+					console.log(err)
+					this.setState({loadingMovementsIds: this.state.loadingMovementsIds.filter(id => (id!=m.id&&id!=-1))})
+				}
+			)
+
+
+	  }
 	}
 
 	componentDidMount = () => {

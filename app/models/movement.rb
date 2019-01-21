@@ -4,6 +4,8 @@ class Movement < ApplicationRecord
 	belongs_to :last_editor, class_name: :User, foreign_key: :last_editor_id
 	belongs_to :day
 
+  default_scope { where('deleted_at IS NULL') }
+
 	enum direction: {Income: 0, Outcome: 1}
 
   def self.permitted_for_user(user)
