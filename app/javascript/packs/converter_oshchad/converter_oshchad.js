@@ -18,7 +18,7 @@ function toDecimalOut(v) {
 
 function redIf( compare ){
   let a = compare
-  console.log( a )
+  // console.log( a )
   if ( compare() ){
     return 'class="alert alert-danger"'
   }
@@ -221,6 +221,7 @@ class  Movements extends Object{
 
 
 var reader = new FileReader();
+reader.doDraw = true;
 reader.onload = function(e) {
   var data = e.target.result;
   if(!rABS) data = new Uint8Array(data);
@@ -230,26 +231,27 @@ reader.onload = function(e) {
   let movements = new Movements( workbook )
   const jqElementTable = $('table#result')
 
-  movements.drawTo(jqElementTable)
-  console.log(movements)
+  this.doDraw ? movements.drawTo(jqElementTable) : console.log({'doDraw-is-false':this})
+  // console.log(movements)
+
   /* DO SOMETHING WITH workbook HERE */
 
 };
 
 
-function handleDrop(e) {
+export function handleDrop(e) {
 	e.stopPropagation(); e.preventDefault();
   var files = e.dataTransfer.files, f = files[0];
   if(rABS) reader.readAsBinaryString(f); else reader.readAsArrayBuffer(f);
 }
 
-function handleDragover(e) {
+export function handleDragover(e) {
 	e.stopPropagation();
 	e.preventDefault();
 	e.dataTransfer.dropEffect = 'copy';
 }
 
-function handleFile(e) {
+export function handleFile(e) {
   var files = e.target.files, f = files[0];
   if(rABS) reader.readAsBinaryString(f); else reader.readAsArrayBuffer(f);
 }

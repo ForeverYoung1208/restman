@@ -46,9 +46,14 @@ export class Day extends React.Component {
 					currsList:[],
 			  	accsList:[],
 			  	handleMovSave: this.handleMovSaving,
-			  	handleMovDelete: this.handleMovDelete
+			  	handleMovDelete: this.handleMovDelete,
+			  	handleMassMovAdd: this.handleMassMovAdd
 				}
 		}
+	}
+
+	handleMassMovAdd = (e) => {
+	  console.log( {'handleMassMovAdd':e} )
 	}
 	
 	handleMovSaving = (m) => {
@@ -119,10 +124,10 @@ export class Day extends React.Component {
 					this.setState({loadingMovementsIds: this.state.loadingMovementsIds.filter(id => (id!=m.id&&id!=-1))})
 				}
 			)
-
-
 	  }
 	}
+
+
 
 	componentDidMount = () => {
 		this.getDay( this.state.date )

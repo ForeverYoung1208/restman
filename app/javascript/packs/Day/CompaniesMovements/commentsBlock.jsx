@@ -4,6 +4,7 @@ import {EditMovement} from "./EditMovement/editMovement"
 import {Button } from 'reactstrap'
 import {Spinner} from "../../i-services"
 
+import {handleDrop, handleDragover, handleFile} from "../../converter_oshchad/converter_oshchad"
 
 const Comment = (props) => {
 	const {movement, edMovId, voc, cancelClick} = props
@@ -84,10 +85,16 @@ export class CommentsBlock extends React.Component{
 		}
 
 		const addButton = <div className="row justify-content-center">
-						<div className="col-6">
+						<div className="col-5 p-0">
 							<Button type="button" className="btn btn-light p-0 my-vButton" onClick={()=>this.edClickHandle(-1)}>
 								<span className="fa fa-plus"></span>
 							</Button>
+						</div>
+						<div className="col-5 p-0">
+							<Button type="button" className="btn btn-light p-0 my-vButton massAddBtn" onClick={voc.handleMassMovAdd}>
+								<span className="fa fa-cart-plus"></span>
+								виписка ОБ
+							</Button>							
 						</div>
 					</div>
 
@@ -145,6 +152,10 @@ export class CommentsBlock extends React.Component{
 CommentsBlock.propTypes = {
 	movements: PropTypes.array.isRequired,
 	direction: PropTypes.string.isRequired,
-	voc: PropTypes.object.isRequired,   //+ company_id needed
+	// voc: PropTypes.object.isRequired,   //+ company_id needed
+	voc: PropTypes.shape({
+		company_id: PropTypes.number.isRequired,
+		handleMassMovAdd: PropTypes.func.isRequired		
+	}).isRequired,
 	loadingMovementsIds: PropTypes.array.isRequired
 }
