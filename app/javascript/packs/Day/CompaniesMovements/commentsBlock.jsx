@@ -58,12 +58,18 @@ export class CommentsBlock extends React.Component{
 		}
 	}
 
-	edClickHandle = (edId) =>{
+	edClickHandle = (edId)=>{
 		this.setState({
 			edMovId: [...this.state.edMovId, edId]
 		})
 		
 	}
+
+	_handleMassMovAdd = (e)=>{
+		console.log(e)
+		this.props.voc.handleMassMovAdd('mess')
+	}
+
 
 	edCancelHandle = (m) => {
 		this.setState({
@@ -91,7 +97,7 @@ export class CommentsBlock extends React.Component{
 							</Button>
 						</div>
 						<div className="col-5 p-0">
-							<Button type="button" className="btn btn-light p-0 my-vButton massAddBtn" onClick={voc.handleMassMovAdd}>
+							<Button type="button" className="btn btn-light p-0 my-vButton massAddBtn" onClick={this._handleMassMovAdd}>
 								<span className="fa fa-cart-plus"></span>
 								виписка ОБ
 							</Button>							
