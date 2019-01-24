@@ -66,8 +66,13 @@ export class CommentsBlock extends React.Component{
 	}
 
 	_handleMassMovAdd = (e)=>{
-		console.log(e)
-		this.props.voc.handleMassMovAdd('mess')
+
+		let newMovements={stub1:1,stub2:2,stub3:3}
+
+		this.props.voc.handleMassMovAdd({
+				company_id:this.props.voc.company_id,
+				newMovements:newMovements
+			})
 	}
 
 
