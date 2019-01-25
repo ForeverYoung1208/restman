@@ -228,15 +228,37 @@ reader.onload = function(e) {
   var workbook = XLSX.read(data, {type: rABS ? 'binary' : 'array'});
 
   /* DO SOMETHING WITH workbook HERE */    
-  let movements = new Movements( workbook )
+  const movements = new Movements( workbook )
   const jqElementTable = $('table#result')
 
   this.doDraw ? movements.drawTo(jqElementTable) : console.log({'doDraw-is-false':this})
+
   // console.log(movements)
 
   /* DO SOMETHING WITH workbook HERE */
 
 };
+
+/////////////// TODO
+const readOshchad = (f) =>{
+  const _reader = new FileReader();
+  return new Promise((resolve, reject)=>{
+    _reader.onerror = () =>{
+      _reader.abort();
+      reject(new DOMException("Problem parsing input file."));
+    };
+
+    _reader.onload = () =>{
+
+    }
+
+  })
+
+
+};
+
+
+
 
 
 export function handleDrop(e) {
