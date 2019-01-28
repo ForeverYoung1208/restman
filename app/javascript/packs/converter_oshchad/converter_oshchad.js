@@ -233,33 +233,22 @@ reader.onload = function(e) {
 
   this.doDraw ? movements.drawTo(jqElementTable) : console.log({'doDraw-is-false':this})
 
-  // console.log(movements)
-
-  /* DO SOMETHING WITH workbook HERE */
-
 };
 
 /////////////// TODO implement this!
-export const readOshchad = (f) =>{
+export const readOshchad = (files) =>{
   const _reader = new FileReader();
-  return new Promise((resolve, reject)=>{
-    _reader.onerror = () =>{
-      _reader.abort();
-      reject(new DOMException("Problem parsing input file."));
-    };
-
-    _reader.onload = (f) =>{
-      let _data = f.target.result;
+  let _files = files, _f = _files[0];
+  if(rABS) _reader.readAsBinaryString(_f); else _reader.readAsArrayBuffer(_f);  
+  return new Promise ( (resolve,reject) => {
+    _reader.onload = (e) =>{
+      let _data = e.target.result;
       if(!rABS) _data = new Uint8Array(data);
       let _workbook = XLSX.read(_data, {type: rABS ? 'binary' : 'array'});
-
-      /* DO SOMETHING WITH workbook HERE */    
       const _movements = new Movements( _workbook )
       resolve(_movements)
     }
-
   })
-
 
 };
 

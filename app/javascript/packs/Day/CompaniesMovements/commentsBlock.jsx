@@ -1,10 +1,11 @@
 import React from "react"
 import PropTypes from "prop-types"
+import ReactFileReader from "react-file-reader"
 import {EditMovement} from "./EditMovement/editMovement"
-import {Button } from 'reactstrap'
+import {Button, Input } from 'reactstrap'
 import {Spinner} from "../../i-services"
 
-import {handleDrop, handleDragover, handleFile, readOshchad} from "../../converter_oshchad/converter_oshchad"
+import {readOshchad} from "../../converter_oshchad/converter_oshchad"
 
 const Comment = (props) => {
 	const {movement, edMovId, voc, cancelClick} = props
@@ -66,23 +67,17 @@ export class CommentsBlock extends React.Component{
 	}
 
 
-// TODO implement this!
-	componentDidMount = ()=>{
-		const drop = document.getElementById('drop-area')
-		drop.addEventListener('dragenter', handleDragover, false);
-		drop.addEventListener('dragover', handleDragover, false);
-		drop.addEventListener('drop', handleDrop, false);
-		const xlf = document.getElementById('xlf');
-		xlf.addEventListener('change', handleFile, false);
-  	console.log('inner converter ready')
-	}
-
 	_handleMassMovAdd = (e)=>{
-		let newMovements={stub1:1,stub2:2,stub3:3}
-		this.props.voc.handleMassMovAdd({
-				company_id:this.props.voc.company_id,
-				newMovements:newMovements
-			})
+
+		readOshchad(e).then(res=>console.log(res))
+
+
+
+		// let newMovements={stub1:1,stub2:2,stub3:3}
+		// this.props.voc.handleMassMovAdd({
+		// 		company_id:this.props.voc.company_id,
+		// 		newMovements:newMovements
+		// 	})
 	}
 
 
@@ -112,10 +107,12 @@ export class CommentsBlock extends React.Component{
 							</Button>
 						</div>
 						<div className="col-5 p-0">
-							<Button type="button" className="btn btn-light p-0 my-vButton massAddBtn" onClick={this._handleMassMovAdd}>
+							<ReactFileReader fileTypes={[".xls",".xlsx"]} handleFiles={this._handleMassMovAdd}>
+							  <Button type="button" className="btn btn-light p-0 my-vButton massAddBtn">
 								<span className="fa fa-cart-plus"></span>
-								виписка ОБ
-							</Button>							
+									виписка ОБ
+								</Button>	
+							</ReactFileReader>
 						</div>
 					</div>
 
