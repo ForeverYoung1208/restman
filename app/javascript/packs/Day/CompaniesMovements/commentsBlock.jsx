@@ -4,7 +4,7 @@ import {EditMovement} from "./EditMovement/editMovement"
 import {Button } from 'reactstrap'
 import {Spinner} from "../../i-services"
 
-import {handleDrop, handleDragover, handleFile} from "../../converter_oshchad/converter_oshchad"
+import {handleDrop, handleDragover, handleFile, readOshchad} from "../../converter_oshchad/converter_oshchad"
 
 const Comment = (props) => {
 	const {movement, edMovId, voc, cancelClick} = props
@@ -65,10 +65,20 @@ export class CommentsBlock extends React.Component{
 		
 	}
 
+
+// TODO implement this!
+	componentDidMount = ()=>{
+		const drop = document.getElementById('drop-area')
+		drop.addEventListener('dragenter', handleDragover, false);
+		drop.addEventListener('dragover', handleDragover, false);
+		drop.addEventListener('drop', handleDrop, false);
+		const xlf = document.getElementById('xlf');
+		xlf.addEventListener('change', handleFile, false);
+  	console.log('inner converter ready')
+	}
+
 	_handleMassMovAdd = (e)=>{
-
 		let newMovements={stub1:1,stub2:2,stub3:3}
-
 		this.props.voc.handleMassMovAdd({
 				company_id:this.props.voc.company_id,
 				newMovements:newMovements

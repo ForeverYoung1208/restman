@@ -239,8 +239,8 @@ reader.onload = function(e) {
 
 };
 
-/////////////// TODO
-const readOshchad = (f) =>{
+/////////////// TODO implement this!
+export const readOshchad = (f) =>{
   const _reader = new FileReader();
   return new Promise((resolve, reject)=>{
     _reader.onerror = () =>{
@@ -248,8 +248,14 @@ const readOshchad = (f) =>{
       reject(new DOMException("Problem parsing input file."));
     };
 
-    _reader.onload = () =>{
+    _reader.onload = (f) =>{
+      let _data = f.target.result;
+      if(!rABS) _data = new Uint8Array(data);
+      let _workbook = XLSX.read(_data, {type: rABS ? 'binary' : 'array'});
 
+      /* DO SOMETHING WITH workbook HERE */    
+      const _movements = new Movements( _workbook )
+      resolve(_movements)
     }
 
   })

@@ -6,6 +6,7 @@ import {Datepicker} from './Datepicker/datepicker'
 import {CompaniesSelect} from './CompaniesSelect/companiesSelect'
 import {GroupsSelect} from './GroupsSelect/groupsSelect'
 import {CompaniesMovements} from './CompaniesMovements/companiesMovements'
+
 import {fetchJSONfrom, postDataAsJSON, dashDateFormat} from '../i-services'
 
 
@@ -52,8 +53,9 @@ export class Day extends React.Component {
 		}
 	}
 
-	handleMassMovAdd = (e) => {
-	  console.log( {'handleMassMovAdd':e} )
+	handleMassMovAdd = (data) => {
+	  console.log( {'handleMassMovAdd':data} )
+
 	}
 	
 	handleMovSaving = (m) => {
