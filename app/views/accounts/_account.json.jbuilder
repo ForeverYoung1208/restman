@@ -1,6 +1,6 @@
 # json.extract! account, :id, :number, :bank, :currency, :saldo_begin_year, :company_id, :created_at, :updated_at
 json.id account.id
-json.number("#{account.currency.name_int} - #{account.number}")
+json.number("#{account.currency.name_int} #{account.number} (#{account.bank.name} #{account.bank.code})")
 json.bank account.bank
 json.currency account.currency
 json.saldo_begin_year account.saldo_begin_year

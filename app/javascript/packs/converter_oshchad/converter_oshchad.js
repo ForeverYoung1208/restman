@@ -248,6 +248,10 @@ export const readOshchad = (files) =>{
       const _movements = new Movements( _workbook )
       resolve(_movements)
     }
+    _reader.onerror = (e)=>{
+      _reader.abort();
+      reject({'error_opening_file':e});
+    }
   })
 
 };

@@ -53,8 +53,17 @@ export class Day extends React.Component {
 		}
 	}
 
-	handleMassMovAdd = (data) => {
-	  console.log( {'handleMassMovAdd':data} )
+
+// TODO implement this - adding movements from oshchad movements
+	handleMassMovAdd = (oshchMovs,company_id) => {
+	  console.log(company_id)
+	  oshchMovs.allDebit.forEach((dMov)=>{
+	  	console.log(dMov.data)
+	  })
+	  oshchMovs.allCredit.forEach((cMov)=>{
+	  	console.log(cMov.data)
+	  })
+
 
 	}
 	
