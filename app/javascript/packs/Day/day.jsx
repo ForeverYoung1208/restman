@@ -56,16 +56,62 @@ export class Day extends React.Component {
 
 // TODO implement this - adding movements from oshchad movements
 	handleMassMovAdd = (oshchMovs,company_id) => {
-	  console.log(company_id)
-	  oshchMovs.allDebit.forEach((dMov)=>{
-	  	console.log(dMov.data)
-	  })
-	  oshchMovs.allCredit.forEach((cMov)=>{
-	  	console.log(cMov.data)
-	  })
+		const newMovs=[];
+		// console.log( this.state.allMovements)
 
-
+	 //  console.log(company_id)
+		['allDebit','allCredit'].forEach((dc) =>
+		  oshchMovs[dc].forEach((mov)=>{
+		  	newMovs.push({
+		  		account_id: null, //??? TODO
+		  		comment: `${mov.data.info} (${mov.data.agent})`,
+		  		company_id: company_id,
+		  		currency_id: null, //??? TODO
+		  		currency: "UAH", //??? TODO
+		  		day_id: this.state.day.id,
+		  		direction: dc=='allDebit' ? "Income" : "Outcome",
+		  		id: -1,
+		  		log:null,
+		  		movement_group_id: null,
+		  		value: mov.data.sum
+		  	})
+		  })
+	  )
+		this.setState((prevState)=>({
+			allMovements: [...prevState.allMovements, ...newMovs]
+		}))
+  	console.log(newMovs)
 	}
+
+// oshchMov structure:
+// addr: "AJ20"
+// agent: "ПРАТ "ОБ'ЄДНАННЯ МІЖРАЙПОСТАЧ""
+// agentEdrpou: "00906166"
+// date: "29.12.2018"
+// info: "За послуги з-но акта   в т.ч. ПДВ 20% - 666.67 грн."
+// number: "57"
+// sum: 4000
+
+//movement structure;
+// account_id: 5
+// comment: "teeest100"
+// company_id: 3
+// created_at: "2019-01-08T11:12:13.000Z"
+// currency: "UAH"
+// currency_id: 1
+// currency_ukr: "грн."
+// day_id: 14
+// deleted_at: null
+// direction: "Income"
+// group_name: "Депозитарные доходы"
+// id: 5
+// last_editor_id: 5
+// log: null
+// movement_group_id: 1
+// updated_at: "2019-01-08T11:12:13.000Z"
+// value: 100
+
+
 	
 	handleMovSaving = (m) => {
 		m.day_id = this.state.day.id
