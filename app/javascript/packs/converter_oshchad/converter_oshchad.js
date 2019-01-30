@@ -55,6 +55,7 @@ class  Movements extends Object{
   constructor(oschadStruct){
     super();
     this.balanceParams = {
+      myAccountCell: 'G6',
       markerColumn: 'E',
       inBalanceColumn: 'AG',
       outBalanceColumn: 'AF',
@@ -78,6 +79,7 @@ class  Movements extends Object{
     this.outBalance = 0;
     this.dateBegin = '';
     this.dateEnd = '';
+    this.myAccNumber = ''
 
 
     this.allCredit = this.getMovFromOschad(oschadStruct, this.creditColumn, 'creditTotalBM');
@@ -86,7 +88,8 @@ class  Movements extends Object{
   }
 
   getBalFromOschad =(w, params) =>{
-    let {markerColumn, 
+    let {myAccountCell,
+      markerColumn, 
       outBalanceColumn, 
       creditTotalColumn,
       debitTotalColumn,
@@ -99,8 +102,10 @@ class  Movements extends Object{
 
     const cells = w.Sheets[ w.SheetNames[0] ];
     const res = new Array;
+    this.myAccNumber = cells[myAccountCell].v
 
     for( let cellName in cells ){
+
       if (cellName.slice(0,1) == markerColumn) {
 
         if (cells[cellName].v.slice(0, 10) == inBalanceMarker10){
@@ -235,7 +240,6 @@ reader.onload = function(e) {
 
 };
 
-/////////////// TODO implement this!
 export const readOshchad = (files) =>{
   const _reader = new FileReader();
   let _files = files, _f = _files[0];

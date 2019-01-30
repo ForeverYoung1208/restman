@@ -64,6 +64,7 @@ export class Day extends React.Component {
 		  oshchMovs[dc].forEach((mov)=>{
 		  	newMovs.push({
 		  		account_id: null, //??? TODO
+		  		myAccNumber: oshchMovs.myAccNumber,
 		  		comment: `${mov.data.info} (${mov.data.agent})`,
 		  		company_id: company_id,
 		  		currency_id: null, //??? TODO
