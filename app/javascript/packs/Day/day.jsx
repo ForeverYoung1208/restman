@@ -57,6 +57,7 @@ export class Day extends React.Component {
 // TODO implement this - adding movements from oshchad movements
 	handleMassMovAdd = (oshchMovs,company_id) => {
 		const newMovs=[];
+		let newId = -2;
 		// console.log( this.state.allMovements)
 
 	 //  console.log(company_id)
@@ -71,11 +72,12 @@ export class Day extends React.Component {
 		  		currency: "UAH", //??? TODO
 		  		day_id: this.state.day.id,
 		  		direction: dc=='allDebit' ? "Income" : "Outcome",
-		  		id: -1,
+		  		id: newId,
 		  		log:null,
 		  		movement_group_id: null,
 		  		value: mov.data.sum
 		  	})
+		  	newId -= 1;
 		  })
 	  )
 		this.setState((prevState)=>({
@@ -121,7 +123,9 @@ export class Day extends React.Component {
 			this.setState({loadingMovementsIds: [...this.state.loadingMovementsIds, m.id]})
 			console.log('---saving movement ----')
 			let url, httpMethod
-			if (m.id == -1){
+
+// CHANGED HERE == -1
+			if (m.id <= 0 ){
 				url = '/movements.json'
 				httpMethod = 'POST'
 				m.id = null
@@ -142,7 +146,7 @@ export class Day extends React.Component {
 							m.id ? newAllMovements = this.state.allMovements.map(	mOld => (mOld.id != result.id ? mOld : result))
 									:	newAllMovements = [...this.state.allMovements, result]
 							this.setState({
-								loadingMovementsIds: this.state.loadingMovementsIds.filter(id => (id!=m.id&&id!=-1)),
+								loadingMovementsIds: this.state.loadingMovementsIds.filter(id => (id!=m.id&&id>0)),
 								allMovements: newAllMovements
 							})
 						})
@@ -151,7 +155,7 @@ export class Day extends React.Component {
 				(err)=>{
 					alert('error connecting server') 
 					console.log(err)
-					this.setState({loadingMovementsIds: this.state.loadingMovementsIds.filter(id => (id!=m.id&&id!=-1))})
+					this.setState({loadingMovementsIds: this.state.loadingMovementsIds.filter(id => (id!=m.id&&id>0))})
 				}
 			)
 		} else{
