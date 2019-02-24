@@ -53,13 +53,13 @@ class BanksController < ApplicationController
 
   # DELETE /banks/1
   # DELETE /banks/1.json
-  def destroy
-    @bank.destroy
-    respond_to do |format|
-      format.html { redirect_to banks_url, notice: 'Bank was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
+  # def destroy
+    # @bank.destroy
+    # respond_to do |format|
+    #   format.html { redirect_to banks_url, notice: 'Bank was successfully destroyed.' }
+    #   format.json { head :no_content }
+    # end
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.

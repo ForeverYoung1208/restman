@@ -53,13 +53,13 @@ class AccTypesController < ApplicationController
 
   # DELETE /acc_types/1
   # DELETE /acc_types/1.json
-  def destroy
-    @acc_type.destroy
-    respond_to do |format|
-      format.html { redirect_to acc_types_url, notice: 'Acc type was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
+  # def destroy
+    # @acc_type.destroy
+    # respond_to do |format|
+    #   format.html { redirect_to acc_types_url, notice: 'Acc type was successfully destroyed.' }
+    #   format.json { head :no_content }
+    # end
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.

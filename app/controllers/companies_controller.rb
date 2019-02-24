@@ -59,13 +59,13 @@ class CompaniesController < ApplicationController
 
   # DELETE /companies/1
   # DELETE /companies/1.json
-  def destroy
-    @company.destroy
-    respond_to do |format|
-      format.html { redirect_to companies_url, notice: 'Company was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
+  # def destroy
+    # @company.destroy
+    # respond_to do |format|
+    #   format.html { redirect_to companies_url, notice: 'Company was successfully destroyed.' }
+    #   format.json { head :no_content }
+    # end
+  # end
 
   private
 

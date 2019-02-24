@@ -53,13 +53,13 @@ class RolesUsersController < ApplicationController
 
   # DELETE /roles_users/1
   # DELETE /roles_users/1.json
-  def destroy
-    @roles_user.destroy
-    respond_to do |format|
-      format.html { redirect_to roles_users_url, notice: 'Roles user was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
+  # def destroy
+  #   @roles_user.destroy
+  #   respond_to do |format|
+  #     format.html { redirect_to roles_users_url, notice: 'Roles user was successfully destroyed.' }
+  #     format.json { head :no_content }
+  #   end
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.

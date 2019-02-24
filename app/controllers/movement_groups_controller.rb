@@ -53,13 +53,13 @@ class MovementGroupsController < ApplicationController
 
   # DELETE /movement_groups/1
   # DELETE /movement_groups/1.json
-  def destroy
-    @movement_group.destroy
-    respond_to do |format|
-      format.html { redirect_to movement_groups_url, notice: 'Movement group was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
+  # def destroy
+  #   @movement_group.destroy
+  #   respond_to do |format|
+  #     format.html { redirect_to movement_groups_url, notice: 'Movement group was successfully destroyed.' }
+  #     format.json { head :no_content }
+  #   end
+  # end
 
   private
     # Use callbacks to share common setup or constraints between actions.

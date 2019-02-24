@@ -4,6 +4,8 @@ class Account < ApplicationRecord
   belongs_to :currency
   belongs_to :acc_type
 
+  default_scope {where('accounts.deleted_at IS NULL')}
+
   has_many :movements
 
 	validates :number, :bank, :currency, :company, :acc_type, :saldo_begin_year, presence: true

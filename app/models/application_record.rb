@@ -11,5 +11,9 @@ class ApplicationRecord < ActiveRecord::Base
   #     where(key_role: user.roles_names)
   #   end
   # end	
+  def lt_destroy
+    self.deleted_at = DateTime.now
+    self.save
+  end
 
 end
