@@ -37,6 +37,11 @@
   </div>
 
   <div class="field">
+    <%= form.label :is_default %>
+    <%= form.check_box :is_default %>
+  </div>
+
+  <div class="field">
     <%= form.label :acc_type_id %>
     <%= form.select :acc_type_id, AccType.all.collect{ |x| [x.name_ukr, x.id] }  %>
   </div>

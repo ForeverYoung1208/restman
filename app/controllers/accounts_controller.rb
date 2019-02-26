@@ -6,7 +6,7 @@ class AccountsController < ApplicationController
   
   ## TODO index only permitted for current user
   def index
-    @accounts = Account.all
+    @accounts = Account.all.order(:company_id)
     @date_of_saldo = params[:date_of_saldo]
   end
 
@@ -73,6 +73,6 @@ class AccountsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def account_params
       params.require(:account).permit(:number, :bank_id, :currency_id, :saldo_begin_year, 
-        :company_id, :term, :acc_type_id)
+        :company_id, :term, :acc_type_id, :is_default)
     end
 end

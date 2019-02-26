@@ -11,6 +11,7 @@
       <th>Currency</th>
       <th>Saldo begin year</th>
       <th>Company</th>
+      <th>is_default</th>
       <th>Type</th>
       <th>Term</th>
 
@@ -27,6 +28,7 @@
         <td><%= account.currency.name_int %></td>
         <td><%= account.saldo_begin_year %></td>
         <td><%= account.company.code_name %></td>
+        <td><%= account.is_default %></td>
         <td><%= account.acc_type.name_ukr %></td>
         <td><%= account.term.try( :strftime, "%d.%m.%Y" ) %></td>
 
