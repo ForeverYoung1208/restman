@@ -10,8 +10,8 @@ export class EditMovement extends React.Component{
 		const m = this.props.defMovVals   // 		defMovVals is required
 		this.state = {
 			alf:[], 				//accs List filtered
-			is_changed: false,
-			m: m 						//current movement being editted
+			is_changed: this.props.defMovVals.is_changed,
+			m: {...m, group_id:m.movement_group_id} 						//current movement being editted,  double movement_group_id as "group_id" to create movement parameter to send it to understandable rails model parameter
 		}
 	}
 
@@ -20,7 +20,7 @@ export class EditMovement extends React.Component{
 		const alf = accsList.filter((acc) => acc.company_id == company_id)
 	  this.setState({
 	  	alf: alf, 
-	  	is_changed: false,
+	  	// is_changed: false,
 	 	})
 	}
 
@@ -144,8 +144,9 @@ EditMovement.propTypes = {
 		log: PropTypes.string,
 		updated_at: PropTypes.string,
 		value: PropTypes.number,
-		currency: PropTypes.string,
-		currency_id: PropTypes.number,
+		is_changed: PropTypes.boolean
+		// currency: PropTypes.string,
+		// currency_id: PropTypes.number,
 	}).isRequired
 }
 

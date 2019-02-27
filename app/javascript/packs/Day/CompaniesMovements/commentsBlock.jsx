@@ -68,7 +68,14 @@ export class CommentsBlock extends React.Component{
 
 
 	_handleMassMovAdd = (e)=>{
-		readOshchad(e).then(oshchadMovements=>this.props.voc.handleMassMovAdd(oshchadMovements, this.props.voc.company_id))
+		readOshchad(e).then((oshchadMovements)=>{
+
+			const newMovIds = this.props.voc.handleMassMovAdd(oshchadMovements, this.props.voc.company_id)
+			this.setState({
+				edMovId: [...this.state.edMovId, ...newMovIds]
+			})
+
+		})
 	}
 
 

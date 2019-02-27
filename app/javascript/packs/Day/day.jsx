@@ -64,26 +64,29 @@ export class Day extends React.Component {
 		['allDebit','allCredit'].forEach((dc) =>
 		  oshchMovs[dc].forEach((mov)=>{
 		  	newMovs.push({
-		  		account_id: this.state.voc.accsList.filter(acc=>acc.company_id==company_id&&acc.is_default==true)[0],
+		  		account_id: this.state.voc.accsList.filter(acc=>acc.company_id==company_id&&acc.is_default==true)[0].id,
 		  		myAccNumber: oshchMovs.myAccNumber,
 		  		comment: `${mov.data.info} (${mov.data.agent})`,
 		  		company_id: company_id,
-		  		currency_id: null, //??? TODO
-		  		currency: "UAH", //??? TODO
+		  		currency_id: this.state.voc.currsList[0].id,
+		  		currency: this.state.voc.currsList[0].name_int,
 		  		day_id: this.state.day.id,
 		  		direction: dc=='allDebit' ? "Income" : "Outcome",
 		  		id: newId,
 		  		log:null,
 		  		movement_group_id: this.state.voc.movsGroupsList[0].id,
-		  		value: mov.data.sum
+		  		value: mov.data.sum, 
+		  		is_changed: true, //TODO: doesn't work ((((
 		  	})
 		  	newId -= 1;
 		  })
 	  )
 		this.setState((prevState)=>({
-			allMovements: [...prevState.allMovements, ...newMovs]
+			allMovements: [...prevState.allMovements, ...newMovs],
+
 		}))
   	console.log(newMovs)
+  	return newMovs.map(nm=>nm.id)
 	}
 
 // oshchMov structure:
