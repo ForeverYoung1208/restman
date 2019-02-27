@@ -64,7 +64,7 @@ export class Day extends React.Component {
 		['allDebit','allCredit'].forEach((dc) =>
 		  oshchMovs[dc].forEach((mov)=>{
 		  	newMovs.push({
-		  		account_id: null, //??? TODO
+		  		account_id: this.state.voc.accsList.filter(acc=>acc.company_id==company_id&&acc.is_default==true)[0],
 		  		myAccNumber: oshchMovs.myAccNumber,
 		  		comment: `${mov.data.info} (${mov.data.agent})`,
 		  		company_id: company_id,
@@ -74,7 +74,7 @@ export class Day extends React.Component {
 		  		direction: dc=='allDebit' ? "Income" : "Outcome",
 		  		id: newId,
 		  		log:null,
-		  		movement_group_id: null,
+		  		movement_group_id: this.state.voc.movsGroupsList[0].id,
 		  		value: mov.data.sum
 		  	})
 		  	newId -= 1;
