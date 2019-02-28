@@ -168,7 +168,6 @@ export class CommentsBlock extends React.Component{
 CommentsBlock.propTypes = {
 	movements: PropTypes.array.isRequired,
 	direction: PropTypes.string.isRequired,
-	// voc: PropTypes.object.isRequired,   //+ company_id needed
 	voc: PropTypes.shape({
 		company_id: PropTypes.number.isRequired,
 		handleMassMovAdd: PropTypes.func.isRequired		

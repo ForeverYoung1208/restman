@@ -19,9 +19,9 @@ class Account < ApplicationRecord
 
 		income_movs = Movement.where("direction = ?", 0).where("account_id = ?", id )
 			.joins(:day).where("days.date >= ? and days.date < ?", begin_of_year, date)
-    outcom_movs = Movement.where("direction = ?", 1).where("account_id = ?", id )
+    outcome_movs = Movement.where("direction = ?", 1).where("account_id = ?", id )
       .joins(:day).where("days.date >= ? and days.date < ?", begin_of_year, date)
-    res = saldo_begin_year + income_movs.sum(:value) - outcom_movs.sum(:value)
+    res = saldo_begin_year + income_movs.sum(:value) - outcome_movs.sum(:value)
 
 	end
 
