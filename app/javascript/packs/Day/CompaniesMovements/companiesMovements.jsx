@@ -92,7 +92,7 @@ export class CompaniesMovements extends React.Component{
 	
 
 	render(){
-		const {companies, allMovements, isGrouped, voc, loadingMovementsIds} = this.props
+		const {companies, allMovements, isGrouped, voc, loadingMovementsIds, editingMovementsIds} = this.props
 		return(
 			<div className='table-responsive'>
 				<table className="table movements-table">
@@ -111,6 +111,7 @@ export class CompaniesMovements extends React.Component{
 									isGrouped={isGrouped}
 									voc={voc}
 									loadingMovementsIds={loadingMovementsIds}
+									editingMovementsIds={editingMovementsIds}
 								/>) 
 							) 
 						}
@@ -139,5 +140,6 @@ CompaniesMovements.propTypes = {
 	isGrouped:PropTypes.bool.isRequired,
 	mGroupClick:PropTypes.func.isRequired,
 	voc:PropTypes.object.isRequired,
-	loadingMovementsIds: PropTypes.array.isRequired
+	loadingMovementsIds: PropTypes.array.isRequired,
+	editingMovementsIds: PropTypes.array.isRequired,
 }

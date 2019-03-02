@@ -44,7 +44,7 @@ export class OneCompany extends React.Component{
 
 		
 	render(){
-		const {company, movements, isGrouped, voc, loadingMovementsIds} = this.props
+		const {company, movements, isGrouped, voc, loadingMovementsIds, editingMovementsIds} = this.props
 		const saldo_on_date = accountsSaldo(voc.accsList,	movements, company)
 
 		const commentsWrapper = (direction) => {
@@ -58,6 +58,7 @@ export class OneCompany extends React.Component{
 												voc={{...voc, company_id: company.id}}
 												direction={direction}
 												loadingMovementsIds={loadingMovementsIds}
+												editingMovementsIds={editingMovementsIds}
 											/> 
 			)
 		}
@@ -124,7 +125,8 @@ OneCompany.propTypes = {
 // currency: 'UAH'
 	isGrouped: PropTypes.bool.isRequired,
 	voc: PropTypes.object.isRequired,
-	loadingMovementsIds: PropTypes.array.isRequired
+	loadingMovementsIds: PropTypes.array.isRequired,
+	editingMovementsIds: PropTypes.array.isRequired,
 
 }
 

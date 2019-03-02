@@ -40,6 +40,7 @@ export class Day extends React.Component {
 			group: null,
 			allMovements: [],
 			loadingMovementsIds: [],
+			editingMovementsIds: [],
 			isMovsGrouped: false,
 			voc:{
 					compList: [],
@@ -48,7 +49,9 @@ export class Day extends React.Component {
 			  	accsList:[],
 			  	handleMovSave: this.handleMovSaving,
 			  	handleMovDelete: this.handleMovDelete,
-			  	handleMassMovAdd: this.handleMassMovAdd
+			  	handleMassMovAdd: this.handleMassMovAdd,
+					edStopHandle: this.edStopHandle,
+					edStartHandle: this.edStartHandle
 				}
 		}
 	}
@@ -58,9 +61,6 @@ export class Day extends React.Component {
 	handleMassMovAdd = (oshchMovs,company_id) => {
 		const newMovs=[];
 		let newId = -2;
-		// console.log( this.state.allMovements)
-
-	 //  console.log(company_id)
 		['allDebit','allCredit'].forEach((dc) =>
 		  oshchMovs[dc].forEach((mov)=>{
 		  	newMovs.push({
@@ -117,6 +117,18 @@ export class Day extends React.Component {
 // updated_at: "2019-01-08T11:12:13.000Z"
 // value: 100
 
+
+	edStopHandle = (idsToStop) => {
+		this.setState((prevState)=>({
+			editingMovementsIds: [...prevState.editingMovementsIds.filter(id=>!idsToStop.includes(id))],
+		}))
+	}
+
+	edStartHandle = (idsToStart) => {
+		this.setState((prevState)=>({
+			editingMovementsIds: [...prevState.editingMovementsIds, ...idsToStart],
+		}))
+	}
 
 	
 	handleMovSaving = (m) => {
@@ -338,6 +350,7 @@ export class Day extends React.Component {
 							mGroupClick = {this.handleMGroupClick}
 							voc = {this.state.voc}
 							loadingMovementsIds = {this.state.loadingMovementsIds}
+							editingMovementsIds = {this.state.editingMovementsIds}
 						/>
 				</div>
 			</div>

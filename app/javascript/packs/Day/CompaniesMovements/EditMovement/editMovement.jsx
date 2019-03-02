@@ -54,8 +54,7 @@ export class EditMovement extends React.Component{
 
 
 	render(){
-		const {movsGroupsList, currsList, handleMovSave, handleMovDelete} = this.props.voc
-		const {cancelClick} = this.props
+		const {movsGroupsList, currsList, handleMovSave, handleMovDelete, edStopHandle } = this.props.voc
 		const {alf, m, is_changed} = this.state
 	
 		return (
@@ -105,7 +104,7 @@ export class EditMovement extends React.Component{
 					</div>
 					<div className="col-md-1 p-0">
 						<Button type="button" className={`btn ${is_changed ? 'btn-warning' : 'btn-light' } my-vButton p-0`}
-							onClick = {()=> is_changed ? handleMovSave(m) : cancelClick(m)}
+							onClick = {()=> is_changed ? handleMovSave(m) : edStopHandle([m.id])}
 						>
 							<span className={`fa ${is_changed ? 'fa-save' : 'fa-angle-up' }`}></span>
 						</Button>
@@ -126,10 +125,9 @@ EditMovement.propTypes = {
 	voc: PropTypes.shape({
 		handleMovSave: PropTypes.func.isRequired,
 		handleMovDelete: PropTypes.func.isRequired,
+		edStopHandle: PropTypes.func.isRequired,
 	}).isRequired, // + company_id from OneCompany
 
-
-	cancelClick: PropTypes.func.isRequired,
 	defMovVals: PropTypes.shape({
 		account_id: PropTypes.number,
 		comment: PropTypes.string,

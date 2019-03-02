@@ -8,12 +8,12 @@ import {Spinner} from "../../i-services"
 import {readOshchad} from "../../converter_oshchad/converter_oshchad"
 
 const Comment = (props) => {
-	const {movement, edMovId, voc, cancelClick} = props
+	const {movement, editingMovementsIds, voc} = props
+	const {edStartHandle} = props.voc
 	let res = ''
-	if (edMovId.includes(movement.id)){
+	if (editingMovementsIds.includes(movement.id)){
 		res = <EditMovement 
 			voc = {voc}
-			cancelClick = {cancelClick}
 			defMovVals = {{
 				account_id: movement.account_id,
 				comment: movement.comment,
@@ -35,7 +35,7 @@ const Comment = (props) => {
 						</div>
 
 						<div className="col-md-1 p-0">
-							<Button type="button" className="btn btn-light p-0" onClick={ ()=> props.edClick(movement.id) }>
+							<Button type="button" className="btn btn-light p-0" onClick={ ()=> edStartHandle([movement.id]) }>
 								<span className="far fa-edit"></span>
 							</Button>
 						</div>			
@@ -43,51 +43,55 @@ const Comment = (props) => {
 	}
 	return (res);
 }
-
 Comment.propTypes = {
+	editingMovementsIds: PropTypes.array.isRequired,
 	movement: PropTypes.object.isRequired,
-	edMovId: PropTypes.array,
-	edClick: PropTypes.func.isRequired
+	voc: PropTypes.object.isRequired,
 }
 
 
 export class CommentsBlock extends React.Component{
 	constructor(props){
 		super(props)
-		this.state={
-			edMovId: []
-		}
+		///// moved to day state
+		// this.state={
+		// 	edMovId: []
+		// }
 	}
 
-	edClickHandle = (edId)=>{
-		this.setState({
-			edMovId: [...this.state.edMovId, edId]
-		})
+	// edClickHandle = (edId)=>{
+
+		///// moved to day state
+		// this.setState({
+		// 	edMovId: [...this.state.edMovId, edId]
+		// })
 		
-	}
+	// }
 
 
 	_handleMassMovAdd = (e)=>{
 		readOshchad(e).then((oshchadMovements)=>{
 
 			const newMovIds = this.props.voc.handleMassMovAdd(oshchadMovements, this.props.voc.company_id)
-			this.setState({
-				edMovId: [...this.state.edMovId, ...newMovIds]
-			})
+
+			// this.setState({
+			// 	edMovId: [...this.state.edMovId, ...newMovIds]
+			// })
 
 		})
 	}
 
 
-	edCancelHandle = (m) => {
-		this.setState({
-			edMovId: this.state.edMovId.filter(id => id !== m.id)
-		})
-	}
+	// edCancelHandle = (m) => {
+		// this.setState({
+		// 	edMovId: this.state.edMovId.filter(id => id !== m.id)
+		// })
+	// }
 
 	render(){
-		const {movements, direction, voc, loadingMovementsIds} = this.props
-		const {edMovId} = this.state
+		const {movements, direction, voc, loadingMovementsIds, editingMovementsIds} = this.props
+		const {edStartHandle} = this.props.voc
+
 		const emptyMovVals = {
 			id: -1,
 			company_id: voc.company_id,
@@ -100,7 +104,7 @@ export class CommentsBlock extends React.Component{
 
 		const addButton = <div className="row justify-content-center">
 						<div className="col-5 p-0">
-							<Button type="button" className="btn btn-light p-0 my-vButton" onClick={()=>this.edClickHandle(-1)}>
+							<Button type="button" className="btn btn-light p-0 my-vButton" onClick={()=>edStartHandle([-1])}>
 								<span className="fa fa-plus"></span>
 							</Button>
 						</div>
@@ -131,11 +135,9 @@ export class CommentsBlock extends React.Component{
 								:
 								<Comment key ={curr_name+m.id} 
 									movement = {m} 
-									edMovId={edMovId} 
-									edClick = {this.edClickHandle}
-									cancelClick = {this.edCancelHandle}
 									voc = {{...voc, emptyMovVals}}
 									loadingMovementsIds = {loadingMovementsIds}
+									editingMovementsIds={editingMovementsIds}
 								/> 
 							)
 						})
@@ -143,7 +145,7 @@ export class CommentsBlock extends React.Component{
 
 				</div>
 				<div className="container-fluid">
-					{this.state.edMovId.includes(-1) ? (
+					{editingMovementsIds.includes(-1) ? (
 
 																							loadingMovementsIds.includes(-1) ? 
 																							<div className="row">
@@ -154,9 +156,9 @@ export class CommentsBlock extends React.Component{
 																							</div>
 																							:
 																							<EditMovement
-																							voc = {voc} 
-																							defMovVals = {emptyMovVals} 
-																							cancelClick = {this.edCancelHandle}/> 
+																								voc = {voc} 
+																								defMovVals = {emptyMovVals} 
+																							/>
 																						)
 																					: addButton 
 					}
@@ -170,7 +172,10 @@ CommentsBlock.propTypes = {
 	direction: PropTypes.string.isRequired,
 	voc: PropTypes.shape({
 		company_id: PropTypes.number.isRequired,
-		handleMassMovAdd: PropTypes.func.isRequired		
+		handleMassMovAdd: PropTypes.func.isRequired,
+		edStopHandle: PropTypes.func.isRequired,
+		edStartHandle: PropTypes.func.isRequired
 	}).isRequired,
-	loadingMovementsIds: PropTypes.array.isRequired
+	loadingMovementsIds: PropTypes.array.isRequired,
+	editingMovementsIds: PropTypes.array.isRequired
 }
