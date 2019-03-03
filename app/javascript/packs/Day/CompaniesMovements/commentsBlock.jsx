@@ -25,7 +25,8 @@ const Comment = (props) => {
 				log: movement.log,
 				value: movement.value,
 				currency: movement.currency,
-				currency_id: movement.currency_id
+				currency_id: movement.currency_id,
+				is_changed: movement.is_changed,
 			}}
 		/>
 	} else {
@@ -53,40 +54,13 @@ Comment.propTypes = {
 export class CommentsBlock extends React.Component{
 	constructor(props){
 		super(props)
-		///// moved to day state
-		// this.state={
-		// 	edMovId: []
-		// }
 	}
-
-	// edClickHandle = (edId)=>{
-
-		///// moved to day state
-		// this.setState({
-		// 	edMovId: [...this.state.edMovId, edId]
-		// })
-		
-	// }
-
 
 	_handleMassMovAdd = (e)=>{
 		readOshchad(e).then((oshchadMovements)=>{
-
 			const newMovIds = this.props.voc.handleMassMovAdd(oshchadMovements, this.props.company.id)
-
-			// this.setState({
-			// 	edMovId: [...this.state.edMovId, ...newMovIds]
-			// })
-
 		})
 	}
-
-
-	// edCancelHandle = (m) => {
-		// this.setState({
-		// 	edMovId: this.state.edMovId.filter(id => id !== m.id)
-		// })
-	// }
 
 	render(){
 		const {company, movements, direction, voc, loadingMovementsIds, editingMovementsIds} = this.props
@@ -101,7 +75,8 @@ export class CommentsBlock extends React.Component{
 			group_name: movsGroupsList[0].name,
 			account_id: 0,
 			value: 0,
-			direction: direction
+			direction: direction,
+			is_changed: true,
 		}
 
 		const addButton = <div className="row justify-content-center">
@@ -137,7 +112,8 @@ export class CommentsBlock extends React.Component{
 								:
 								<Comment key ={curr_name+m.id} 
 									movement = {m} 
-									voc = {{...voc, emptyMovVals}}
+									// voc = {{...voc, emptyMovVals}} // ??? remove emptyMovVals ???
+									voc = {voc}
 									loadingMovementsIds = {loadingMovementsIds}
 									editingMovementsIds={editingMovementsIds}
 								/> 

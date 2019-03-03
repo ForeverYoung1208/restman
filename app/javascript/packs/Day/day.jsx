@@ -152,8 +152,8 @@ export class Day extends React.Component {
 			this.setState({loadingMovementsIds: [...this.state.loadingMovementsIds, m.id]})
 			console.log('---saving movement ----')
 			let url, httpMethod
+			let tempId = m.id
 
-// CHANGED HERE == -1
 			if (m.id <= 0 ){
 				url = '/movements.json'
 				httpMethod = 'POST'
@@ -172,11 +172,15 @@ export class Day extends React.Component {
 						response.json().then( (result) => {
 							result.value = parseFloat(result.value)
 							let newAllMovements
+
+							//replace old mov with saved if it was PUT (update) process or create new if it was POST (create) (and remove temporary movement)
 							m.id ? newAllMovements = this.state.allMovements.map(	mOld => (mOld.id != result.id ? mOld : result))
-									:	newAllMovements = [...this.state.allMovements, result]
+							   :	newAllMovements = [...this.state.allMovements.filter(mov=>mov.id!=tempId), result]
+							
 							this.setState({
 								loadingMovementsIds: this.state.loadingMovementsIds.filter(id => (id!=m.id&&id>0)),
-								allMovements: newAllMovements
+								editingMovementsIds: this.state.editingMovementsIds.filter(id => id!=m.id),
+								allMovements: newAllMovements,
 							})
 						})
 					}

@@ -10,7 +10,7 @@ export class EditMovement extends React.Component{
 		const m = this.props.defMovVals   // 		defMovVals is required
 		this.state = {
 			alf:[], 				//accs List filtered
-			is_changed: this.props.defMovVals.is_changed,
+			is_changed: m.is_changed,
 			m: {...m, group_id:m.movement_group_id} 						//current movement being editted,  double movement_group_id as "group_id" to create movement parameter to send it to understandable rails model parameter
 		}
 	}
