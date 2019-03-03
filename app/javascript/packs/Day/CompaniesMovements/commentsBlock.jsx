@@ -72,7 +72,7 @@ export class CommentsBlock extends React.Component{
 	_handleMassMovAdd = (e)=>{
 		readOshchad(e).then((oshchadMovements)=>{
 
-			const newMovIds = this.props.voc.handleMassMovAdd(oshchadMovements, this.props.voc.company_id)
+			const newMovIds = this.props.voc.handleMassMovAdd(oshchadMovements, this.props.company.id)
 
 			// this.setState({
 			// 	edMovId: [...this.state.edMovId, ...newMovIds]
@@ -89,22 +89,24 @@ export class CommentsBlock extends React.Component{
 	// }
 
 	render(){
-		const {movements, direction, voc, loadingMovementsIds, editingMovementsIds} = this.props
-		const {edStartHandle} = this.props.voc
+		const {company, movements, direction, voc, loadingMovementsIds, editingMovementsIds} = this.props
+		const {edStartHandle, handleMovAdd, currsList, movsGroupsList} = this.props.voc
 
 		const emptyMovVals = {
-			id: -1,
-			company_id: voc.company_id,
+			company_id: company.id,
 			day_id: 0,
-			currency_id: 0,
-			movement_group_id: 0,
+			currency_id: currsList[0].id,
+			currency: currsList[0].name_int,
+			movement_group_id: movsGroupsList[0].id,
+			group_name: movsGroupsList[0].name,
 			account_id: 0,
+			value: 0,
 			direction: direction
 		}
 
 		const addButton = <div className="row justify-content-center">
 						<div className="col-5 p-0">
-							<Button type="button" className="btn btn-light p-0 my-vButton" onClick={()=>edStartHandle([-1])}>
+							<Button type="button" className="btn btn-light p-0 my-vButton" onClick={()=>handleMovAdd(emptyMovVals)}>
 								<span className="fa fa-plus"></span>
 							</Button>
 						</div>
@@ -145,23 +147,7 @@ export class CommentsBlock extends React.Component{
 
 				</div>
 				<div className="container-fluid">
-					{editingMovementsIds.includes(-1) ? (
-
-																							loadingMovementsIds.includes(-1) ? 
-																							<div className="row">
-																								<div className="col-md-5 p-3 text-center ">...Processing...</div>
-																								<div className="col-md-5 p-1 spinner">
-																									<Spinner /> 
-																								</div>
-																							</div>
-																							:
-																							<EditMovement
-																								voc = {voc} 
-																								defMovVals = {emptyMovVals} 
-																							/>
-																						)
-																					: addButton 
-					}
+					{addButton}
 				</div>
 			</div>
 		)
@@ -170,11 +156,13 @@ export class CommentsBlock extends React.Component{
 CommentsBlock.propTypes = {
 	movements: PropTypes.array.isRequired,
 	direction: PropTypes.string.isRequired,
+	company: PropTypes.object.isRequired,
 	voc: PropTypes.shape({
-		company_id: PropTypes.number.isRequired,
 		handleMassMovAdd: PropTypes.func.isRequired,
+		handleMovAdd: PropTypes.func.isRequired,
 		edStopHandle: PropTypes.func.isRequired,
-		edStartHandle: PropTypes.func.isRequired
+		edStartHandle: PropTypes.func.isRequired,
+		handleMovAdd: PropTypes.func.isRequired,
 	}).isRequired,
 	loadingMovementsIds: PropTypes.array.isRequired,
 	editingMovementsIds: PropTypes.array.isRequired

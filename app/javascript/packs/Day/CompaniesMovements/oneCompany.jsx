@@ -55,7 +55,8 @@ export class OneCompany extends React.Component{
 											/> 
 										: <CommentsBlock 
 												movements={movements} 
-												voc={{...voc, company_id: company.id}}
+												voc={voc}
+												company={company}
 												direction={direction}
 												loadingMovementsIds={loadingMovementsIds}
 												editingMovementsIds={editingMovementsIds}

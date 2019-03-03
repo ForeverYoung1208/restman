@@ -16,8 +16,10 @@ export class EditMovement extends React.Component{
 	}
 
 	componentDidMount= () => {
-		const {accsList, company_id} = this.props.voc
-		const alf = accsList.filter((acc) => acc.company_id == company_id)
+		const {accsList} = this.props.voc
+		// const {company} = this.props
+
+		const alf = accsList.filter((acc) => acc.company_id == this.state.m.company_id)
 	  this.setState({
 	  	alf: alf, 
 	  	// is_changed: false,
@@ -126,7 +128,7 @@ EditMovement.propTypes = {
 		handleMovSave: PropTypes.func.isRequired,
 		handleMovDelete: PropTypes.func.isRequired,
 		edStopHandle: PropTypes.func.isRequired,
-	}).isRequired, // + company_id from OneCompany
+	}).isRequired,
 
 	defMovVals: PropTypes.shape({
 		account_id: PropTypes.number,

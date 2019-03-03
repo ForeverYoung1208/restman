@@ -32,7 +32,7 @@ DayInfo.Proptypes={
 export class Day extends React.Component {
 	constructor(props){
 		super(props)
-	
+		this.lastNewMovId = 0
 		this.state = {
 			date: this.getDateFromUrl(),	//Moment(Date.now()).format('DD.MM.YYYY'),
 			day: null,
@@ -49,18 +49,24 @@ export class Day extends React.Component {
 			  	accsList:[],
 			  	handleMovSave: this.handleMovSaving,
 			  	handleMovDelete: this.handleMovDelete,
+			  	handleMovAdd: this.handleMovAdd,
 			  	handleMassMovAdd: this.handleMassMovAdd,
 					edStopHandle: this.edStopHandle,
-					edStartHandle: this.edStartHandle
+					edStartHandle: this.edStartHandle,
+					getNewMovId: this.getNewMovId,
 				}
 		}
 	}
 
+	getNewMovId = () => {
+		this.lastNewMovId -=1
+		return this.lastNewMovId
+	}
 
 // TODO implement this - adding movements from oshchad movements
 	handleMassMovAdd = (oshchMovs,company_id) => {
 		const newMovs=[];
-		let newId = -2;
+		// let newId = -2;
 		['allDebit','allCredit'].forEach((dc) =>
 		  oshchMovs[dc].forEach((mov)=>{
 		  	newMovs.push({
@@ -72,20 +78,20 @@ export class Day extends React.Component {
 		  		currency: this.state.voc.currsList[0].name_int,
 		  		day_id: this.state.day.id,
 		  		direction: dc=='allDebit' ? "Income" : "Outcome",
-		  		id: newId,
+		  		id: this.getNewMovId(),
 		  		log:null,
 		  		movement_group_id: this.state.voc.movsGroupsList[0].id,
 		  		value: mov.data.sum, 
 		  		is_changed: true, //TODO: doesn't work ((((
 		  	})
-		  	newId -= 1;
+		  	// newId -= 1;
 		  })
 	  )
 		this.setState((prevState)=>({
 			allMovements: [...prevState.allMovements, ...newMovs],
 
 		}))
-  	console.log(newMovs)
+  	// console.log(newMovs)
   	return newMovs.map(nm=>nm.id)
 	}
 
@@ -127,6 +133,14 @@ export class Day extends React.Component {
 	edStartHandle = (idsToStart) => {
 		this.setState((prevState)=>({
 			editingMovementsIds: [...prevState.editingMovementsIds, ...idsToStart],
+		}))
+	}
+
+	handleMovAdd= (newMov) => {
+		newMov.id = this.getNewMovId()
+		this.setState((prevState)=>({
+			allMovements: [...prevState.allMovements, newMov],
+			editingMovementsIds: [...prevState.editingMovementsIds, newMov.id],
 		}))
 	}
 
