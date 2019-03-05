@@ -66,9 +66,12 @@ export class Day extends React.Component {
 // TODO implement this - adding movements from oshchad movements
 	handleMassMovAdd = (oshchMovs,company_id) => {
 		const newMovs=[];
+		let direction;
 		// let newId = -2;
+
 		['allDebit','allCredit'].forEach((dc) =>
 		  oshchMovs[dc].forEach((mov)=>{
+		  	direction = dc=='allDebit' ? "Income" : "Outcome"
 		  	newMovs.push({
 		  		account_id: this.state.voc.accsList.filter(acc=>acc.company_id==company_id&&acc.is_default==true)[0].id,
 		  		myAccNumber: oshchMovs.myAccNumber,
@@ -80,7 +83,7 @@ export class Day extends React.Component {
 		  		direction: dc=='allDebit' ? "Income" : "Outcome",
 		  		id: this.getNewMovId(),
 		  		log:null,
-		  		movement_group_id: this.state.voc.movsGroupsList[0].id,
+		  		movement_group_id: this.state.voc.movsGroupsList.filter(mg=>mg.direction==direction)[0].id,
 		  		value: mov.data.sum, 
 		  		is_changed: true, //TODO: doesn't work ((((
 		  	})

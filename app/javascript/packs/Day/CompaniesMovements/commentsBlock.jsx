@@ -71,8 +71,8 @@ export class CommentsBlock extends React.Component{
 			day_id: 0,
 			currency_id: currsList[0].id,
 			currency: currsList[0].name_int,
-			movement_group_id: movsGroupsList[0].id,
-			group_name: movsGroupsList[0].name,
+			movement_group_id: movsGroupsList.filter(mg=>mg.direction==direction)[0].id,
+			group_name: movsGroupsList.filter(mg=>mg.direction==direction)[0].name,
 			account_id: 0,
 			value: 0,
 			direction: direction,
@@ -112,7 +112,6 @@ export class CommentsBlock extends React.Component{
 								:
 								<Comment key ={curr_name+m.id} 
 									movement = {m} 
-									// voc = {{...voc, emptyMovVals}} // ??? remove emptyMovVals ???
 									voc = {voc}
 									loadingMovementsIds = {loadingMovementsIds}
 									editingMovementsIds={editingMovementsIds}

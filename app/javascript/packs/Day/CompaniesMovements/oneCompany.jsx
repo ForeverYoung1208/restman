@@ -1,7 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
 import Gcomment from "./gcomment"
-import {EditMovement} from "./EditMovement/editMovement"
 import {CommentsBlock} from "./commentsBlock"
 
 import {roundFin} from "../../i-services"
