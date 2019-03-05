@@ -13,7 +13,7 @@
 
   <div class="field">
     <%= form.label :direction %>
-    <%= form.text_field :direction %>
+    <%= form.select( :direction, Movement.directions.collect {|d| [d[0],d[0]]} ) %>
   </div>
 
   <div class="field">
