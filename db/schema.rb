@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_26_205506) do
+ActiveRecord::Schema.define(version: 2019_03_15_110959) do
 
   create_table "acc_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name_eng"
@@ -105,10 +105,12 @@ ActiveRecord::Schema.define(version: 2019_02_26_205506) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
+    t.bigint "signed_by_id"
     t.index ["account_id"], name: "index_movements_on_account_id"
     t.index ["day_id"], name: "index_movements_on_day_id"
     t.index ["group_id"], name: "index_movements_on_group_id"
     t.index ["last_editor_id"], name: "index_movements_on_last_editor_id"
+    t.index ["signed_by_id"], name: "index_movements_on_signed_by_id"
   end
 
   create_table "roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
