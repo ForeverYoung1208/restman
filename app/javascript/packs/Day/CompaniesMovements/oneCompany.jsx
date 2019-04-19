@@ -2,8 +2,10 @@ import React from "react"
 import PropTypes from "prop-types"
 import Gcomment from "./gcomment"
 import {CommentsBlock} from "./commentsBlock"
+import SignCompany from "./SignCompany/signCompany"
 
 import {roundFin} from "../../i-services"
+
 
 
 export const sumMovsByCurrency = (currency = 'UAH', allMovs) => {
@@ -66,7 +68,12 @@ export class OneCompany extends React.Component{
 		return(
 
 			<tr >
-				<td className="i-text">{	company.code_name}, (id: {company.id})</td>
+				<td className="i-text">
+					{	company.code_name}, (id: {company.id})
+					<SignCompany></SignCompany>
+				</td>
+				
+
 
 				<td>{saldo_on_date.UAH.begin}</td>
 				<td>{saldo_on_date.USD.begin}</td>
