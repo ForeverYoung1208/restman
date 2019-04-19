@@ -18,4 +18,4 @@ json.currency movement.account.currency.name_int
 json.currency_ukr movement.account.currency.name_ukr
 json.currency_id movement.account.currency_id
 json.signed_by_id movement.signed_by_id
-json.signed_by_name movement.signed_by.name
+json.signed_by_name movement.try(:"signed_by.name")
