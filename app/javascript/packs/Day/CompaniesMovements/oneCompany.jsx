@@ -70,7 +70,7 @@ export class OneCompany extends React.Component{
 			<tr >
 				<td className="i-text">
 					{	company.code_name}, (id: {company.id})
-					<SignCompany></SignCompany>
+					<SignCompany movementsToSign= {movements.filter( m=> m.company_id == company.id) }></SignCompany>
 				</td>
 				
 

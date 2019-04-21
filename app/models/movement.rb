@@ -2,7 +2,7 @@ class Movement < ApplicationRecord
 	belongs_to :movement_group,  class_name: :MovementGroup, foreign_key: :group_id
 	belongs_to :account
 	belongs_to :last_editor, class_name: :User, foreign_key: :last_editor_id
-  belongs_to :signed_by, class_name: :User
+  belongs_to :signed_by, class_name: :User, optional: true
 	belongs_to :day
 
   default_scope { where('movements.deleted_at IS NULL') }

@@ -55,6 +55,7 @@ class MovementsController < ApplicationController
   # POST /movements.json
   def create # 
     @movement = Movement.new(movement_params)
+   
     respond_to do |format|
       if @movement.save
         format.html { redirect_to @movement, notice: 'Movement was successfully created.' }
