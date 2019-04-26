@@ -54,8 +54,14 @@ export class Day extends React.Component {
 					edStopHandle: this.edStopHandle,
 					edStartHandle: this.edStartHandle,
 					getNewMovId: this.getNewMovId,
+					handleMovsSign: this.handleMovsSign,
 				}
 		}
+	}
+
+	handleMovsSign = (movs) => {
+		console.log({'implement movement signing here':movs})
+
 	}
 
 	getNewMovId = () => {
@@ -63,7 +69,7 @@ export class Day extends React.Component {
 		return this.lastNewMovId
 	}
 
-// TODO implement this - adding movements from oshchad movements
+
 	handleMassMovAdd = (oshchMovs,company_id) => {
 		const newMovs=[];
 		let direction;
@@ -85,9 +91,8 @@ export class Day extends React.Component {
 		  		log:null,
 		  		movement_group_id: this.state.voc.movsGroupsList.filter(mg=>mg.direction==direction)[0].id,
 		  		value: mov.data.sum, 
-		  		is_changed: true, //TODO: doesn't work ((((
+		  		is_changed: true, 
 		  	})
-		  	// newId -= 1;
 		  })
 	  )
 		this.setState((prevState)=>({
