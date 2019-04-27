@@ -1,5 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
+import Moment from 'moment'
+
 import Gcomment from "./gcomment"
 import {CommentsBlock} from "./commentsBlock"
 import SignCompany from "./SignCompany/signCompany"
@@ -45,7 +47,7 @@ export class OneCompany extends React.Component{
 
 		
 	render(){
-		const {company, movements, isGrouped, voc, loadingMovementsIds, editingMovementsIds} = this.props
+		const {company, movements, isGrouped, voc, loadingMovementsIds, editingMovementsIds, date} = this.props
 		const saldo_on_date = accountsSaldo(voc.accsList,	movements, company)
 
 		const commentsWrapper = (direction) => {
@@ -73,6 +75,12 @@ export class OneCompany extends React.Component{
 					<SignCompany 
 						movementsToSign= {movements.filter( m=> m.company_id == company.id) }
 						voc={voc}
+						log = {`${company.code_name} signed:${Moment(Date.now()).format('DD.MM.YYYY hh:mm')}, `+
+										`r_d:${date} `+
+										` UAH.begin:${saldo_on_date.UAH.begin}, USD.begin:${saldo_on_date.USD.begin},`+ 
+										`EUR.begin:${saldo_on_date.EUR.begin}, UAH.end:${saldo_on_date.UAH.end},`+
+										`USD.end:${saldo_on_date.USD.end}, EUR.end:${saldo_on_date.EUR.end}`
+									}
 					></SignCompany>
 				</td>
 				
@@ -114,6 +122,8 @@ export class OneCompany extends React.Component{
 
 OneCompany.propTypes = {
 	company: PropTypes.object.isRequired,
+	date: PropTypes.string.isRequired,
+
 // code_name: "ISR"
 // group_id: 1
 // id: 1

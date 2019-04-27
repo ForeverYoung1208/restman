@@ -92,7 +92,7 @@ export class CompaniesMovements extends React.Component{
 	
 
 	render(){
-		const {companies, allMovements, isGrouped, voc, loadingMovementsIds, editingMovementsIds} = this.props
+		const {date, companies, allMovements, isGrouped, voc, loadingMovementsIds, editingMovementsIds} = this.props
 		return(
 			<div className='table-responsive'>
 				<table className="table movements-table">
@@ -110,6 +110,7 @@ export class CompaniesMovements extends React.Component{
 									movements={allMovements.filter( m => m.company_id == c.id)} 
 									isGrouped={isGrouped}
 									voc={voc}
+									date={date}
 									loadingMovementsIds={loadingMovementsIds}
 									editingMovementsIds={editingMovementsIds}
 								/>) 

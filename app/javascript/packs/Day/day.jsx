@@ -59,9 +59,13 @@ export class Day extends React.Component {
 		}
 	}
 
-	handleMovsSign = (movs) => {
-		console.log({'implement movement signing here':movs})
-
+	handleMovsSign = (movs, log) => {
+		console.log(
+			{
+				'implement movement signing here':movs,
+				'log':log,
+			}
+		)
 	}
 
 	getNewMovId = () => {

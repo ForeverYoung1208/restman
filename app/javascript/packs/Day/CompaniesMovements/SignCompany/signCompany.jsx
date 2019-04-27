@@ -9,9 +9,10 @@ export default class SignCompany extends React.Component{
 	}
 
 	render(){
+		const {voc, log, movementsToSign} = this.props
 		return (
 			this.props.movementsToSign.find(m => !m.signed_by_id ) 
-				?	<Button className="btn btn-warning" onClick={ e=> this.props.voc.handleMovsSign(this.props.movementsToSign)}> Підписати </Button>		
+				?	<Button className="btn btn-warning" onClick={ e=> voc.handleMovsSign(movementsToSign, log)}> Підписати </Button>		
 				: ''
 		)
 	}
@@ -20,6 +21,7 @@ export default class SignCompany extends React.Component{
 
 SignCompany.propTypes={
 	movementsToSign: PropTypes.array.isRequired,
+	log: PropTypes.string.isRequired,
 	voc:PropTypes.shape({
 		handleMovsSign: PropTypes.func.isRequired,
 	}).isRequired
