@@ -69,7 +69,7 @@ class MovementsController < ApplicationController
 
   # PATCH/PUT /movements/1
   # PATCH/PUT /movements/1.json
-  def update # not used
+  def update
 
     respond_to do |format|
       if @movement.update(movement_params)
@@ -107,7 +107,16 @@ class MovementsController < ApplicationController
     def movement_params
       res = params.require(:movement).permit(:id, :value, :direction, 
         :group_id, :comment, :account_id, :last_editor_id, :day_id, :deleted_at, :log, :date)
-      res[:last_editor_id] = @current_user.id
+
+      
+      
+      if params[:signed_now] 
+        res[:signed_by_id] = @current_user.id 
+      else
+        res[:last_editor_id] = @current_user.id
+        res[:signed_by_id] = nil
+      end
+
       res
     end
 end

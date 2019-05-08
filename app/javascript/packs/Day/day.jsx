@@ -1,6 +1,7 @@
 import React from 'react'
 import Moment from 'moment'
 import PropTypes from 'prop-types'
+import axios from 'axios'
 
 import {Datepicker} from './Datepicker/datepicker'
 import {CompaniesSelect} from './CompaniesSelect/companiesSelect'
@@ -60,12 +61,15 @@ export class Day extends React.Component {
 	}
 
 	handleMovsSign = (movs, log) => {
-		console.log(
-			{
-				'implement movement signing here':movs,
-				'log':log,
-			}
-		)
+		movs.forEach(mov => this.handleMovSaving({...mov, log, signed_now:true}))
+	
+		// axios.get('/currencies.json').then( res=> console.log(res))
+		// console.log(
+		// 	{
+		// 		'implement movement signing here':movs,
+		// 		'log':log,
+		// 	}
+		// )
 	}
 
 	getNewMovId = () => {

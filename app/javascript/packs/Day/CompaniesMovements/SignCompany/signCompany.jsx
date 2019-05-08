@@ -13,7 +13,7 @@ export default class SignCompany extends React.Component{
 		return (
 			this.props.movementsToSign.find(m => !m.signed_by_id ) 
 				?	<Button className="btn btn-warning" onClick={ e=> voc.handleMovsSign(movementsToSign, log)}> Підписати </Button>		
-				: ''
+				: <Button className="btn btn-light" disabled> Підписано </Button>		
 		)
 	}
 
