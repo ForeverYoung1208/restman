@@ -7,7 +7,7 @@ class Movement < ApplicationRecord
 
   default_scope { where('movements.deleted_at IS NULL') }
 
-	enum direction: {Income: 0, Outcome: 1}
+	enum direction: {Income: 0, Outcome: 1, Technical: 2}
 
   def self.permitted_for_user(user)
 

@@ -73,6 +73,7 @@ export class OneCompany extends React.Component{
 				<td className="i-text">
 					{	company.code_name}, (id: {company.id})
 					<SignCompany 
+						company={company}
 						movementsToSign= {movements.filter( m=> m.company_id == company.id) }
 						voc={voc}
 						log = {`${company.code_name} signed:${Moment(Date.now()).format('DD.MM.YYYY hh:mm')}, `+

@@ -1,7 +1,7 @@
 import React from 'react'
 import Moment from 'moment'
 import PropTypes from 'prop-types'
-import axios from 'axios'
+// import axios from 'axios'
 
 import {Datepicker} from './Datepicker/datepicker'
 import {CompaniesSelect} from './CompaniesSelect/companiesSelect'
@@ -33,7 +33,7 @@ DayInfo.Proptypes={
 export class Day extends React.Component {
 	constructor(props){
 		super(props)
-		this.lastNewMovId = 0
+		this.lastNewMovId = -10 //new ids for new movements being added. Counter goes downwars. From -1..-9 ids reserved for special Technical movemets
 		this.state = {
 			date: this.getDateFromUrl(),	//Moment(Date.now()).format('DD.MM.YYYY'),
 			day: null,
@@ -56,8 +56,30 @@ export class Day extends React.Component {
 					edStartHandle: this.edStartHandle,
 					getNewMovId: this.getNewMovId,
 					handleMovsSign: this.handleMovsSign,
+					handleNullMovsSign: this.handleNullMovsSign,
 				}
 		}
+	}
+
+	handleNullMovsSign = (company) => {
+		const {day} = this.state
+		const {movsGroupsList, currsList } = this.state.voc
+		const technicalMovement = {
+			id:-1,
+			company_id: company.id,
+			day_id: day.id,
+			// currency_id: currsList[0].id,
+			// currency: currsList[0].name_int,
+			movement_group_id: movsGroupsList[0].id,
+			account_id: 0,
+			value: 0,
+			direction: 'Technical',
+			is_changed: true,
+			log: `${company.code_name}: signed no movements`,
+			signed_now: true,
+		}		
+		this.handleMovSaving(technicalMovement)
+
 	}
 
 	handleMovsSign = (movs, log) => {
@@ -163,8 +185,11 @@ export class Day extends React.Component {
 	
 	handleMovSaving = (m) => {
 		m.day_id = this.state.day.id
-		if(	m.account_id > 0 &&	m.company_id > 0 &&
-				m.movement_group_id > 0 && m.day_id >0	){
+		if(	(m.account_id>0 ||m.direction=="Technical") 
+				&&	m.company_id > 0 
+				&&	m.movement_group_id > 0 
+				&& m.day_id >0	
+			){
 			this.setState({loadingMovementsIds: [...this.state.loadingMovementsIds, m.id]})
 			console.log('---saving movement ----')
 			let url, httpMethod

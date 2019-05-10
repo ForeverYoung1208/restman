@@ -9,17 +9,23 @@ export default class SignCompany extends React.Component{
 	}
 
 	render(){
-		const {voc, log, movementsToSign} = this.props
+		const {voc, log, movementsToSign, company} = this.props
 		return (
-			this.props.movementsToSign.find(m => !m.signed_by_id ) 
+			movementsToSign.length>0 ? movementsToSign.find(m => !m.signed_by_id || m.direction == 'Technical' ) 
 				?	<Button className="btn btn-warning" onClick={ e=> voc.handleMovsSign(movementsToSign, log)}> Підписати </Button>		
 				: <Button className="btn btn-light" disabled> Підписано </Button>		
+			: <Button className="btn btn-warning" onClick={ e=> voc.handleNullMovsSign(company)}> Немає змін </Button>		 
+			
 		)
 	}
 
 }
 
 SignCompany.propTypes={
+	company: PropTypes.shape({
+		id: PropTypes.number.isRequired,
+		code_name: PropTypes.string.isRequired,
+	}).isRequired,
 	movementsToSign: PropTypes.array.isRequired,
 	log: PropTypes.string.isRequired,
 	voc:PropTypes.shape({
