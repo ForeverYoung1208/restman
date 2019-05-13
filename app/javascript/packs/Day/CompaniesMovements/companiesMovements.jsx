@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import {Button} from "reactstrap"
 import {OneCompany} from "./oneCompany"
 import {Total} from "./total"
 
@@ -117,13 +118,15 @@ export class CompaniesMovements extends React.Component{
 							) 
 						}
 
-						{
-							<Total
-								movements={allMovements}
-								voc={voc}
-								companiesSelectedIds = {companies.map(c=>c.id)}
-							/>
-						}
+						<Total
+							movements={allMovements}
+							voc={voc}
+							companiesSelectedIds = {companies.map(c=>c.id)}
+						/>
+
+						<tr>
+							<td colSpan="15" className="text-center"><Button className="btn btn-warning">Export to xls</Button></td>
+						</tr>
 
 					</tbody>
 				</table>
