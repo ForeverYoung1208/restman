@@ -63,7 +63,7 @@ export class Day extends React.Component {
 
 	handleNullMovsSign = (company) => {
 		const {day} = this.state
-		const {movsGroupsList, currsList } = this.state.voc
+		const {movsGroupsList, currsList, accsList } = this.state.voc
 		const technicalMovement = {
 			id:-1,
 			company_id: company.id,
@@ -71,13 +71,14 @@ export class Day extends React.Component {
 			// currency_id: currsList[0].id,
 			// currency: currsList[0].name_int,
 			movement_group_id: movsGroupsList[0].id,
-			account_id: 0,
+			group_id: movsGroupsList[0].id,
+			account_id: accsList.filter(a=> a.company_id == company.id)[0].id,
 			value: 0,
 			direction: 'Technical',
 			is_changed: true,
 			log: `${company.code_name}: signed no movements`,
 			signed_now: true,
-		}		
+		}
 		this.handleMovSaving(technicalMovement)
 
 	}
@@ -185,6 +186,7 @@ export class Day extends React.Component {
 	
 	handleMovSaving = (m) => {
 		m.day_id = this.state.day.id
+		console.log( m )
 		if(	(m.account_id>0 ||m.direction=="Technical") 
 				&&	m.company_id > 0 
 				&&	m.movement_group_id > 0 

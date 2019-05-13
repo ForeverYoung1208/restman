@@ -55,7 +55,7 @@ class MovementsController < ApplicationController
   # POST /movements.json
   def create # 
     @movement = Movement.new(movement_params)
-   
+  
     respond_to do |format|
       if @movement.save
         format.html { redirect_to @movement, notice: 'Movement was successfully created.' }
@@ -108,12 +108,12 @@ class MovementsController < ApplicationController
       res = params.require(:movement).permit(:id, :value, :direction, 
         :group_id, :comment, :account_id, :last_editor_id, :day_id, :deleted_at, :log, :date)
 
-      
-      
+      res[:last_editor_id] ||= @current_user.id      
+
       if params[:signed_now] 
         res[:signed_by_id] = @current_user.id 
       else
-        res[:last_editor_id] = @current_user.id
+        
         res[:signed_by_id] = nil
       end
 
