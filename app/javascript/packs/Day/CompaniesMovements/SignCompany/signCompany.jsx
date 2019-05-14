@@ -12,8 +12,6 @@ export default class SignCompany extends React.Component{
 
 	render(){
 		const {voc, log, movementsToSign, company} = this.props
-		console.log( movementsToSign )
-
 
 		return (
 			movementsToSign.length<=0 ? //is there no movements?
@@ -23,14 +21,6 @@ export default class SignCompany extends React.Component{
 			: <Button className="btn btn-light" disabled> Підписано </Button>		
 		)
 
-
-		// return (
-		// 	movementsToSign.length>0 ? movementsToSign.find(m => !m.signed_by_id || m.direction == 'Technical' ) 
-		// 		?	<Button className="btn btn-warning" onClick={ e=> voc.handleMovsSign(movementsToSign, log)}> Підписати </Button>		
-		// 		: <Button className="btn btn-light" disabled> Підписано </Button>		
-		// 	: <Button className="btn btn-warning" onClick={ e=> voc.handleNullMovsSign(company)}> Немає змін </Button>		 
-			
-		// )		
 	}
 
 }

@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import {Button} from "reactstrap"
 import {OneCompany} from "./oneCompany"
 import {Total} from "./total"
+import ExportToXls from "./ExportToXls/exportToXls"
 
 const GroupCheckbox = (props) => {
 	return(
@@ -94,6 +95,7 @@ export class CompaniesMovements extends React.Component{
 
 	render(){
 		const {date, companies, allMovements, isGrouped, voc, loadingMovementsIds, editingMovementsIds} = this.props
+		const companiesSelectedIds = companies.map(c=>c.id)
 		return(
 			<div className='table-responsive'>
 				<table className="table movements-table">
@@ -121,11 +123,19 @@ export class CompaniesMovements extends React.Component{
 						<Total
 							movements={allMovements}
 							voc={voc}
-							companiesSelectedIds = {companies.map(c=>c.id)}
+							companiesSelectedIds = {companiesSelectedIds}
 						/>
 
+						
+
 						<tr>
-							<td colSpan="15" className="text-center"><Button className="btn btn-warning">Export to xls</Button></td>
+							<td colSpan="15" className="text-center">
+								<ExportToXls
+									movements={allMovements.filter(m => companiesSelectedIds.find(c_id => c_id == m.company_id))}
+									voc={voc}
+									companiesSelectedIds = {companies.map(c=>c.id)}
+								/>
+							</td>	
 						</tr>
 
 					</tbody>

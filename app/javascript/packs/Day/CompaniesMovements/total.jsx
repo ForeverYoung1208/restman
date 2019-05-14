@@ -27,7 +27,7 @@ export class Total extends React.Component{
 		)
 
 		return(
-			<tr >
+			<tr className='movementsTotal'>
 				<td className="i-text">	Загалом</td>
 
 				<td>{saldo_on_date.UAH.begin}</td>
