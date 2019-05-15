@@ -12,8 +12,14 @@ function handleExportToXls(files){
   _reader.onload = (e) =>{
     let _data = e.target.result;
     let _workbook = XLSX.read(_data, {type:'binary'});
-    console.log( _workbook )
+// console.log( _workbook )
+// XLSX.writeFile(_workbook,'test.xlsx')	
+
+		let wbout = XLSX.write(_workbook,{ bookType:'xlsx', bookSST:false, type:'binary' })
+		saveAs(new Blob([wbout],{type:"application/octet-stream"}), "test.xlsx");
+
   }
+
 }
 
 export default function ExpotToXls(props){
