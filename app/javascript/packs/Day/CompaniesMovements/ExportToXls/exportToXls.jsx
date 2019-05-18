@@ -50,37 +50,41 @@ import { saveAs } from'file-saver'
 
 
 ///////////////////////////////////// V2 /////////////////////////////////////////////////////////
-var XlsxTemplate = require('xlsx-template');
+let XlsxTemplate = require('xlsx-template');
 
-function handleExportToXls(file,movements){
+function handleExportToXls(fileTemplate,movements,date,companyGroupName){
 	console.log(movements)
   const _reader = new FileReader();
-  _reader.readAsBinaryString(file)
+  _reader.readAsBinaryString(fileTemplate)
   _reader.onload = (e) =>{
-      var template = new XlsxTemplate(e.target.result);
+      let template = new XlsxTemplate(e.target.result);
       // Replacements take place on first sheet
-      var sheetNumber = 1;
+      let sheetNumber = 1;
       // Set up some placeholder values matching the placeholders in the template
-      var values = {
-              date: "17.06.2019",
-              group: "K-X",
-              company_id0: movements[0].company_id,
-              company_id1: movements[1].company_id,
+      let values = {
+              date: date,
+              group: companyGroupName,
+              // company_id0: movements[0].company_id,
+              // company_id1: movements[1].company_id,
           };
+      movements.forEach((m,index)=>{
+        values['company_id'+index]=m.company_id
+
+      })
 
       // Perform substitution
       template.substitute(sheetNumber, values);
       // Get binary data
-      var data = template.generate({type: 'blob'});
+      let data = template.generate({type: 'blob'});
       saveAs(data, "test.xlsx");
   }
 }
 /////////////////////////////////////
 
 export default function ExpotToXls(props){
-	const {movements} = props
+	const {movements, date,companyGroupName} = props
 	const exportButton =
-							<ReactFileReader fileTypes={[".xls",".xlsx"]} handleFiles={(files)=>handleExportToXls(files[0],movements)}>
+							<ReactFileReader fileTypes={[".xls",".xlsx"]} handleFiles={(files)=>handleExportToXls(files[0],movements, date,companyGroupName)}>
 								<Button type="button" className="btn btn-warning">
 								<span className="fa fa-download p-1"></span>
 									Експорт (обрати шаблон)

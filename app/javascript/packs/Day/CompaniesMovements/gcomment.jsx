@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import {AddNaN} from "../../i-services"
 
 
+
 export default class Gcomment extends React.Component {
 	constructor(props){
 		super(props)
@@ -22,17 +23,16 @@ export default class Gcomment extends React.Component {
 	render(){
 		const {currsList} = this.props.voc
 		const ms = this.movementsSum(this.props.movements)
-
-		return (
-			<div>
-				 { 
-				 	['UAH','USD','EUR'].map( (curr) => 
+		const res =	['UAH','USD','EUR'].map( (curr) => 
 					 	Object.keys(ms[curr]).map(
 					 		group => `${ms[curr][group].value} ${currsList.filter( c => c.name_int ==curr )[0].name_ukr} - ${group}` +
 					 				 (ms[curr][group].comment.length > 0 ? ` (${ms[curr][group].comment}); ` : '; ')
 					 	)
 				 	)
-				 }
+
+		return (
+			<div>
+				 { res }
 			</div>
 		);
 	}

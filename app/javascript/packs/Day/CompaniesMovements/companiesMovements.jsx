@@ -94,7 +94,15 @@ export class CompaniesMovements extends React.Component{
 	
 
 	render(){
-		const {date, companies, allMovements, isGrouped, voc, loadingMovementsIds, editingMovementsIds} = this.props
+		const {date, 
+			companies, 
+			allMovements,
+			isGrouped,
+			voc,
+			loadingMovementsIds,
+			editingMovementsIds, 
+			companyGroupName} = this.props
+
 		const companiesSelectedIds = companies.map(c=>c.id)
 		return(
 			<div className='table-responsive'>
@@ -130,11 +138,16 @@ export class CompaniesMovements extends React.Component{
 
 						<tr>
 							<td colSpan="15" className="text-center">
-								<ExportToXls
-									movements={allMovements.filter(m => companiesSelectedIds.find(c_id => c_id == m.company_id))}
-									voc={voc}
-									companiesSelectedIds = {companies.map(c=>c.id)}
-								/>
+								{isGrouped ? 
+									<ExportToXls
+										movements={allMovements.filter(m => companiesSelectedIds.find(c_id => c_id == m.company_id))}
+										voc={voc}
+										date={date}
+										companyGroupName={companyGroupName}
+										companiesSelectedIds = {companies.map(c=>c.id)}
+									/>
+									: 'Експорт можливий тільки якщо катерорії приміток згорнуті '
+								}
 							</td>	
 						</tr>
 

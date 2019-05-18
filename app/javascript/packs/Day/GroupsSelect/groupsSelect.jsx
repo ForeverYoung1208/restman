@@ -30,7 +30,8 @@ export class GroupsSelect extends React.Component{
 			}
 		)
 		$('#groups-select').on('change', (e) => {
-				this.props.onGroupChanged(e.target.value)
+				const id = e.target.value
+				this.props.onGroupChanged(id, this.state.groupsList.filter(g => g.id ==id )[0].code_name_eng)
 			}
 		)
 

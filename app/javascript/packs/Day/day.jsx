@@ -34,11 +34,13 @@ export class Day extends React.Component {
 	constructor(props){
 		super(props)
 		this.lastNewMovId = -10 //new ids for new movements being added. Counter goes downwars. From -1..-9 ids reserved for special Technical movemets
+		this.exportBuffer = []
 		this.state = {
 			date: this.getDateFromUrl(),	//Moment(Date.now()).format('DD.MM.YYYY'),
 			day: null,
 			companiesSelected: [],
 			group: null,
+			companyGroupName:'',
 			allMovements: [],
 			loadingMovementsIds: [],
 			editingMovementsIds: [],
@@ -57,8 +59,31 @@ export class Day extends React.Component {
 					getNewMovId: this.getNewMovId,
 					handleMovsSign: this.handleMovsSign,
 					handleNullMovsSign: this.handleNullMovsSign,
+					addToExportBufer: this.addToExportBufer,
 				}
 		}
+	}
+
+	addToExportBufer = (company_id,key, value)=>{
+		let index = this.exportBuffer.findIndex((record)=>record.company_id==company_id)
+		if (index>=0){ 
+			this.exportBuffer[index][key]=value }
+		else {
+			this.exportBuffer.push({
+				company_id:company_id,
+				[key]: value
+			})			
+		}
+
+
+	}
+
+	clearExportBuffer = () => {
+	  
+	}
+
+	readExportBuffer = () => {
+	  
 	}
 
 	handleNullMovsSign = (company) => {
@@ -347,8 +372,8 @@ export class Day extends React.Component {
 
 	}
 
-	handleGroupChanged = (newGroup) => {
-		this.setState({group: newGroup})
+	handleGroupChanged = (newGroup, gName) => {
+		this.setState({group: newGroup, companyGroupName: gName})
 		this.getCompanies()
 	}
 
@@ -408,6 +433,7 @@ export class Day extends React.Component {
 							date={this.state.date}
 							allMovements={this.state.allMovements}
 							isGrouped = {this.state.isMovsGrouped}
+							companyGroupName = {this.state.companyGroupName}
 							mGroupClick = {this.handleMGroupClick}
 							voc = {this.state.voc}
 							loadingMovementsIds = {this.state.loadingMovementsIds}
