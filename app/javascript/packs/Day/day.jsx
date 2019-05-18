@@ -60,30 +60,34 @@ export class Day extends React.Component {
 					handleMovsSign: this.handleMovsSign,
 					handleNullMovsSign: this.handleNullMovsSign,
 					addToExportBufer: this.addToExportBufer,
+					readExportBuffer: this.readExportBuffer,
+					clearExportBuffer: this.clearExportBuffer,
 				}
 		}
 	}
 
-	addToExportBufer = (company_id,key, value)=>{
-		let index = this.exportBuffer.findIndex((record)=>record.company_id==company_id)
+	addToExportBufer = (company,key, value)=>{
+		let index = this.exportBuffer.findIndex((record)=>record.company_id==company.id)
 		if (index>=0){ 
-			this.exportBuffer[index][key]=value }
-		else {
+			this.exportBuffer[index][key]=value
+		}else{
 			this.exportBuffer.push({
-				company_id:company_id,
+				company_id:company.id,
+				companyCodeName:company.code_name,
 				[key]: value
 			})			
 		}
 
+		return value
 
 	}
 
 	clearExportBuffer = () => {
-	  
+		this.exportBuffer = []
 	}
 
 	readExportBuffer = () => {
-	  
+		return this.exportBuffer
 	}
 
 	handleNullMovsSign = (company) => {
@@ -297,6 +301,7 @@ export class Day extends React.Component {
 		this.getCompanies()
 		this.getVoc()
 	}	
+
 
 	getVoc = () => {
 	  Promise.all( [

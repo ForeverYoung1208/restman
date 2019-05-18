@@ -52,8 +52,8 @@ import { saveAs } from'file-saver'
 ///////////////////////////////////// V2 /////////////////////////////////////////////////////////
 let XlsxTemplate = require('xlsx-template');
 
-function handleExportToXls(fileTemplate,movements,date,companyGroupName){
-	console.log(movements)
+function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName){
+	console.log(exportBuffer)
   const _reader = new FileReader();
   _reader.readAsBinaryString(fileTemplate)
   _reader.onload = (e) =>{
@@ -67,8 +67,8 @@ function handleExportToXls(fileTemplate,movements,date,companyGroupName){
               // company_id0: movements[0].company_id,
               // company_id1: movements[1].company_id,
           };
-      movements.forEach((m,index)=>{
-        values['company_id'+index]=m.company_id
+      exportBuffer.forEach((eb,index)=>{
+        values['company_id'+index]=eb.company_id
 
       })
 
@@ -82,9 +82,10 @@ function handleExportToXls(fileTemplate,movements,date,companyGroupName){
 /////////////////////////////////////
 
 export default function ExpotToXls(props){
-	const {movements, date,companyGroupName} = props
+	const {voc, movements, date,companyGroupName} = props
+  const exportBuffer = voc.readExportBuffer()
 	const exportButton =
-							<ReactFileReader fileTypes={[".xls",".xlsx"]} handleFiles={(files)=>handleExportToXls(files[0],movements, date,companyGroupName)}>
+							<ReactFileReader fileTypes={[".xls",".xlsx"]} handleFiles={(files)=>handleExportToXls(files[0], exportBuffer, date,companyGroupName)}>
 								<Button type="button" className="btn btn-warning">
 								<span className="fa fa-download p-1"></span>
 									Експорт (обрати шаблон)

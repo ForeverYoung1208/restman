@@ -87,7 +87,7 @@ export class OneCompany extends React.Component{
 				
 
 
-				<td>{saldo_on_date.UAH.begin}</td>
+				<td>{voc.addToExportBufer( company, 'in_uah', saldo_on_date.UAH.begin) }</td>
 				<td>{saldo_on_date.USD.begin}</td>
 				<td>{saldo_on_date.EUR.begin}</td>
 
