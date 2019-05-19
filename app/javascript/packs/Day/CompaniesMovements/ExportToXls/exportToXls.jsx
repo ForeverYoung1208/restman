@@ -80,7 +80,7 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName){
         values['income-uah'+index] = fnfe(eb.income_uah)
         values['income-usd'+index] = fnfe(eb.income_usd)
         values['income-eur'+index] = fnfe(eb.income_eur)
-        values['income-detail'+index] = eb.income_detail
+        values['income-detail'+index] = eb.income_detail.join('')
 
       })
 
