@@ -88,15 +88,17 @@ export class CompaniesMovements extends React.Component{
 		super(props)
 	}
 
+	// clear export buffer before update
+	// buffer information will be re-gathered in child elements 
+	// during new render process
+	componentWillUpdate = () => {
+		console.log('clear buffer!')
+		this.props.voc.clearExportBuffer()
+	}
+
 	handleMGroupClick = () => {
 		this.props.mGroupClick();
 	}	
-
-	componentDidUpdate = () => {
-		//////////////////????????????????????????????/
-		this.props.voc.clearExportBuffer()
-		//////////////////????????????????????????????/		
-	}
 	
 
 	render(){

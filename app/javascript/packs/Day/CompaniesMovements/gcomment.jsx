@@ -21,24 +21,28 @@ export default class Gcomment extends React.Component {
 	}
 
 	render(){
-		const {currsList} = this.props.voc
+		const {voc,company} = this.props
+		const direction = this.props.direction.toLowerCase()
+		// const {currsList} = this.props.voc
 		const ms = this.movementsSum(this.props.movements)
 		const res =	['UAH','USD','EUR'].map( (curr) => 
 					 	Object.keys(ms[curr]).map(
-					 		group => `${ms[curr][group].value} ${currsList.filter( c => c.name_int ==curr )[0].name_ukr} - ${group}` +
+					 		group => `${ms[curr][group].value} ${voc.currsList.filter( c => c.name_int ==curr )[0].name_ukr} - ${group}` +
 					 				 (ms[curr][group].comment.length > 0 ? ` (${ms[curr][group].comment}); ` : '; ')
 					 	)
 				 	)
 
 		return (
 			<div>
-				 { res }
+				 { voc.addToExportBufer( company, `${direction}-detail`, res ) }
 			</div>
 		);
 	}
 }
 
 Gcomment.propTypes = {
+	direction: PropTypes.string.isRequired,
+	company: PropTypes.object.isRequired,
 	movements: PropTypes.array.isRequired,
 	voc:PropTypes.object.isRequired,
 }

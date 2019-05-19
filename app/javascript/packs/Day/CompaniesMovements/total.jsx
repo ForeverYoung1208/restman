@@ -39,6 +39,8 @@ export class Total extends React.Component{
 				<td>{sumMovsByCurrency('EUR', movementsCounted).income}</td>
 				<td className="i-text">
 					<Gcomment
+						company={{id:'total', companyCodeName:'total'}}
+						direction={'Income'}
 						movements={movementsCounted.filter(m => m.direction=="Income")} 
 						voc={voc}
 					/> 
@@ -50,6 +52,8 @@ export class Total extends React.Component{
 				<td>{sumMovsByCurrency('EUR', movementsCounted).outcome}</td>
 				<td className="i-text">
 					<Gcomment 
+						company={{id:'total', companyCodeName:'total'}}
+						direction={'Outcome'}
 						movements={movementsCounted.filter(m => m.direction=="Outcome")} 
 						voc={voc}
 					/> 

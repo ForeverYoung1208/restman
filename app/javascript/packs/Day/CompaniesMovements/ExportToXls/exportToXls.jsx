@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from 'reactstrap'
 // import XLSX from "js-xlsx";
 // import XlsxPopulate  from 'xlsx-populate'
-
+import {roundFin} from "../../../i-services"
 
 import Moment from "moment"
 import ReactFileReader from "react-file-reader"
@@ -52,8 +52,12 @@ import { saveAs } from'file-saver'
 ///////////////////////////////////// V2 /////////////////////////////////////////////////////////
 let XlsxTemplate = require('xlsx-template');
 
+// fnfe = formatNumberForExport
+function fnfe(n) {
+  return Math.round(n)
+}
+
 function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName){
-	console.log(exportBuffer)
   const _reader = new FileReader();
   _reader.readAsBinaryString(fileTemplate)
   _reader.onload = (e) =>{
@@ -61,16 +65,26 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName){
       // Replacements take place on first sheet
       let sheetNumber = 1;
       // Set up some placeholder values matching the placeholders in the template
+
       let values = {
               date: date,
               group: companyGroupName,
-              // company_id0: movements[0].company_id,
-              // company_id1: movements[1].company_id,
           };
       exportBuffer.forEach((eb,index)=>{
         values['company_id'+index]=eb.company_id
+        values['companyCodeName'+index]=eb.companyCodeName
+        values['companyCodeName'+index]=eb.companyCodeName
+        values['in-uah'+index] = fnfe(eb.in_uah)
+        values['in-usd'+index] = fnfe(eb.in_usd)
+        values['in-eur'+index] = fnfe(eb.in_eur)
+        values['income-uah'+index] = fnfe(eb.income_uah)
+        values['income-usd'+index] = fnfe(eb.income_usd)
+        values['income-eur'+index] = fnfe(eb.income_eur)
+        values['income-detail'+index] = eb.income_detail
 
       })
+
+      console.log({substitute: values})
 
       // Perform substitution
       template.substitute(sheetNumber, values);
@@ -84,6 +98,7 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName){
 export default function ExpotToXls(props){
 	const {voc, movements, date,companyGroupName} = props
   const exportBuffer = voc.readExportBuffer()
+  console.log( {export: voc.readExportBuffer()} )
 	const exportButton =
 							<ReactFileReader fileTypes={[".xls",".xlsx"]} handleFiles={(files)=>handleExportToXls(files[0], exportBuffer, date,companyGroupName)}>
 								<Button type="button" className="btn btn-warning">

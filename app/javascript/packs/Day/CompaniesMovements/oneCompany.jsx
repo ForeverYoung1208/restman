@@ -6,8 +6,6 @@ import Gcomment from "./gcomment"
 import {CommentsBlock} from "./commentsBlock"
 import SignCompany from "./SignCompany/signCompany"
 
-import {roundFin} from "../../i-services"
-
 
 
 export const sumMovsByCurrency = (currency = 'UAH', allMovs) => {
@@ -49,10 +47,11 @@ export class OneCompany extends React.Component{
 	render(){
 		const {company, movements, isGrouped, voc, loadingMovementsIds, editingMovementsIds, date} = this.props
 		const saldo_on_date = accountsSaldo(voc.accsList,	movements, company)
-
 		const commentsWrapper = (direction) => {
 			return(
 					isGrouped ? <Gcomment
+												company={company}
+												direction={direction}
 												movements={movements.filter(m => m.direction == direction)} 
 												voc={voc}
 											/> 
@@ -88,12 +87,12 @@ export class OneCompany extends React.Component{
 
 
 				<td>{voc.addToExportBufer( company, 'in_uah', saldo_on_date.UAH.begin) }</td>
-				<td>{saldo_on_date.USD.begin}</td>
-				<td>{saldo_on_date.EUR.begin}</td>
+				<td>{voc.addToExportBufer( company, 'in_usd', saldo_on_date.USD.begin) }</td>
+				<td>{voc.addToExportBufer( company, 'in_eur', saldo_on_date.EUR.begin) }</td>
 
-				<td>{sumMovsByCurrency('UAH', movements).income}</td>
-				<td>{sumMovsByCurrency('USD', movements).income}</td>
-				<td>{sumMovsByCurrency('EUR', movements).income}</td>
+				<td>{ voc.addToExportBufer( company, 'income_uah', sumMovsByCurrency('UAH', movements).income )}</td>
+				<td>{ voc.addToExportBufer( company, 'income_usd', sumMovsByCurrency('USD', movements).income )}</td>
+				<td>{ voc.addToExportBufer( company, 'income_eur', sumMovsByCurrency('EUR', movements).income )}</td>
 				<td className="i-text">
 					{	commentsWrapper('Income')	}
 
