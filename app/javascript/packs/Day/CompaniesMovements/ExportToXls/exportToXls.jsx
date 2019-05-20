@@ -71,16 +71,20 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName){
               group: companyGroupName,
           };
       exportBuffer.forEach((eb,index)=>{
-        values['company_id'+index]=eb.company_id
-        values['companyCodeName'+index]=eb.companyCodeName
-        values['companyCodeName'+index]=eb.companyCodeName
-        values['in-uah'+index] = fnfe(eb.in_uah)
-        values['in-usd'+index] = fnfe(eb.in_usd)
-        values['in-eur'+index] = fnfe(eb.in_eur)
-        values['income-uah'+index] = fnfe(eb.income_uah)
-        values['income-usd'+index] = fnfe(eb.income_usd)
-        values['income-eur'+index] = fnfe(eb.income_eur)
-        values['income-detail'+index] = eb.income_detail.join('')
+      	let suffix
+        eb.company_id == 'total' ? suffix = 'total' : suffix = index
+        	
+
+       	values['company_id-'+suffix]=eb.company_id
+        values['companyCodeName-'+suffix]=eb.companyCodeName
+        values['companyCodeName-'+suffix]=eb.companyCodeName
+        values['in-uah-'+suffix] = fnfe(eb.in_uah)
+        values['in-usd-'+suffix] = fnfe(eb.in_usd)
+        values['in-eur-'+suffix] = fnfe(eb.in_eur)
+        values['income-uah-'+suffix] = fnfe(eb.income_uah)
+        values['income-usd-'+suffix] = fnfe(eb.income_usd)
+        values['income-eur-'+suffix] = fnfe(eb.income_eur)
+        values['income-detail-'+suffix] = eb.income_detail
 
       })
 

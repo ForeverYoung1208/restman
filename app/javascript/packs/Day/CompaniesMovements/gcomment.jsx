@@ -34,7 +34,9 @@ export default class Gcomment extends React.Component {
 
 		return (
 			<div>
-				 { voc.addToExportBufer( company, `${direction}-detail`, res ) }
+				 { 
+				 	voc.addToExportBufer( company, `${direction}_detail`, res.flat().join('') ) 
+				 }
 			</div>
 		);
 	}

@@ -53,6 +53,7 @@ export const Spinner = ()=>{
 	)
 }
 
+// sum array of numbers, Nan is equal to 0
 export const AddNaN = (...args)=> {
 	let res = args.reduce( (sum, arg) => sum += Number.isNaN(arg)||(!arg) ? 0 : parseFloat(arg) , 0 )
   return( res  )

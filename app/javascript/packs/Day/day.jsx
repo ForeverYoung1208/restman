@@ -77,7 +77,6 @@ export class Day extends React.Component {
 				[key]: value
 			})			
 		}
-
 		return value
 
 	}
