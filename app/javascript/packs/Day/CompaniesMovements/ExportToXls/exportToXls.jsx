@@ -85,7 +85,13 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName){
         values['income-usd-'+suffix] = fnfe(eb.income_usd)
         values['income-eur-'+suffix] = fnfe(eb.income_eur)
         values['income-detail-'+suffix] = eb.income_detail
-
+        values['outcome-uah-'+suffix] = fnfe(eb.outcome_uah)
+        values['outcome-usd-'+suffix] = fnfe(eb.outcome_usd)
+        values['outcome-eur-'+suffix] = fnfe(eb.outcome_eur)
+        values['outcome-detail-'+suffix] = eb.outcome_detail
+        values['out-uah-'+suffix] = fnfe(eb.out_uah)
+        values['out-usd-'+suffix] = fnfe(eb.out_usd)
+        values['out-eur-'+suffix] = fnfe(eb.out_eur)
       })
 
       console.log({substitute: values})

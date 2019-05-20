@@ -21,22 +21,25 @@ export class Total extends React.Component{
 
 		const {movements, voc, companiesSelectedIds} = this.props
 		const movementsCounted = movements.filter(m=> companiesSelectedIds.includes(m.company_id))
+		const company ={id:'total', codeName:'total'}
 		const saldo_on_date = accountsSaldo(
 			voc.accsList.filter(a=> companiesSelectedIds.includes(a.company_id)), 
 			movementsCounted
 		)
 
+
 		return(
 			<tr className='movementsTotal'>
 				<td className="i-text">	Загалом</td>
 
-				<td>{saldo_on_date.UAH.begin}</td>
-				<td>{saldo_on_date.USD.begin}</td>
-				<td>{saldo_on_date.EUR.begin}</td>
+				<td>{voc.addToExportBufer( company, 'in_uah', saldo_on_date.UAH.begin )}</td>
+				<td>{voc.addToExportBufer( company, 'in_usd', saldo_on_date.USD.begin )}</td>
+				<td>{voc.addToExportBufer( company, 'in_eur', saldo_on_date.EUR.begin )}</td>
 
-				<td>{sumMovsByCurrency('UAH', movementsCounted).income}</td>
-				<td>{sumMovsByCurrency('USD', movementsCounted).income}</td>
-				<td>{sumMovsByCurrency('EUR', movementsCounted).income}</td>
+
+				<td>{voc.addToExportBufer( company, 'income_uah', sumMovsByCurrency('UAH', movementsCounted).income )}</td>
+				<td>{voc.addToExportBufer( company, 'income_usd', sumMovsByCurrency('USD', movementsCounted).income )}</td>
+				<td>{voc.addToExportBufer( company, 'income_eur', sumMovsByCurrency('EUR', movementsCounted).income )}</td>
 				<td className="i-text">
 					<Gcomment
 						company={{id:'total', companyCodeName:'total'}}
@@ -47,9 +50,10 @@ export class Total extends React.Component{
 				</td>
 
 
-				<td>{sumMovsByCurrency('UAH', movementsCounted).outcome}</td>
-				<td>{sumMovsByCurrency('USD', movementsCounted).outcome}</td>
-				<td>{sumMovsByCurrency('EUR', movementsCounted).outcome}</td>
+				<td>{voc.addToExportBufer( company, 'outcome_uah', sumMovsByCurrency('UAH', movementsCounted).outcome )}</td>
+				<td>{voc.addToExportBufer( company, 'outcome_usd', sumMovsByCurrency('USD', movementsCounted).outcome )}</td>
+				<td>{voc.addToExportBufer( company, 'outcome_eur', sumMovsByCurrency('EUR', movementsCounted).outcome )}</td>
+
 				<td className="i-text">
 					<Gcomment 
 						company={{id:'total', companyCodeName:'total'}}
@@ -59,10 +63,10 @@ export class Total extends React.Component{
 					/> 
 				</td>
 				
-				<td>{saldo_on_date.UAH.end}</td>
-				<td>{saldo_on_date.USD.end}</td>
-				<td>{saldo_on_date.EUR.end}</td>
 
+				<td>{voc.addToExportBufer( company, 'out_uah', saldo_on_date.UAH.end )}</td>
+				<td>{voc.addToExportBufer( company, 'out_usd', saldo_on_date.USD.end )}</td>
+				<td>{voc.addToExportBufer( company, 'out_eur', saldo_on_date.EUR.end )}</td>
 
 
 			</tr>

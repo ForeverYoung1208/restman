@@ -99,18 +99,18 @@ export class OneCompany extends React.Component{
 				</td>
 
 
-				<td>{sumMovsByCurrency('UAH', movements).outcome}</td>
-				<td>{sumMovsByCurrency('USD', movements).outcome}</td>
-				<td>{sumMovsByCurrency('EUR', movements).outcome}</td>
+				<td>{ voc.addToExportBufer( company, 'outcome_uah', sumMovsByCurrency('UAH', movements).outcome )}</td>
+				<td>{ voc.addToExportBufer( company, 'outcome_usd', sumMovsByCurrency('USD', movements).outcome )}</td>
+				<td>{ voc.addToExportBufer( company, 'outcome_eur', sumMovsByCurrency('EUR', movements).outcome )}</td>
+
+
 				<td className="i-text">
 					{	commentsWrapper('Outcome')	}
 				</td>
 				
-				<td>{saldo_on_date.UAH.end}</td>
-				<td>{saldo_on_date.USD.end}</td>
-				<td>{saldo_on_date.EUR.end}</td>
-
-
+				<td>{voc.addToExportBufer( company, 'out_uah', saldo_on_date.UAH.end) }</td>
+				<td>{voc.addToExportBufer( company, 'out_usd', saldo_on_date.USD.end) }</td>
+				<td>{voc.addToExportBufer( company, 'out_eur', saldo_on_date.EUR.end) }</td>
 
 			</tr>
 
