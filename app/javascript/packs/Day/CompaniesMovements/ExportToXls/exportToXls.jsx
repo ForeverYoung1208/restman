@@ -92,6 +92,9 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName){
         values['out-uah-'+suffix] = fnfe(eb.out_uah)
         values['out-usd-'+suffix] = fnfe(eb.out_usd)
         values['out-eur-'+suffix] = fnfe(eb.out_eur)
+        values['depo-uah-'+suffix] = fnfe(eb.depo_uah)
+        values['depo-usd-'+suffix] = fnfe(eb.depo_usd)
+        values['depo-eur-'+suffix] = fnfe(eb.depo_eur)
       })
 
       console.log({substitute: values})
@@ -108,7 +111,7 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName){
 export default function ExpotToXls(props){
 	const {voc, movements, date,companyGroupName} = props
   const exportBuffer = voc.readExportBuffer()
-  console.log( {export: voc.readExportBuffer()} )
+  console.log( {exportBuffer: exportBuffer} )
 	const exportButton =
 							<ReactFileReader fileTypes={[".xls",".xlsx"]} handleFiles={(files)=>handleExportToXls(files[0], exportBuffer, date,companyGroupName)}>
 								<Button type="button" className="btn btn-warning">

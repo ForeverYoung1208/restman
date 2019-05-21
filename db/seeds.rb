@@ -2,6 +2,7 @@
 # The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
 require 'date'
 
+# IMPORTANT! frontend rely on role.id
 roles = [
 	Role.where(id: 1).first_or_create(
 		name: 'admin'
@@ -11,6 +12,20 @@ roles = [
 	),
 ]
 
+# IMPORTANT! frontend rely on acc_type.id
+acc_types = [
+	AccType.where(id: 1).first_or_create(
+		name_eng: 'current',
+		name_ukr: 'поточний/розрахунковий'
+	),
+	AccType.where(id: 2).first_or_create(
+		name_eng: 'deposit',
+		name_ukr: 'депозитний'
+	)
+]
+
+
+####### assignments below are  for the testing purposes
 
 banks = [
 	Bank.where(code: '305299').first_or_create(
@@ -56,16 +71,6 @@ company = Company.where(code_name: 'test').first_or_create(
 	key_role: 'admin'	
 )
 
-acc_types = [
-	AccType.where(id: 1).first_or_create(
-		name_eng: 'current',
-		name_ukr: 'поточний/розрахунковий'
-	),
-	AccType.where(id: 2).first_or_create(
-		name_eng: 'deposit',
-		name_ukr: 'депозитний'
-	)
-]
 
 day = Day.where(id: 1).first_or_create(
 	date: '11.09.2018'.to_date,
@@ -97,13 +102,13 @@ accounts = [Account.where(number: '26000001').first_or_create(
 movement_groups = [
 	MovementGroup.where( id: 1).first_or_create(
 		direction: :Income,
-		name: "Депозитарніе доході",
-		description: "Депозитарніе доході(абонплаті, собрания)"
+		name: "Депозитарные доходы",
+		description: "Депозитарные доходы(абонплаты, собрания)"
 	),
 	MovementGroup.where( id: 2).first_or_create(
 		direction: :Income,
-		name: "Прочие доході",
-		description: "Прочие доході(проценті банка)"
+		name: "Прочие доходы",
+		description: "Прочие доходы(проценты банка)"
 	),
 	MovementGroup.where( id: 3).first_or_create(
 		direction: :Outcome,

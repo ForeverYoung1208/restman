@@ -22,10 +22,20 @@ export class Total extends React.Component{
 		const {movements, voc, companiesSelectedIds} = this.props
 		const movementsCounted = movements.filter(m=> companiesSelectedIds.includes(m.company_id))
 		const company ={id:'total', codeName:'total'}
+
+		//calculate saldo on all accounts by all companies 
+
 		const saldo_on_date = accountsSaldo(
 			voc.accsList.filter(a=> companiesSelectedIds.includes(a.company_id)), 
 			movementsCounted
 		)
+
+		//calculate saldo on deposit accounts (acc_type_id==2) by all companies and send them to buffer as 'total:
+		const all_deposits_on_date = accountsSaldo(voc.accsList.filter(a => a.acc_type_id == '2' ),	movements) 
+		voc.addToExportBufer( company, 'depo_uah', all_deposits_on_date.UAH.end)
+		voc.addToExportBufer( company, 'depo_usd', all_deposits_on_date.USD.end)
+		voc.addToExportBufer( company, 'depo_eur', all_deposits_on_date.EUR.end)
+
 
 
 		return(

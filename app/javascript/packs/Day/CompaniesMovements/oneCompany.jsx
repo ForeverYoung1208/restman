@@ -8,7 +8,7 @@ import SignCompany from "./SignCompany/signCompany"
 
 
 
-export const sumMovsByCurrency = (currency = 'UAH', allMovs) => {
+export function sumMovsByCurrency(currency = 'UAH', allMovs){
 	let income = 0, outcome = 0
 	let sum = 0
 	if (allMovs && allMovs.length>0){
@@ -21,10 +21,18 @@ export const sumMovsByCurrency = (currency = 'UAH', allMovs) => {
 // counts saldo on all given allAccounts(using each account.saldo_on_date property) by given company (if given),
 // using all given movements 
 // (regardless of dates of account saldo's and movements) so take care of it)
-export const accountsSaldo = (allAccounts, movements, company=null) =>{
-	const sumByCurr = (curr)=>{
+
+
+
+export function accountsSaldo(allAccounts, movements, company=null){
+	let depositDetail=''
+
+	function sumByCurr(curr){
 		const begin = allAccounts.filter(a => (a.currency.name_int == curr)&&(company ? a.company_id == company.id : true))
-				.reduce( (sum, a) => sum+=parseFloat(a.saldo_on_date), 0)
+				.reduce( (sum, a) => {
+					depositDetail+= a.bank.name + ': ' + a.term + ' '
+					return sum+=parseFloat(a.saldo_on_date)
+				}, 0)
 		const movs = sumMovsByCurrency(curr, movements )
 		const end = parseFloat(begin) + parseFloat(movs.income) - parseFloat(movs.outcome)
 		return({begin:begin.toFixed(2), end: end.toFixed(2)})
@@ -34,6 +42,7 @@ export const accountsSaldo = (allAccounts, movements, company=null) =>{
 		UAH: sumByCurr('UAH'),
 		USD: sumByCurr('USD'),
 		EUR: sumByCurr('EUR'),
+		depositDetail: depositDetail,
 	}
 }
 
@@ -47,11 +56,25 @@ export class OneCompany extends React.Component{
 	render(){
 		const {company, movements, isGrouped, voc, loadingMovementsIds, editingMovementsIds, date} = this.props
 
-		const saldo_on_date = accountsSaldo(voc.accsList,	movements, company) //saldo by all accounts
 
-		const deposits_on_date = accountsSaldo(voc.accsList.filter(a => false),	movements, company) //saldo by deposit accounts
+		//calculate saldo on deposit accounts (acc_type_id==2) of current company and send them to buffer:
+		const deposits_on_date = accountsSaldo(voc.accsList.filter(a => a.acc_type_id == '2' ),	movements, company) 
+		voc.addToExportBufer( company, 'depo_uah', deposits_on_date.UAH.end)
+		voc.addToExportBufer( company, 'depo_usd', deposits_on_date.USD.end)
+		voc.addToExportBufer( company, 'depo_eur', deposits_on_date.EUR.end)
+
+// TODO: make deposit details per account with actual rests (including today's)
+		console.log({[company.id]:deposits_on_date.depositDetail})
+		voc.addToExportBufer( company, 'depo_detail', deposits_on_date.depositDetail)
 
 
+		//calculate saldo by all accounts of current company:
+		const saldo_on_date = accountsSaldo(voc.accsList,	movements, company)
+
+
+
+
+		//prepare comments to render:
 		const commentsWrapper = (direction) => {
 			return(
 					isGrouped ? <Gcomment
@@ -155,3 +178,21 @@ OneCompany.propTypes = {
 
 }
 
+
+// JUST BACKUP
+// export function accountsSaldo(allAccounts, movements, company=null){
+// 	function sumByCurr(curr){
+// 		const begin = allAccounts.filter(a => (a.currency.name_int == curr)&&(company ? a.company_id == company.id : true))
+// 				.reduce( (sum, a) => sum+=parseFloat(a.saldo_on_date), 0)
+// 		const movs = sumMovsByCurrency(curr, movements )
+// 		const end = parseFloat(begin) + parseFloat(movs.income) - parseFloat(movs.outcome)
+// 		return({begin:begin.toFixed(2), end: end.toFixed(2)})
+// 	}
+
+// 	return{
+// 		UAH: sumByCurr('UAH'),
+// 		USD: sumByCurr('USD'),
+// 		EUR: sumByCurr('EUR'),
+// 		comment:'',
+// 	}
+// }

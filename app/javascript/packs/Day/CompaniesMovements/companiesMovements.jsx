@@ -92,7 +92,6 @@ export class CompaniesMovements extends React.Component{
 	// buffer information will be re-gathered in child elements 
 	// during new render process
 	componentWillUpdate = () => {
-		console.log('clear buffer!')
 		this.props.voc.clearExportBuffer()
 	}
 
