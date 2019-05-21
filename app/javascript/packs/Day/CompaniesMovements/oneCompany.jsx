@@ -19,7 +19,7 @@ export const sumMovsByCurrency = (currency = 'UAH', allMovs) => {
 }
 
 // counts saldo on all given allAccounts(using each account.saldo_on_date property) by given company (if given),
-// before movements (.begin) property and after movements (.end property) using all given movements 
+// using all given movements 
 // (regardless of dates of account saldo's and movements) so take care of it)
 export const accountsSaldo = (allAccounts, movements, company=null) =>{
 	const sumByCurr = (curr)=>{
@@ -46,7 +46,12 @@ export class OneCompany extends React.Component{
 		
 	render(){
 		const {company, movements, isGrouped, voc, loadingMovementsIds, editingMovementsIds, date} = this.props
-		const saldo_on_date = accountsSaldo(voc.accsList,	movements, company)
+
+		const saldo_on_date = accountsSaldo(voc.accsList,	movements, company) //saldo by all accounts
+
+		const deposits_on_date = accountsSaldo(voc.accsList.filter(a => false),	movements, company) //saldo by deposit accounts
+
+
 		const commentsWrapper = (direction) => {
 			return(
 					isGrouped ? <Gcomment
