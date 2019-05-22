@@ -27,7 +27,7 @@ export default class Gcomment extends React.Component {
 		const ms = this.movementsSum(this.props.movements)
 		const res =	['UAH','USD','EUR'].map( (curr) => 
 					 	Object.keys(ms[curr]).map(
-					 		group => `${ms[curr][group].value} ${voc.currsList.filter( c => c.name_int ==curr )[0].name_ukr} - ${group}` +
+					 		group => `${Math.round(ms[curr][group].value*100)/100} ${voc.currsList.filter( c => c.name_int ==curr )[0].name_ukr} - ${group}` +
 					 				 (ms[curr][group].comment.length > 0 ? ` (${ms[curr][group].comment}); ` : '; ')
 					 	)
 				 	)
