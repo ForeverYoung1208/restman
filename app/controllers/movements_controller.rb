@@ -27,8 +27,8 @@ class MovementsController < ApplicationController
       format.html {}
       format.json do
         day = Day.where(date: params[:date]).first 
-        # @movements = Movement.permitted_for_user(@current_user).where(day_id: day_id)
-          @movements = Movement.where(day_id: day.id) if day
+          @movements = Movement.permitted_for_user(@current_user).where(day_id: day.id) if day
+          # @movements = Movement.where(day_id: day.id) if day
 
       end
     end
