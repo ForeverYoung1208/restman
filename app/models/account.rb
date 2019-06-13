@@ -29,13 +29,13 @@ class Account < ApplicationRecord
 
 	# TODO: !Important for security!  implement this user access restriction
 
-  # def self.permitted_for_user(user)
-  #   if user.roles.active.pluck(:id).include?(::ADMIN_ROLE_ID)
-  #     all
-  #   else
-  #     ??????? where(key_role: user.roles_names) ????
-  #   end
-  # end	  	
+  def self.permitted_for_user(user)
+    if user.roles.active.pluck(:id).include?(::ADMIN_ROLE_ID)
+      all
+    else
+      Account.joins(:company).where('companies.key_role': user.roles_names)
+    end
+  end	  	
 
 
 end

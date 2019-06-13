@@ -6,7 +6,9 @@ class AccountsController < ApplicationController
   
   ## TODO index only permitted for current user
   def index
-    @accounts = Account.all.order(:company_id)
+    # @accounts = Account.all.order(:company_id)
+    @accounts = Account.permitted_for_user(@current_user).order(:company_id)
+
     @date_of_saldo = params[:date_of_saldo]
   end
 
