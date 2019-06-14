@@ -27,7 +27,7 @@ class Account < ApplicationRecord
 
 
 
-	# TODO: !Important for security!  implement this user access restriction
+	#  user access restriction
 
   def self.permitted_for_user(user)
     if user.roles.active.pluck(:id).include?(::ADMIN_ROLE_ID)

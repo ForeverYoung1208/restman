@@ -5,6 +5,7 @@ import Moment from 'moment'
 import Gcomment from "./gcomment"
 import {CommentsBlock} from "./commentsBlock"
 import SignCompany from "./SignCompany/signCompany"
+import {dotDateFormat} from "../../i-services"
 
 
 
@@ -28,11 +29,18 @@ export function accountsSaldo(allAccounts, movements, company=null){
 	let depositDetail=''
 
 	function sumByCurr(curr){
-		const begin = allAccounts.filter(a => (a.currency.name_int == curr)&&(company ? a.company_id == company.id : true))
+		const begin = allAccounts
+				.filter(a => (a.currency.name_int == curr)&&(company ? a.company_id == company.id : true))
+				.sort((a1,a2)=> {
+					if (a1.term>a2.term){return 1}
+					if (a1.term<a2.term){return -1}
+						return 0
+				})
 				.reduce( (sum, a) => {
-					depositDetail+= a.bank.name + ': ' + a.term + ' '
+					depositDetail+= a.bank.name + ': ' +a.saldo_on_date +' '+ curr+ ' до ' + dotDateFormat(a.term) + '; '
 					return sum+=parseFloat(a.saldo_on_date)
 				}, 0)
+
 		const movs = sumMovsByCurrency(curr, movements )
 		const end = parseFloat(begin) + parseFloat(movs.income) - parseFloat(movs.outcome)
 		return({begin:begin.toFixed(2), end: end.toFixed(2)})

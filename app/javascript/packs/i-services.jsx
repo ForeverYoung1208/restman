@@ -30,10 +30,18 @@ export const postDataAsJSON = (url,method,data,okCBK,errCBK) => {
 }
 
 
+//14.06.2019 -> 2019-06-14
+export const dashDateFormat = (dotDate) =>{
+	if(dotDate){
+		return (dotDate.substring(6,10)+'-'+dotDate.substring(3,5)+'-'+dotDate.substring(0,2))
+	}
+}
 
-export const dashDateFormat = (date) =>{
-	if(date){
-		return (date.substring(6,10)+'-'+date.substring(3,5)+'-'+date.substring(0,2))
+
+//2019-06-14 -> 14.06.2019
+export const dotDateFormat = (dashDate) =>{
+	if(dashDate){
+		return (dashDate.substring(8,10)+'.'+dashDate.substring(5,7)+'.'+dashDate.substring(0,4))
 	}
 }
 

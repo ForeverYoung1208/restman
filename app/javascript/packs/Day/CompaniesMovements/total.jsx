@@ -35,6 +35,7 @@ export class Total extends React.Component{
 		voc.addToExportBufer( company, 'depo_uah', all_deposits_on_date.UAH.end)
 		voc.addToExportBufer( company, 'depo_usd', all_deposits_on_date.USD.end)
 		voc.addToExportBufer( company, 'depo_eur', all_deposits_on_date.EUR.end)
+		console.log(all_deposits_on_date)
 
 
 

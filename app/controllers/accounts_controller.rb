@@ -4,7 +4,7 @@ class AccountsController < ApplicationController
   # GET /accounts
   # GET /accounts.json
   
-  ## TODO index only permitted for current user
+  ##  only permitted for current user
   def index
     # @accounts = Account.all.order(:company_id)
     @accounts = Account.permitted_for_user(@current_user).order(:company_id)
