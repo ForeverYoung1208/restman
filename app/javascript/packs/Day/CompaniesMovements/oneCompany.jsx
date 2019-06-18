@@ -30,12 +30,15 @@ export function accountsSaldo(allAccounts, movements, company=null){
 
 	function sumByCurr(curr){
 		const begin = allAccounts
+				// filter out only given company and currency
 				.filter(a => (a.currency.name_int == curr)&&(company ? a.company_id == company.id : true))
+				// sort by deposit term ASC
 				.sort((a1,a2)=> {
 					if (a1.term>a2.term){return 1}
 					if (a1.term<a2.term){return -1}
 						return 0
 				})
+				// build information on deposits and calculate total sum trough all filtered accounts
 				.reduce( (sum, a) => {
 					depositDetail+= a.bank.name + ': ' +a.saldo_on_date +' '+ curr+ ' до ' + dotDateFormat(a.term) + '; '
 					return sum+=parseFloat(a.saldo_on_date)
@@ -54,6 +57,16 @@ export function accountsSaldo(allAccounts, movements, company=null){
 	}
 }
 
+export function DepositInfo(props){
+	return(
+		<React.Fragment>
+			<td colSpan="4" className="deposit">{
+				props.depositDetail.length >1 ? `У т.ч. депозити у ${props.depositDetail}` :''
+			}</td>
+			<td colSpan="11" className="deposit"></td>
+		</React.Fragment>		
+	)
+}
 
 export class OneCompany extends React.Component{
 	constructor(props){
@@ -71,7 +84,7 @@ export class OneCompany extends React.Component{
 		voc.addToExportBufer( company, 'depo_usd', deposits_on_date.USD.end)
 		voc.addToExportBufer( company, 'depo_eur', deposits_on_date.EUR.end)
 
-// TODO: make deposit details per account with actual rests (including today's)
+// TODO: make deposit details per account with actual rests (___including__today's__) ????
 		console.log({[company.id]:deposits_on_date.depositDetail})
 		voc.addToExportBufer( company, 'depo_detail', deposits_on_date.depositDetail)
 
@@ -103,53 +116,57 @@ export class OneCompany extends React.Component{
 		}
 
 		return(
+			<React.Fragment>
 
-			<tr >
-				<td className="i-text">
-					{	company.code_name}, (id: {company.id})
-					<SignCompany 
-						company={company}
-						movementsToSign= {movements.filter( m=> m.company_id == company.id) }
-						voc={voc}
-						log = {`${company.code_name} signed:${Moment(Date.now()).format('DD.MM.YYYY hh:mm')}, `+
-										`r_d:${date} `+
-										` UAH.begin:${saldo_on_date.UAH.begin}, USD.begin:${saldo_on_date.USD.begin},`+ 
-										`EUR.begin:${saldo_on_date.EUR.begin}, UAH.end:${saldo_on_date.UAH.end},`+
-										`USD.end:${saldo_on_date.USD.end}, EUR.end:${saldo_on_date.EUR.end}`
-									}
-					></SignCompany>
-				</td>
-				
-
-
-				<td>{voc.addToExportBufer( company, 'in_uah', saldo_on_date.UAH.begin) }</td>
-				<td>{voc.addToExportBufer( company, 'in_usd', saldo_on_date.USD.begin) }</td>
-				<td>{voc.addToExportBufer( company, 'in_eur', saldo_on_date.EUR.begin) }</td>
-
-				<td>{ voc.addToExportBufer( company, 'income_uah', sumMovsByCurrency('UAH', movements).income )}</td>
-				<td>{ voc.addToExportBufer( company, 'income_usd', sumMovsByCurrency('USD', movements).income )}</td>
-				<td>{ voc.addToExportBufer( company, 'income_eur', sumMovsByCurrency('EUR', movements).income )}</td>
-				<td className="i-text">
-					{	commentsWrapper('Income')	}
-
-				</td>
+				<tr >
+					<td className="i-text">
+						{	company.code_name}, (id: {company.id})
+						<SignCompany 
+							company={company}
+							movementsToSign= {movements.filter( m=> m.company_id == company.id) }
+							voc={voc}
+							log = {`${company.code_name} signed:${Moment(Date.now()).format('DD.MM.YYYY hh:mm')}, `+
+											`r_d:${date} `+
+											` UAH.begin:${saldo_on_date.UAH.begin}, USD.begin:${saldo_on_date.USD.begin},`+ 
+											`EUR.begin:${saldo_on_date.EUR.begin}, UAH.end:${saldo_on_date.UAH.end},`+
+											`USD.end:${saldo_on_date.USD.end}, EUR.end:${saldo_on_date.EUR.end}`
+										}
+						></SignCompany>
+					</td>
+					
 
 
-				<td>{ voc.addToExportBufer( company, 'outcome_uah', sumMovsByCurrency('UAH', movements).outcome )}</td>
-				<td>{ voc.addToExportBufer( company, 'outcome_usd', sumMovsByCurrency('USD', movements).outcome )}</td>
-				<td>{ voc.addToExportBufer( company, 'outcome_eur', sumMovsByCurrency('EUR', movements).outcome )}</td>
+					<td>{voc.addToExportBufer( company, 'in_uah', saldo_on_date.UAH.begin) }</td>
+					<td>{voc.addToExportBufer( company, 'in_usd', saldo_on_date.USD.begin) }</td>
+					<td>{voc.addToExportBufer( company, 'in_eur', saldo_on_date.EUR.begin) }</td>
+
+					<td>{ voc.addToExportBufer( company, 'income_uah', sumMovsByCurrency('UAH', movements).income )}</td>
+					<td>{ voc.addToExportBufer( company, 'income_usd', sumMovsByCurrency('USD', movements).income )}</td>
+					<td>{ voc.addToExportBufer( company, 'income_eur', sumMovsByCurrency('EUR', movements).income )}</td>
+					<td className="i-text">
+						{	commentsWrapper('Income')	}
+
+					</td>
 
 
-				<td className="i-text">
-					{	commentsWrapper('Outcome')	}
-				</td>
-				
-				<td>{voc.addToExportBufer( company, 'out_uah', saldo_on_date.UAH.end) }</td>
-				<td>{voc.addToExportBufer( company, 'out_usd', saldo_on_date.USD.end) }</td>
-				<td>{voc.addToExportBufer( company, 'out_eur', saldo_on_date.EUR.end) }</td>
+					<td>{ voc.addToExportBufer( company, 'outcome_uah', sumMovsByCurrency('UAH', movements).outcome )}</td>
+					<td>{ voc.addToExportBufer( company, 'outcome_usd', sumMovsByCurrency('USD', movements).outcome )}</td>
+					<td>{ voc.addToExportBufer( company, 'outcome_eur', sumMovsByCurrency('EUR', movements).outcome )}</td>
 
-			</tr>
 
+					<td className="i-text">
+						{	commentsWrapper('Outcome')	}
+					</td>
+					
+					<td>{voc.addToExportBufer( company, 'out_uah', saldo_on_date.UAH.end) }</td>
+					<td>{voc.addToExportBufer( company, 'out_usd', saldo_on_date.USD.end) }</td>
+					<td>{voc.addToExportBufer( company, 'out_eur', saldo_on_date.EUR.end) }</td>
+
+				</tr>
+				<tr className="deposit">
+					<DepositInfo depositDetail={deposits_on_date.depositDetail} />
+				</tr>
+			</React.Fragment>
 		)
 
 	}
