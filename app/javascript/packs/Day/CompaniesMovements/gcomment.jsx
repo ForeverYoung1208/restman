@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import {AddNaN} from "../../i-services"
-
+import 'array-flat-polyfill';
 
 
 export default class Gcomment extends React.Component {

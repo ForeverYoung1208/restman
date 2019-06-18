@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "3.5",
+    "array-flat-polyfill": "^1.0.1",
     "axios": "^0.18.0",
     "babel-preset-react": "^6.24.1",
     "create-react-class": "^15.6.3",

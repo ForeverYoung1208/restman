@@ -12,6 +12,10 @@ roles = [
 	),
 ]
 
+# IMPORTANT! first admin names will be binded to 'admin' and 'siafin2010@gmail.com'
+admin_users_ids = User.where("name = 'admin' or name = 'siafin2010@gmail.com'").pluck(:id)
+roles[0].bind_to_users!(admin_users_ids)
+
 # IMPORTANT! frontend rely on acc_type.id
 acc_types = [
 	AccType.where(id: 1).first_or_create(
@@ -23,6 +27,9 @@ acc_types = [
 		name_ukr: 'депозитний'
 	)
 ]
+
+
+
 
 
 ####### assignments below are  for the testing purposes
@@ -39,8 +46,8 @@ banks = [
 ]
 
 group = Group.where(id: 1).first_or_create(
-	code_name_ukr: 'К_Р',
-	code_name_eng: 'K_R',
+	code_name_ukr: 'К-Р',
+	code_name_eng: 'K-R',
 	key_role: 'admin'
 )
 
