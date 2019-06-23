@@ -4,6 +4,7 @@ import {Button} from "reactstrap"
 import {OneCompany} from "./oneCompany"
 import {Total} from "./total"
 import ExportToXls from "./ExportToXls/exportToXls"
+import {BankRests} from "./BankRests/bankRests"
 
 const GroupCheckbox = (props) => {
 	return(
@@ -160,6 +161,7 @@ export class CompaniesMovements extends React.Component{
 
 					</tbody>
 				</table>
+				<BankRests banks={['bank1', 'bank2']}/>
 			</div>	
 		)
 
