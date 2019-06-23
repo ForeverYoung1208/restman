@@ -6,7 +6,7 @@ TableHead = function (props){
   	<thead>
   		<tr> 
 	  		{	banks.map(bank => (
-  				<th> bank.name_int <th/>
+  				<th> bank.name_int </th>
   			))}  			
   		</tr>
   		
