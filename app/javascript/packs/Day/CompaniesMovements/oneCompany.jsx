@@ -84,8 +84,8 @@ export class OneCompany extends React.Component{
 		voc.addToExportBufer( company, 'depo_usd', deposits_on_date.USD.end)
 		voc.addToExportBufer( company, 'depo_eur', deposits_on_date.EUR.end)
 
-// TODO: make deposit details per account with actual rests (___including__today's__) ????
-		console.log({[company.id]:deposits_on_date.depositDetail})
+		// TODO: make deposit details per account with actual rests (___including__today's__) ????
+		// console.log({[company.id]:deposits_on_date.depositDetail})
 		voc.addToExportBufer( company, 'depo_detail', deposits_on_date.depositDetail)
 
 

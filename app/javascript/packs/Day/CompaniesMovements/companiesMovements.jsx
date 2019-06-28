@@ -162,7 +162,6 @@ export class CompaniesMovements extends React.Component{
 					</tbody>
 				</table>
 				<BankRests 
-					banks={['bank1', 'bank2']} 
 					accsList = {voc.accsList} 
 					allMovements = {allMovements}
 					companiesSelectedIds = {companiesSelectedIds} />

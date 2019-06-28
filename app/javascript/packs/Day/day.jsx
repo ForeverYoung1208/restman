@@ -28,6 +28,12 @@ DayInfo.Proptypes={
 	day: PropTypes.shape.isRequired
 }
 
+////  Let's try to 'useContext' hook to spread 'voc' over the code/
+////  That's new feature so it'll be used only at some new parts of code.
+////  the rest of the code will rely on passing 'voc' through the params.
+export const VocContext = React.createContext();
+////
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 export class Day extends React.Component {
@@ -427,11 +433,16 @@ export class Day extends React.Component {
 						/>
 					</div>
 				</div>
-				{/* <div className="row">
-									<hr className="my-hr-center col-md-10 align-center"/>
-								</div>*/}
+
 
 				<div className="row container-fluid col-md-12" >
+					<VocContext.Provider value={this.state.voc}>
+{/*
+////  Let's try to 'useContext' hook to spread 'voc' over the code/
+////  That's new feature so it'll be used only at some new parts of code.
+////  the rest of the code will rely on passing 'voc' through the params.					
+*/}
+
 						<CompaniesMovements 
 							companies = {this.state.companiesSelected} 
 							date={this.state.date}
@@ -443,11 +454,11 @@ export class Day extends React.Component {
 							loadingMovementsIds = {this.state.loadingMovementsIds}
 							editingMovementsIds = {this.state.editingMovementsIds}
 						/>
+					</VocContext.Provider>
+
+
 				</div>
 			</div>
 		)
 	}
-}
-Day.Proptypes = {
-
 }
