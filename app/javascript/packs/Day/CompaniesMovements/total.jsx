@@ -86,7 +86,9 @@ export class Total extends React.Component{
 
 				</tr>
 				<tr className="movementsTotal deposit">
-					<DepositInfo depositDetail={all_deposits_on_date.depositDetail}/>
+					<DepositInfo 
+						depositDetail={voc.addToExportBufer( company, 'depo_detail', all_deposits_on_date.depositDetail )}
+					/>
 				</tr>			
 			</React.Fragment>			
 		)

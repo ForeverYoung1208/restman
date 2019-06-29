@@ -61,15 +61,32 @@ function BankTable(props) {
 }
 
 function CompanyRests(props) {
-	const {company, accounts, uniqBanks, movements} = props
+	let {company, accounts, uniqBanks, movements} = props
+	const voc=useContext(VocContext)
 	return(
 		<React.Fragment>
 			<td>{company ? company.code_name : 'Загалом'}</td>
 			{uniqBanks.map(bank=>(
 				<React.Fragment key={bank.id}>
-				  <td>{roundDisp(accountsSaldo(accounts.filter(a=> bank.id==-1 || a.bank.id ==bank.id ), movements, company).UAH.end)}</td>
-					<td>{roundDisp(accountsSaldo(accounts.filter(a=> bank.id==-1 || a.bank.id ==bank.id ), movements, company).USD.end)}</td>
-					<td>{roundDisp(accountsSaldo(accounts.filter(a=> bank.id==-1 || a.bank.id ==bank.id ), movements, company).EUR.end)}</td>
+				  <td>{roundDisp(voc.addToExportBufer(
+				  			company ? company : {id:'total'},
+				  			`UAHrestBank-${bank.id}`,
+				  			accountsSaldo(accounts.filter(a=> bank.id=='total' || a.bank.id ==bank.id ), movements, company).UAH.end
+				  		))}
+				  </td>
+				  <td>{roundDisp(voc.addToExportBufer(
+				  			company ? company : {id:'total'},
+				  			`USDrestBank-${bank.id}`,
+				  			accountsSaldo(accounts.filter(a=> bank.id=='total' || a.bank.id ==bank.id ), movements, company).USD.end
+				  		))}
+				  </td>
+				  <td>{roundDisp(voc.addToExportBufer(
+				  			company ? company : {id:'total'},
+				  			`EURrestBank-${bank.id}`,
+				  			accountsSaldo(accounts.filter(a=> bank.id=='total' || a.bank.id ==bank.id ), movements, company).EUR.end
+				  		))}
+				  </td>
+					
 				</React.Fragment>
 			))}
 		</React.Fragment>
@@ -83,7 +100,7 @@ export function BankRests(props) {
 	const accountsSelected = accsList.filter(a=>companiesSelectedIds.includes(a.company_id))
 	const movements = allMovements.filter(m=>companiesSelectedIds.includes(m.company_id))
 
-	//get only banks that are present in selected companies
+	//get  banks that are present only in selected companies
 	const banksSelected = accountsSelected.map( (a,ind,arr) => arr.indexOf(a)==ind ? a.bank : null)
 	
 	// remove duplicate banks
@@ -95,7 +112,7 @@ export function BankRests(props) {
 		uniqBanks.find(ub => bs.id == ub.id) ? null : uniqBanks.push(bs)
 	})
 	uniqBanks.push({
-		id: -1,
+		id: 'total',
 		name: 'Всі'
 	})
 

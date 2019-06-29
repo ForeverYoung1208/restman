@@ -1,63 +1,22 @@
-import React from 'react'
+import React from "react"
+// import React, {useContext} from "react"
+// import {VocContext} from "../../day"
+
 import { Button } from 'reactstrap'
-// import XLSX from "js-xlsx";
-// import XlsxPopulate  from 'xlsx-populate'
 import {roundFin} from "../../../i-services"
 
 import Moment from "moment"
 import ReactFileReader from "react-file-reader"
 import { saveAs } from'file-saver'
-
-
-
-
-/////////////////////////////////////// it works but loses styles ////////////////////////////
-// function s2ab(s) { 
-//                 let buf = new ArrayBuffer(s.length); //convert s to arrayBuffer
-//                 let view = new Uint8Array(buf);  //create uint8array as viewer
-//                 for (let i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF; //convert to octet
-//                 return buf;    
-// }
-// function handleExportToXls(files){
-//   const _reader = new FileReader();
-//   let _f = files[0];	
-//   _reader.readAsBinaryString(_f)
-
-//   _reader.onload = (e) =>{
-//     let _data = e.target.result;
-//     let _workbook = XLSX.read(_data, {type:'binary'});
-// 		console.log( _workbook )
-
-// 		let wbout = XLSX.write(_workbook,{ bookType:'xlsx', bookSST:false, type:'binary' })
-// 		saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream;charset=windows-1251"}), "test.xlsx");
-
-//   }
-
-// }
-////////////////////////////////////////////////
-
-
-////////////////IT WORKS but there is more simple way to manage substitution!!!
-// function handleExportToXls(files){
-// 	XlsxPopulate.fromDataAsync(files[0])
-//   .then(function (workbook){
-//   	workbook.outputAsync().then((blob)=>{
-//   		saveAs(blob, "test.xlsx");
-//   	})
-//   })
-// };
-////////////////IT WORKS!!!
-
-
-///////////////////////////////////// V2 /////////////////////////////////////////////////////////
 let XlsxTemplate = require('xlsx-template');
+
 
 // fnfe = formatNumberForExport
 function fnfe(n) {
   return Math.round(n)
 }
 
-function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName){
+function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName,banks){
   const _reader = new FileReader();
   _reader.readAsBinaryString(fileTemplate)
   _reader.onload = (e) =>{
@@ -98,6 +57,8 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName){
         values['depo-detail-'+suffix] = eb.depo_detail
       })
 
+
+
       console.log({substitute: values})
 
       // Perform substitution
@@ -111,10 +72,22 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName){
 
 export default function ExpotToXls(props){
 	const {voc, movements, date,companyGroupName} = props
+
+  let uniqBanks = []
+  voc.accsList.map(a => a.bank).forEach( (bs) => {
+    uniqBanks.find(ub => bs.id == ub.id) ? null : uniqBanks.push(bs)
+  })
+  uniqBanks.push({
+    id: 'total',
+    name: 'Всі'
+  })
+
+  console.log(uniqBanks)
+
   const exportBuffer = voc.readExportBuffer()
   console.log( {exportBuffer: exportBuffer} )
 	const exportButton =
-							<ReactFileReader fileTypes={[".xls",".xlsx"]} handleFiles={(files)=>handleExportToXls(files[0], exportBuffer, date,companyGroupName)}>
+							<ReactFileReader fileTypes={[".xls",".xlsx"]} handleFiles={(files)=>handleExportToXls(files[0], exportBuffer, date,companyGroupName, uniqBanks)}>
 								<Button type="button" className="btn btn-warning">
 								<span className="fa fa-download p-1"></span>
 									Експорт (обрати шаблон)
