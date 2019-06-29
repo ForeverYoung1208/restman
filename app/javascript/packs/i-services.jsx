@@ -4,6 +4,11 @@ export const roundFin = (str) => {
 	return(parseFloat(str).toFixed(2))
 }
 
+export const roundDisp = (str) => {
+	return(parseFloat(str).toFixed(0))
+}
+
+
 export const fetchJSONfrom = (url) => {
 	return fetch(url,
 		{	method: 'GET',

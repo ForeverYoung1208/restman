@@ -5,8 +5,7 @@ import Moment from 'moment'
 import Gcomment from "./gcomment"
 import {CommentsBlock} from "./commentsBlock"
 import SignCompany from "./SignCompany/signCompany"
-import {dotDateFormat} from "../../i-services"
-
+import {dotDateFormat, roundDisp} from "../../i-services"
 
 
 export function sumMovsByCurrency(currency = 'UAH', allMovs){
@@ -16,17 +15,23 @@ export function sumMovsByCurrency(currency = 'UAH', allMovs){
 		income = allMovs.reduce( (sum, m) =>  (m.direction=='Income' && m.currency==currency) ? (sum += m.value ) : sum, sum = 0)
 		outcome = allMovs.reduce( (sum, m) =>  (m.direction=='Outcome' && m.currency==currency) ? (sum += m.value ) : sum, sum = 0)
 	}
-  return {income: parseFloat(income).toFixed(2), outcome: parseFloat(outcome).toFixed(2)}
+  return {
+  	income: parseFloat(income).toFixed(2), 
+  	outcome: parseFloat(outcome).toFixed(2),
+  	change: parseFloat(income)-parseFloat(outcome)
+  }
 }
+
+
 
 // counts saldo on all given allAccounts(using each account.saldo_on_date property) by given company (if given),
 // using all given movements 
 // (regardless of dates of account saldo's and movements) so take care of it)
 
-
-
 export function accountsSaldo(allAccounts, movements, company=null){
 	let depositDetail=''
+
+	let accountsIds=[]
 
 	function sumByCurr(curr){
 		const begin = allAccounts
@@ -39,12 +44,16 @@ export function accountsSaldo(allAccounts, movements, company=null){
 						return 0
 				})
 				// build information on deposits and calculate total sum trough all filtered accounts
+				// and store account IDs
 				.reduce( (sum, a) => {
-					depositDetail+= a.bank.name + ': ' +a.saldo_on_date +' '+ curr+ ' до ' + dotDateFormat(a.term) + '; '
+					accountsIds.push(a.id)
+					depositDetail+= a.bank.name + ': ' 
+						+ roundDisp(parseFloat(a.saldo_on_date) + sumMovsByCurrency(curr, movements.filter(m=>m.account_id==a.id)).change)
+						+' '+ curr+ ' до ' + dotDateFormat(a.term) + '; '
 					return sum+=parseFloat(a.saldo_on_date)
 				}, 0)
-
-		const movs = sumMovsByCurrency(curr, movements )
+		
+		const movs = sumMovsByCurrency(curr, movements.filter(m=>accountsIds.includes(m.account_id)) )
 		const end = parseFloat(begin) + parseFloat(movs.income) - parseFloat(movs.outcome)
 		return({begin:begin.toFixed(2), end: end.toFixed(2)})
 	}

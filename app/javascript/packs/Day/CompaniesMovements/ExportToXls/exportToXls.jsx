@@ -37,7 +37,7 @@ import { saveAs } from'file-saver'
 ////////////////////////////////////////////////
 
 
-////////////////IT WORKS but there are easyest way to manage substitution!!!
+////////////////IT WORKS but there is more simple way to manage substitution!!!
 // function handleExportToXls(files){
 // 	XlsxPopulate.fromDataAsync(files[0])
 //   .then(function (workbook){
@@ -95,6 +95,7 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName){
         values['depo-uah-'+suffix] = fnfe(eb.depo_uah)
         values['depo-usd-'+suffix] = fnfe(eb.depo_usd)
         values['depo-eur-'+suffix] = fnfe(eb.depo_eur)
+        values['depo-detail-'+suffix] = eb.depo_detail
       })
 
       console.log({substitute: values})

@@ -1,10 +1,12 @@
 import React, {useContext} from "react"
-import {accountsSaldo, sumMovsByCurrency} from "../oneCompany"
 import {VocContext} from "../../day"
+
+import {accountsSaldo, sumMovsByCurrency} from "../oneCompany"
+import {roundDisp} from "../../../i-services"
 
 function BankTableHead(props){
 	const {uniqBanks} = props
-	
+
 	return(
   	<thead>
   		<tr> 
@@ -32,7 +34,7 @@ function BankTableHead(props){
 function BankTable(props) {
 	
 	const companies = props.compList.filter(c => props.companiesSelectedIds.includes(c.id))
-	const {uniqBanks, accountsSelected} = props
+	const {uniqBanks, accountsSelected, movements} = props
 	return (
 		<tbody>	
 			{companies.map(c => (
@@ -41,32 +43,42 @@ function BankTable(props) {
 						company={c} 
 						accounts={accountsSelected.filter(a => a.company_id==c.id)}
 						uniqBanks={uniqBanks}
+						movements={movements}
 					/>
 				</tr>
 			))}
+			<tr className="movementsTotal">
+				<CompanyRests 
+					company={null} 
+					accounts={accountsSelected}
+					uniqBanks={uniqBanks}
+					movements={movements}
+				/>
+			</tr>
+
 		</tbody>
 	)
 }
 
 function CompanyRests(props) {
-	const {company, accounts, uniqBanks} = props
+	const {company, accounts, uniqBanks, movements} = props
 	return(
 		<React.Fragment>
-			<td>{company.code_name}</td>
+			<td>{company ? company.code_name : 'Загалом'}</td>
 			{uniqBanks.map(bank=>(
-				<td key={bank.id}>{bank.name}</td>
-
-
+				<React.Fragment key={bank.id}>
+				  <td>{roundDisp(accountsSaldo(accounts.filter(a=> bank.id==-1 || a.bank.id ==bank.id ), movements, company).UAH.end)}</td>
+					<td>{roundDisp(accountsSaldo(accounts.filter(a=> bank.id==-1 || a.bank.id ==bank.id ), movements, company).USD.end)}</td>
+					<td>{roundDisp(accountsSaldo(accounts.filter(a=> bank.id==-1 || a.bank.id ==bank.id ), movements, company).EUR.end)}</td>
+				</React.Fragment>
 			))}
-			
 		</React.Fragment>
-		
-	
 	)
 }
 
 export function BankRests(props) {
 	const {accsList, allMovements, companiesSelectedIds} = props
+	const voc = useContext(VocContext)
 
 	const accountsSelected = accsList.filter(a=>companiesSelectedIds.includes(a.company_id))
 	const movements = allMovements.filter(m=>companiesSelectedIds.includes(m.company_id))
@@ -82,13 +94,22 @@ export function BankRests(props) {
 	banksSelected.forEach( (bs) => {
 		uniqBanks.find(ub => bs.id == ub.id) ? null : uniqBanks.push(bs)
 	})
+	uniqBanks.push({
+		id: -1,
+		name: 'Всі'
+	})
 
-	const voc = useContext(VocContext)
 
 	return(	
   	<table className="table movements-table rests-table">
 			<BankTableHead uniqBanks={uniqBanks} />
-			<BankTable uniqBanks={uniqBanks} accountsSelected={accountsSelected} companiesSelectedIds={companiesSelectedIds} compList = {voc.compList}/>
+			<BankTable 
+				uniqBanks={uniqBanks} 
+				accountsSelected={accountsSelected} 
+				companiesSelectedIds={companiesSelectedIds} 
+				compList = {voc.compList}
+				movements = {movements}
+			/>
 		</table>
 	)
 }

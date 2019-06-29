@@ -164,7 +164,8 @@ export class CompaniesMovements extends React.Component{
 				<BankRests 
 					accsList = {voc.accsList} 
 					allMovements = {allMovements}
-					companiesSelectedIds = {companiesSelectedIds} />
+					companiesSelectedIds = {companiesSelectedIds} 
+				/>
 			</div>	
 		)
 
