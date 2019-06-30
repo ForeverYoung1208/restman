@@ -62,6 +62,7 @@ export class Day extends React.Component {
 			  	handleMassMovAdd: this.handleMassMovAdd,
 					edStopHandle: this.edStopHandle,
 					edStartHandle: this.edStartHandle,
+					banksOfAccounts: this.banksOfAccounts,
 					getNewMovId: this.getNewMovId,
 					handleMovsSign: this.handleMovsSign,
 					handleNullMovsSign: this.handleNullMovsSign,
@@ -70,6 +71,23 @@ export class Day extends React.Component {
 					clearExportBuffer: this.clearExportBuffer,
 				}
 		}
+	}
+
+	banksOfAccounts = (accounts=this.state.voc.accsList) =>{
+		const banks = accounts.map( (a,ind,arr) => arr.indexOf(a)==ind ? a.bank : null)
+		// remove duplicate banks
+		// that was good for plain array of simple strings:
+		// const uniqBanks = [...new Set(banksSelected)];
+		// but we have the array of objects and we have compare them on 'id' property:
+		let uniqBanks = []
+		banks.forEach( (bs) => {
+			uniqBanks.find(ub => bs.id == ub.id) ? null : uniqBanks.push(bs)
+		})
+		uniqBanks.push({
+			id: 'total',
+			name: 'Всі'
+		})
+		return uniqBanks
 	}
 
 	addToExportBufer = (company,key, value)=>{

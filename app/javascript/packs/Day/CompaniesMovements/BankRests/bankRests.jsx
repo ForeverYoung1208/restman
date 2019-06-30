@@ -100,22 +100,7 @@ export function BankRests(props) {
 	const accountsSelected = accsList.filter(a=>companiesSelectedIds.includes(a.company_id))
 	const movements = allMovements.filter(m=>companiesSelectedIds.includes(m.company_id))
 
-	//get  banks that are present only in selected companies
-	const banksSelected = accountsSelected.map( (a,ind,arr) => arr.indexOf(a)==ind ? a.bank : null)
-	
-	// remove duplicate banks
-	// that was good for plain array of simple strings:
-	// const uniqBanks = [...new Set(banksSelected)];
-	// but we have the array of objects and we have compare them on 'id' property:
-	let uniqBanks = []
-	banksSelected.forEach( (bs) => {
-		uniqBanks.find(ub => bs.id == ub.id) ? null : uniqBanks.push(bs)
-	})
-	uniqBanks.push({
-		id: 'total',
-		name: 'Всі'
-	})
-
+	const uniqBanks = voc.banksOfAccounts(accountsSelected)
 
 	return(	
   	<table className="table movements-table rests-table">

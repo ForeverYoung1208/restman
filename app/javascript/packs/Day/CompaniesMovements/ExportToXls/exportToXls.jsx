@@ -55,6 +55,11 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName,banks
         values['depo-usd-'+suffix] = fnfe(eb.depo_usd)
         values['depo-eur-'+suffix] = fnfe(eb.depo_eur)
         values['depo-detail-'+suffix] = eb.depo_detail
+
+        banks.forEach( b => {
+          values['UAH-'+suffix+'-restBank-'+b.id] = fnfe(eb['UAHrestBank-'+b.id])
+        })
+          
       })
 
 
@@ -73,14 +78,7 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName,banks
 export default function ExpotToXls(props){
 	const {voc, movements, date,companyGroupName} = props
 
-  let uniqBanks = []
-  voc.accsList.map(a => a.bank).forEach( (bs) => {
-    uniqBanks.find(ub => bs.id == ub.id) ? null : uniqBanks.push(bs)
-  })
-  uniqBanks.push({
-    id: 'total',
-    name: 'Всі'
-  })
+  const uniqBanks = voc.banksOfAccounts();
 
   console.log(uniqBanks)
 
