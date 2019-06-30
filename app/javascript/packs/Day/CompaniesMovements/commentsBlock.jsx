@@ -36,7 +36,7 @@ const Comment = (props) => {
 						</div>
 
 						<div className="col-md-1 p-0">
-							<Button type="button" className="btn btn-light p-0" onClick={ ()=> edStartHandle([movement.id]) }>
+							<Button type="button" className="btn btn-light p-0" disabled = {voc.isDayClosed()}  onClick={ ()=> edStartHandle([movement.id]) }>
 								<span className="far fa-edit"></span>
 							</Button>
 						</div>			
@@ -81,13 +81,13 @@ export class CommentsBlock extends React.Component{
 
 		const addButton = <div className="row justify-content-center">
 						<div className="col-5 p-0">
-							<Button type="button" className="btn btn-light p-0 my-vButton" onClick={()=>handleMovAdd(emptyMovVals)}>
+							<Button disabled = {voc.isDayClosed()} type="button" className="btn btn-light p-0 my-vButton" onClick={()=>handleMovAdd(emptyMovVals)}>
 								<span className="fa fa-plus"></span>
 							</Button>
 						</div>
 						<div className="col-5 p-0">
 							<ReactFileReader fileTypes={[".xls",".xlsx"]} handleFiles={this._handleMassMovAdd}>
-							  <Button type="button" className="btn btn-light p-0 my-vButton massAddBtn">
+							  <Button disabled = {voc.isDayClosed()} type="button" className="btn btn-light p-0 my-vButton massAddBtn">
 								<span className="fa fa-cart-plus"></span>
 									виписка ОБ
 								</Button>	

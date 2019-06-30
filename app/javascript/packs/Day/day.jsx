@@ -69,6 +69,7 @@ export class Day extends React.Component {
 					addToExportBufer: this.addToExportBufer,
 					readExportBuffer: this.readExportBuffer,
 					clearExportBuffer: this.clearExportBuffer,
+					isDayClosed: () => this.state.day.is_closed
 				}
 		}
 	}
