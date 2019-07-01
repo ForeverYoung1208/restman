@@ -8,7 +8,7 @@ import {CompaniesSelect} from './CompaniesSelect/companiesSelect'
 import {GroupsSelect} from './GroupsSelect/groupsSelect'
 import {CompaniesMovements} from './CompaniesMovements/companiesMovements'
 
-import {fetchJSONfrom, postDataAsJSON, dashDateFormat} from '../i-services'
+import {fetchJSONfrom, postDataAsJSON, dashDateFormat, getSafe} from '../i-services'
 
 
 const DayInfo = (props) => {
@@ -117,22 +117,27 @@ export class Day extends React.Component {
 	handleNullMovsSign = (company) => {
 		const {day} = this.state
 		const {movsGroupsList, currsList, accsList } = this.state.voc
-		const technicalMovement = {
-			id:-1,
-			company_id: company.id,
-			day_id: day.id,
-			// currency_id: currsList[0].id,
-			// currency: currsList[0].name_int,
-			movement_group_id: movsGroupsList[0].id,
-			group_id: movsGroupsList[0].id,
-			account_id: accsList.filter(a=> a.company_id == company.id)[0].id,
-			value: 0,
-			direction: 'Technical',
-			is_changed: true,
-			log: `${company.code_name}: signed no movements`,
-			signed_now: true,
+
+		try{
+			const technicalMovement = {
+				id:-1,
+				company_id: company.id,
+				day_id: day.id,
+				// currency_id: currsList[0].id,
+				// currency: currsList[0].name_int,
+				movement_group_id: movsGroupsList[0].id,
+				group_id: movsGroupsList[0].id,
+				account_id: accsList.filter(a=>a.company_id == company.id)[0].id,
+				value: 0,
+				direction: 'Technical',
+				is_changed: true,
+				log: `${company.code_name}: signed no movements`,
+				signed_now: true,
+			}
+			this.handleMovSaving(technicalMovement)
+		}	catch (e){
+			alert(`Не можу зберегти інформацію якщо у компанії немає жодного рухунку. У налаштуваннях рахунків додайте хоча б один рахунок цій компанії.`)
 		}
-		this.handleMovSaving(technicalMovement)
 
 	}
 

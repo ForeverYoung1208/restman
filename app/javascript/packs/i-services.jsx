@@ -8,6 +8,13 @@ export const roundDisp = (str) => {
 	return(parseFloat(str).toFixed(0))
 }
 
+export function getSafe(fn) {
+    try {
+        return fn();
+    } catch (e) {
+        return undefined;
+    }
+}
 
 export const fetchJSONfrom = (url) => {
 	return fetch(url,

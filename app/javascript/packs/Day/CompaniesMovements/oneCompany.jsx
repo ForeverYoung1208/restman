@@ -124,6 +124,7 @@ export class OneCompany extends React.Component{
 			)
 		}
 
+
 		return(
 			<React.Fragment>
 

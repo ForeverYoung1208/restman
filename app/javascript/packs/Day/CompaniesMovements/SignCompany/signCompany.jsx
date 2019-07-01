@@ -19,10 +19,10 @@ export default class SignCompany extends React.Component{
 					onClick={ e=> voc.handleNullMovsSign(company)}> Немає змін 
 				</Button>
 			: movementsToSign.length>0 && movementsToSign.find(m => !m.signed_by_id ) ?  //are there any unsigned movements?
-				<Button className="btn btn-warning" disabled = {voc.isDayClosed()} 
+					<Button className="btn btn-warning" disabled = {voc.isDayClosed()} 
 					onClick={ e=> voc.handleMovsSign(movementsToSign, log)}> Підписати 
 				</Button>
-			: <Button className="btn btn-light" disabled> Підписано </Button>		
+				: <Button className="btn btn-light" disabled> Підписано </Button>		
 		)
 
 	}
