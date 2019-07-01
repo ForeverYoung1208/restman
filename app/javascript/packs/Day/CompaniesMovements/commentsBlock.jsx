@@ -89,7 +89,7 @@ export class CommentsBlock extends React.Component{
 							<ReactFileReader fileTypes={[".xls",".xlsx"]} handleFiles={this._handleMassMovAdd}>
 							  <Button disabled = {voc.isDayClosed()} type="button" className="btn btn-light p-0 my-vButton massAddBtn">
 								<span className="fa fa-cart-plus"></span>
-									виписка ОБ
+									із виписки
 								</Button>	
 							</ReactFileReader>
 						</div>

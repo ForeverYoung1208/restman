@@ -7,6 +7,7 @@ import {Datepicker} from './Datepicker/datepicker'
 import {CompaniesSelect} from './CompaniesSelect/companiesSelect'
 import {GroupsSelect} from './GroupsSelect/groupsSelect'
 import {CompaniesMovements} from './CompaniesMovements/companiesMovements'
+import {Button} from "reactstrap"
 
 import {fetchJSONfrom, postDataAsJSON, dashDateFormat, getSafe} from '../i-services'
 
@@ -19,8 +20,10 @@ const DayInfo = (props) => {
 
 	return(
 		<div>
-			<div> Відкритий?: {is_open}</div>
-			<div> id:{day.id}, {day.comment} </div>
+			<div> id:{day.id}, відкритий?: {is_open}</div>
+			<div> {day.comment} 
+				{ !day.is_closed ? <Button className="p-0 btn-warning">Закрити</Button> : ''}
+			</div>
 		</div>
 	)
 }
