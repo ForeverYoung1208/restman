@@ -37,3 +37,4 @@ yarn-debug.log*
 
 # FOREVERYOUNG Ignore station-specific wepback config
 /config/webpacker.yml
+/config/local_env.yml
