@@ -110,10 +110,13 @@ class Users
 $(document).ready ->
 	if $('meta[name=psj]').attr('controller')=='users' && $('meta[name=psj]').attr('action')=='index'
 
+
 		allRoles = new Roles()
 		allRoles.jqxhr.then ()->
 			window.allUsers = new Users('#ajaxUsers', allRoles);
 			allUsers.getAndShow();
+			$('#btnSave').on("click", allUsers.save);
+			$('#btnCancel').on("click", cancelDialog);
 
 
 		window.cancelDialog = ()->
@@ -150,7 +153,7 @@ $(document).ready ->
 				"Скасувати": ()->
 					$( this ).dialog( "close" );
 					allUsers.getAndShow()
-				"Відмінити": ()->
+				"Назад (Не скасовувати)": ()->
 					$( this ).dialog( "close" );
 
 		$("#dialog-saved").dialog

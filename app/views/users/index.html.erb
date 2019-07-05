@@ -54,9 +54,10 @@
 						<h4 class="card-title">Після налаштування оберіть: </h4>
 					</div>						
 					<div class="card-block" >
-						<button type="button" class="btn btn-primary" id="btnSave" onclick="allUsers.save()" <%="disabled" unless @current_user.can_edit_users?%> > Зберегти зміни</button>
+						<button type="button" class="btn btn-primary" id="btnSave" 
+						 <%="disabled" unless @current_user.can_edit_users?%> > Зберегти зміни</button>
 						або
-						<button type="button" class="btn btn-primary" id="btnSave" onclick="cancelDialog()" > Скасувати зміни</button>
+						<button type="button" class="btn btn-primary" id="btnCancel" > Скасувати зміни</button>
 					</div>
 		</div><!-- col -->
 
