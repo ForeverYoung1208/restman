@@ -22,7 +22,7 @@ const DayInfo = (props) => {
 		<div>
 			<div> id:{day.id}, відкритий?: {is_open}</div>
 			<div> {day.comment} 
-				{ !day.is_closed ? <Button className="p-0 btn-warning">Закрити</Button> : ''}
+				{ !day.is_closed ? <Button className="p-0 btn-warning" onClick={props.closeDay}>Закрити</Button> : ''}
 			</div>
 		</div>
 	)
@@ -74,6 +74,22 @@ export class Day extends React.Component {
 					clearExportBuffer: this.clearExportBuffer,
 					isDayClosed: () => this.state.day.is_closed
 				}
+		}
+	}
+
+	closeDay = () => {
+		const {day} = this.state
+		day.is_closed = true
+		console.log(day)
+		if (confirm('Close Day?')){
+			postDataAsJSON(`/days/${day.id}.json`,'PUT', day,
+				(res)=>{
+					console.log('day closed': res)
+					this.setState({...this.state, day})
+				},
+				(err)=>console.log('err': err)
+			)
+
 		}
 	}
 
@@ -441,7 +457,8 @@ export class Day extends React.Component {
 
 					<div className="col-md-3 flex-row d-flex align-items-center">
 						<Datepicker onDateChanged={this.handleDateChanged} date={this.state.date} />
-						<DayInfo day={this.state.day} />
+						<DayInfo day={this.state.day} closeDay = {this.closeDay}/>
+
 					</div>
 
 					<div className="col-md-1 flex-row d-flex align-items-center">
