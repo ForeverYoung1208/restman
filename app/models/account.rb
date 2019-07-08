@@ -11,6 +11,25 @@ class Account < ApplicationRecord
 	validates :number, :bank, :currency, :company, :acc_type, :saldo_begin_year, presence: true
   validates :is_default, uniqueness: { scope: :company_id, message: "should one default account per company" }, if: :is_default
 
+  # validates_each :bank, :currency, :company, :saldo_begin_year do |record, attr, value|
+  #   if !User.current_user.can_full_edit_account?
+  #     record.errors.add(attr, 'Немає прав на налаштування рахунків') 
+  #   end
+  # end
+
+  validate :can_user_full_edit
+
+  def can_user_full_edit
+    if !User.current_user.can_full_edit_account? &&(
+        (self.bank_id != self.bank_id_was)||
+        (self.currency_id != self.currency_id_was)||
+        (self.company_id != self.company_id_was)||
+        (self.saldo_begin_year != self.saldo_begin_year_was)
+      )
+      errors.add(:account_id, 'Немає прав на налаштування рахунків')
+    end    
+  end
+
 	def saldo_on_date(date = nil)
     begin_of_year = date ? date[0..3]+'-01-01' : DateTime.now.year.to_s+'-01-01'
     date ||= DateTime.now.strftime("%Y-%m-%d")
@@ -28,6 +47,7 @@ class Account < ApplicationRecord
 
 
 	#  user access restriction
+
 
   def self.permitted_for_user(user)
     if user.roles.active.pluck(:id).include?(::ADMIN_ROLE_ID)

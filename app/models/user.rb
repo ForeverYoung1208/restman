@@ -10,8 +10,10 @@ class User < ApplicationRecord
   has_and_belongs_to_many :roles
   has_many :movements, class_name: :Movement, foreign_key: :last_editor_id
 
-  
+  mattr_accessor :current_user
+
   attr_accessor :password
+
 
   attr_reader :roles_names
 
@@ -108,9 +110,16 @@ class User < ApplicationRecord
     is_admin
   end    
   def can_view_accounts?
-    # true
-    is_admin
+    true
+    # is_admin
   end    
+
+  def can_full_edit_account?
+    is_admin
+    
+  end
+
+
   def can_view_acc_types?
     # true
     is_admin

@@ -6,16 +6,18 @@
   <thead>
     <tr>
       <th>ID</th>
-      <th>Number</th>
-      <th>Bank</th>
-      <th>Currency</th>
-      <th>Saldo begin year</th>
-      <th>Company</th>
-      <th>is_default</th>
-      <th>Type</th>
-      <th>Term</th>
+      <th>Компанія</th>
+      <th>Номер</th>
+      <th>Банк</th>
+      <th>Валюта</th>
+      <th>Початкове значення</th>
+      <th>Поточне значення</th>
+      <th>Рахунок за замовченням?</th>
+      <th>Тип рахунку</th>
+      <th>Строк, до</th>
+      <th>Процент</th>
 
-      <th colspan="3"></th>
+      <th colspan="2">Управление</th>
     </tr>
   </thead>
 
@@ -23,19 +25,20 @@
     <% @accounts.each do |account| %>
       <tr>
         <td><%= account.id %></td>
+        <td><%= account.company.code_name %></td>
         <td><%= account.number %></td>
         <td><%= account.bank.name + ' ' + account.bank.code %></td>
         <td><%= account.currency.name_int %></td>
         <td><%= account.saldo_begin_year %></td>
-        <td><%= account.company.code_name %></td>
+        <td><%= account.saldo_on_date %></td>
         <td><%= account.is_default %></td>
         <td><%= account.acc_type.name_ukr %></td>
         <td><%= account.term.try( :strftime, "%d.%m.%Y" ) %></td>
+        <td><%= account.interest %></td>
 
 
-        <td><%= link_to 'Show', account %></td>
-        <td><%= link_to 'Edit', edit_account_path(account) %></td>
-        <td><%= link_to 'Destroy', account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Изменить', edit_account_path(account) %></td>
+        <td><%= link_to 'Удалить', account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

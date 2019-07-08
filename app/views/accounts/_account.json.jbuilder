@@ -11,3 +11,4 @@ json.created_at account.created_at
 json.updated_at account.updated_at
 json.acc_type_id account.acc_type_id
 json.term account.term.try(:strftime, "%Y-%m-%d")
+json.interest account.interest

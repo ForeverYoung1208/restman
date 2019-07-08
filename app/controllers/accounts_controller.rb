@@ -72,9 +72,11 @@ class AccountsController < ApplicationController
       @account.term ? @account.term = @account.term.strftime("%d.%m.%Y") : nil
     end
 
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def account_params
       params.require(:account).permit(:number, :bank_id, :currency_id, :saldo_begin_year, 
-        :company_id, :term, :acc_type_id, :is_default)
+        :company_id, :term, :acc_type_id, :is_default, :interest)
     end
+
 end

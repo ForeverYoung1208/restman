@@ -12,47 +12,51 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :number %>
+    <%= form.label "Номер" %>
     <%= form.text_field :number %>
   </div>
 
   <div class="field">
-    <%= form.label :bank_id %>
-    <%= form.select :bank_id, Bank.all.collect{ |x| [x.name+" #{x.code}", x.id] }  %>
+    <%= form.label "Банк" %>
+    <%= form.select :bank_id, Bank.all.collect{ |x| [x.name+" #{x.code}", x.id] }, {}, {disabled: !@current_user.can_full_edit_account?} %>
   </div>
 
   <div class="field">
-    <%= form.label :currency_id %>
-    <%= form.select :currency_id, Currency.all.collect{ |x| [x.name_int, x.id] }  %>
+    <%= form.label "Валюта" %>
+    <%= form.select :currency_id, Currency.all.collect{ |x| [x.name_int, x.id] }, {},{disabled:true} %>
   </div>
 
   <div class="field">
-    <%= form.label :saldo_begin_year %>
-    <%= form.text_field :saldo_begin_year %>
+    <%= form.label "Початкове значення" %>
+    <%= form.text_field :saldo_begin_year, disabled: !@current_user.can_full_edit_account? %>
   </div>
 
   <div class="field">
-    <%= form.label :company_id %>
-    <%= form.select :company_id, Company.all.collect{ |x| [x.code_name, x.id] }  %>
+    <%= form.label "Компанія" %>
+    <%= form.select :company_id, Company.all.collect{ |x| [x.code_name, x.id] }, {}, disabled: !@current_user.can_full_edit_account? %>
   </div>
 
   <div class="field">
-    <%= form.label :is_default %>
+    <%= form.label "Рахунок за замовченням?" %>
     <%= form.check_box :is_default %>
   </div>
 
   <div class="field">
-    <%= form.label :acc_type_id %>
+    <%= form.label "Тип рахунку" %>
     <%= form.select :acc_type_id, AccType.all.collect{ |x| [x.name_ukr, x.id] }  %>
   </div>
 
   <div class="field">
-    <%= form.label :term %>
+    <%= form.label "Строк, до" %>
     <%= form.text_field :term, class: "datepicker"%>
   </div>
 
+  <div class="field">
+    <%= form.label "Процент" %>
+    <%= form.text_field :interest %>
+  </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Сохранить"%>
   </div>
 <% end %>

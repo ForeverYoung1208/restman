@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_15_110959) do
+ActiveRecord::Schema.define(version: 2019_07_08_145320) do
 
   create_table "acc_types", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name_eng"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 2019_03_15_110959) do
     t.bigint "acc_type_id"
     t.date "term"
     t.boolean "is_default"
+    t.string "interest"
     t.index ["acc_type_id"], name: "index_accounts_on_acc_type_id"
     t.index ["bank_id"], name: "index_accounts_on_bank_id"
     t.index ["company_id"], name: "index_accounts_on_company_id"

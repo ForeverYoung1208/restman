@@ -4,6 +4,7 @@ module Auth
 	def get_current_user
 		if session[:current_user_id]
 			@current_user = User.find( session[:current_user_id] )
+			User.current_user=@current_user
 		else
 			# @current_user = User.first
 			logger.debug ">>>>>>>>> redirect_to #{new_session_path}"
