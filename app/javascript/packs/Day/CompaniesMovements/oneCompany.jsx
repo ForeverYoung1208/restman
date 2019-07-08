@@ -52,9 +52,9 @@ export function accountsSaldo(allAccounts, movements, company=null){
 				.reduce( (sum, a) => {
 					accountsIds.push(a.id)
 
-					depositDetail+= a.bank.name==cbn ? '' : a.bank.name  //add bank name only if it's new
-						+': ' + roundDisp(parseFloat(a.saldo_on_date) + sumMovsByCurrency(curr, movements.filter(m=>m.account_id==a.id)).change)
-						+' '+ curr + ' до ' + dotDateFormat(a.term) + `(${a.interest}); `
+					depositDetail+= (a.bank.name==cbn ? '' : `${a.bank.name} : `)  //add bank name only if it's new
+						+ roundDisp(parseFloat(a.saldo_on_date) + sumMovsByCurrency(curr, movements.filter(m=>m.account_id==a.id)).change)
+						+' '+ a.currency.name_ukr + ' до ' + dotDateFormat(a.term) + `(${a.interest}); `
 
 					// remember current bank name
 					cbn = a.bank.name
