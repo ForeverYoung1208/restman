@@ -23,7 +23,7 @@
 
   <div class="field">
     <%= form.label "Валюта" %>
-    <%= form.select :currency_id, Currency.all.collect{ |x| [x.name_int, x.id] }, {},{disabled:true} %>
+    <%= form.select :currency_id, Currency.all.collect{ |x| [x.name_int, x.id] }, {},{disabled:!@current_user.can_full_edit_account?} %>
   </div>
 
   <div class="field">

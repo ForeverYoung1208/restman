@@ -46,4 +46,4 @@
 
 <br>
 
-<%= link_to 'New Account', new_account_path %>
+<%= link_to 'New Account', new_account_path if @current_user.can_full_edit_account?%>

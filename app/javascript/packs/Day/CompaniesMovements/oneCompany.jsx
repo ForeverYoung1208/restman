@@ -34,6 +34,10 @@ export function accountsSaldo(allAccounts, movements, company=null){
 	let accountsIds=[]
 
 	function sumByCurr(curr){
+
+		// cbn (CurrentBankName) this var will be used to determine if bank has chagged during reduce iterations
+		let cbn
+
 		const begin = allAccounts
 				// filter out only given company and currency
 				.filter(a => (a.currency.name_int == curr)&&(company ? a.company_id == company.id : true))
@@ -47,9 +51,14 @@ export function accountsSaldo(allAccounts, movements, company=null){
 				// and store account IDs
 				.reduce( (sum, a) => {
 					accountsIds.push(a.id)
-					depositDetail+= a.bank.name + ': ' 
-						+ roundDisp(parseFloat(a.saldo_on_date) + sumMovsByCurrency(curr, movements.filter(m=>m.account_id==a.id)).change)
-						+' '+ curr+ ' до ' + dotDateFormat(a.term) + '; '
+
+					depositDetail+= a.bank.name==cbn ? '' : a.bank.name  //add bank name only if it's new
+						+': ' + roundDisp(parseFloat(a.saldo_on_date) + sumMovsByCurrency(curr, movements.filter(m=>m.account_id==a.id)).change)
+						+' '+ curr + ' до ' + dotDateFormat(a.term) + `(${a.interest}); `
+
+					// remember current bank name
+					cbn = a.bank.name
+
 					return sum+=parseFloat(a.saldo_on_date)
 				}, 0)
 		
