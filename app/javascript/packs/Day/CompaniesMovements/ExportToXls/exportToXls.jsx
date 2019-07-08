@@ -58,6 +58,8 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName,banks
 
         banks.forEach( b => {
           values['UAH-'+suffix+'-restBank-'+b.id] = fnfe(eb['UAHrestBank-'+b.id])
+          values['USD-'+suffix+'-restBank-'+b.id] = fnfe(eb['USDrestBank-'+b.id])
+          values['EUR-'+suffix+'-restBank-'+b.id] = fnfe(eb['EURrestBank-'+b.id])
         })
           
       })
