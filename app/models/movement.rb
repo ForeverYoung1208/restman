@@ -9,6 +9,10 @@ class Movement < ApplicationRecord
 
 	enum direction: {Income: 0, Outcome: 1, Technical: 2}
 
+  def account_with_deleted
+    Account.unscoped.where('id = ?', account_id).first
+  end
+
   def self.permitted_for_user(user)
 
     if user.roles.active.pluck(:id).include?(::ADMIN_ROLE_ID)

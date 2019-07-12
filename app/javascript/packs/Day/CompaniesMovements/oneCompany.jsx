@@ -54,7 +54,7 @@ export function accountsSaldo(allAccounts, movements, company=null){
 
 					depositDetail+= (a.bank.name==cbn ? '' : `${a.bank.name} : `)  //add bank name only if it's new
 						+ roundDisp(parseFloat(a.saldo_on_date) + sumMovsByCurrency(curr, movements.filter(m=>m.account_id==a.id)).change)
-						+' '+ a.currency.name_ukr + ' до ' + dotDateFormat(a.term) + `(${a.interest}); `
+						+ ` ${a.currency.name_ukr}, ${a.interest}, до ${dotDateFormat(a.term)}; `
 
 					// remember current bank name
 					cbn = a.bank.name

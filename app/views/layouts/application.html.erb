@@ -29,7 +29,7 @@
           <%= mainmenu_dropdown( {
             current: request.path, 
             menuitems: {
-                          "на сьогодні (#{DateTime.now.strftime("%d.%m.%Y")})" => [by_date_movements_path(date: DateTime.now.strftime("%Y-%m-%d")), @current_user.can_view_movements?],
+                          "на вчора (#{DateTime.yesterday.strftime("%d.%m.%Y")})" => [by_date_movements_path(date: DateTime.yesterday.strftime("%Y-%m-%d")), @current_user.can_view_movements?],
                           'інші дати' => [index_formatted_days_path, @current_user.can_view_movements?]
                         }
           }) {"Рух"}  %>
