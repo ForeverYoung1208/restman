@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action ->{ 
     redirect_to(root_path, notice: "Немає прав") unless @current_user.can_view_users? 
-  }, except: [:update_roles]
+  }, except: [:update_roles, :current]
 
 
   def index
@@ -23,10 +23,11 @@ class UsersController < ApplicationController
   	@user = User.find( params[:id] )
   end
 
+  def current
+    @user = @current_user    
+  end
+
   def update_roles
-
-
-
     if @current_user.can_update_roles?
       all_roles = {}
       params["_json"].each do |u|

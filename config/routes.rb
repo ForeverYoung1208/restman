@@ -22,7 +22,9 @@ Rails.application.routes.draw do
   end
   resources :sessions
   resources :roles
-  resources :users, only: [:index, :show]
+  resources :users, only: [:index, :show] do
+    get 'current', to: 'users#current', on: :collection
+  end
   post 'users', to: "users#update_roles", as: "update_roles"
 
 

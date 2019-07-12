@@ -14,7 +14,8 @@ import {fetchJSONfrom, postDataAsJSON, dashDateFormat, getSafe} from '../i-servi
 
 const DayInfo = (props) => {
 	if (!props.day){ return('no day here')	} 
-	const {day} = props
+	const {day, user} = props
+
 	let is_open = ''	
 	day.is_closed ? is_open = 'Ні' : is_open = 'Так'
 
@@ -22,7 +23,10 @@ const DayInfo = (props) => {
 		<div>
 			<div> id:{day.id}, відкритий?: {is_open}</div>
 			<div> {day.comment} 
-				{ !day.is_closed ? <Button className="p-0 btn-warning" onClick={props.closeDay}>Закрити</Button> : ''}
+				{ !day.is_closed&&user.roles&&(user.roles.includes('can_close_day')||user.roles.includes('admin' ))
+						? <Button className="p-0 btn-warning" onClick={props.closeDay}>Закрити</Button> 
+						: ''
+				}
 			</div>
 		</div>
 	)
@@ -55,6 +59,7 @@ export class Day extends React.Component {
 			editingMovementsIds: [],
 			isMovsGrouped: false,
 			voc:{
+					currentUser:{},
 					compList: [],
 					movsGroupsList: [],
 					currsList:[],
@@ -198,7 +203,7 @@ export class Day extends React.Component {
 		  		id: this.getNewMovId(),
 		  		log:null,
 		  		movement_group_id: this.state.voc.movsGroupsList.filter(mg=>mg.direction==direction)[0].id,
-		  		value: mov.data.sum, 
+		  		value: Math.round(mov.data.sum), 
 		  		is_changed: true, 
 		  	})
 		  })
@@ -355,14 +360,16 @@ export class Day extends React.Component {
 	  Promise.all( [
 	  	fetchJSONfrom('/currencies.json'), 
 	  	fetchJSONfrom('/movement_groups.json'),
+	  	fetchJSONfrom('/users/current.json'),
 	  ] )
 	  .then( (res) =>{
-	  	let [vl, gl, al] = res
+	  	let [cl, gl, user] = res
 			this.setState((prevState)=>({
 				voc: {
 					...prevState.voc,
 			  	movsGroupsList: gl,
-			  	currsList:vl,
+			  	currsList:cl,
+			  	currentUser:user,
 				}
 			}));		  
 	  })	  
@@ -457,7 +464,7 @@ export class Day extends React.Component {
 
 					<div className="col-md-3 flex-row d-flex align-items-center">
 						<Datepicker onDateChanged={this.handleDateChanged} date={this.state.date} />
-						<DayInfo day={this.state.day} closeDay = {this.closeDay}/>
+						<DayInfo day={this.state.day} closeDay = {this.closeDay} user={this.state.voc.currentUser}/>
 
 					</div>
 

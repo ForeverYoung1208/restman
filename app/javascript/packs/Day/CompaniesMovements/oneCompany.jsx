@@ -16,8 +16,8 @@ export function sumMovsByCurrency(currency = 'UAH', allMovs){
 		outcome = allMovs.reduce( (sum, m) =>  (m.direction=='Outcome' && m.currency==currency) ? (sum += m.value ) : sum, sum = 0)
 	}
   return {
-  	income: parseFloat(income).toFixed(2), 
-  	outcome: parseFloat(outcome).toFixed(2),
+  	income: parseFloat(income).toFixed(0), 
+  	outcome: parseFloat(outcome).toFixed(0),
   	change: parseFloat(income)-parseFloat(outcome)
   }
 }
@@ -64,7 +64,7 @@ export function accountsSaldo(allAccounts, movements, company=null){
 		
 		const movs = sumMovsByCurrency(curr, movements.filter(m=>accountsIds.includes(m.account_id)) )
 		const end = parseFloat(begin) + parseFloat(movs.income) - parseFloat(movs.outcome)
-		return({begin:begin.toFixed(2), end: end.toFixed(2)})
+		return({begin:begin.toFixed(0), end: end.toFixed(0)})
 	}
 
 	return{

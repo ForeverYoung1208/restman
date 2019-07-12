@@ -138,7 +138,11 @@ class User < ApplicationRecord
   def can_update_roles?
     # true
     is_admin
-  end  
+  end
+
+  def can_close_day?
+    is_admin or roles.pluck(:name).includes('can_close_day')
+  end
 
 
 end

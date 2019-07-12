@@ -9,13 +9,9 @@ class Account < ApplicationRecord
   has_many :movements
 
 	validates :number, :bank, :currency, :company, :acc_type, :saldo_begin_year, presence: true
-  validates :is_default, uniqueness: { scope: :company_id, message: "should one default account per company" }, if: :is_default
 
-  # validates_each :bank, :currency, :company, :saldo_begin_year do |record, attr, value|
-  #   if !User.current_user.can_full_edit_account?
-  #     record.errors.add(attr, 'Немає прав на налаштування рахунків') 
-  #   end
-  # end
+  # validates :is_default, uniqueness: { scope: :company_id, message: "should one default account per company" }, if: :is_default
+
 
   validate :can_user_full_edit
 
