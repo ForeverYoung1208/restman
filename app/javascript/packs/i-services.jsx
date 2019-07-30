@@ -57,6 +57,13 @@ export const dotDateFormat = (dashDate) =>{
 	}
 }
 
+//14.06.2019 -> 140619
+export const straightDateFormat = (dotDate) =>{
+	if(dotDate){
+		return (dotDate.substring(0,2)+dotDate.substring(3,5)+dotDate.substring(8,10))
+	}
+}
+
 export const Spinner = ()=>{
 	return(
 		<div id="circle">

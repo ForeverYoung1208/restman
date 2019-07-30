@@ -3,7 +3,7 @@ import React from "react"
 // import {VocContext} from "../../day"
 
 import { Button } from 'reactstrap'
-import {roundFin} from "../../../i-services"
+import {roundFin, straightDateFormat} from "../../../i-services"
 
 import Moment from "moment"
 import ReactFileReader from "react-file-reader"
@@ -72,7 +72,11 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName,banks
       template.substitute(sheetNumber, values);
       // Get binary data
       let data = template.generate({type: 'blob'});
-      saveAs(data, "test.xlsx");
+
+      //compose filename with current date
+      let fileName = fileTemplate.name.substring(0, fileTemplate.name.length-11)+straightDateFormat(date)+'.xlsx'
+
+      saveAs(data, fileName);
   }
 }
 /////////////////////////////////////

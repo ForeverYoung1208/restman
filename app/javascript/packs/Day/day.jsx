@@ -64,6 +64,7 @@ export class Day extends React.Component {
 					movsGroupsList: [],
 					currsList:[],
 			  	accsList:[],
+			  	banksList:[],
 			  	handleMovSave: this.handleMovSaving,
 			  	handleMovDelete: this.handleMovDelete,
 			  	handleMovAdd: this.handleMovAdd,
@@ -98,22 +99,29 @@ export class Day extends React.Component {
 		}
 	}
 
-	banksOfAccounts = (accounts=this.state.voc.accsList) =>{
-		const banks = accounts.map( (a,ind,arr) => arr.indexOf(a)==ind ? a.bank : null)
-		// remove duplicate banks
-		// that was good for plain array of simple strings:
-		// const uniqBanks = [...new Set(banksSelected)];
-		// but we have the array of objects and we have compare them on 'id' property:
-		let uniqBanks = []
-		banks.forEach( (bs) => {
-			uniqBanks.find(ub => bs.id == ub.id) ? null : uniqBanks.push(bs)
-		})
-		uniqBanks.push({
-			id: 'total',
-			name: 'Всі'
-		})
-		return uniqBanks
+	// OLD WAY - gather banks from accounts
+	// REFACTORED to fetch banks via request at getVoc()
+	// banksOfAccounts = (accounts=this.state.voc.accsList) =>{
+	// 	const banks = accounts.map( (a,ind,arr) => arr.indexOf(a)==ind ? a.bank : null)
+	// 	// remove duplicate banks
+	// 	// that was good for plain array of simple strings:
+	// 	// const uniqBanks = [...new Set(banksSelected)];
+	// 	// but we have the array of objects and we have to compare them on 'id' property:
+	// 	let uniqBanks = []
+	// 	banks.forEach( (bs) => {
+	// 		uniqBanks.find(ub => bs.id == ub.id) ? null : uniqBanks.push(bs)
+	// 	})
+	// 	uniqBanks.push({
+	// 		id: 'total',
+	// 		name: 'Всі'
+	// 	})
+	// 	return uniqBanks
+	// }
+
+	banksOfAccounts =()=>	{
+		return[...this.state.voc.banksList,{id:'total',name: 'Всі', code:'total' } ]
 	}
+
 
 	addToExportBufer = (company,key, value)=>{
 		let index = this.exportBuffer.findIndex((record)=>record.company_id==company.id)
@@ -361,15 +369,17 @@ export class Day extends React.Component {
 	  	fetchJSONfrom('/currencies.json'), 
 	  	fetchJSONfrom('/movement_groups.json'),
 	  	fetchJSONfrom('/users/current.json'),
+	  	fetchJSONfrom('/banks.json'),
 	  ] )
 	  .then( (res) =>{
-	  	let [cl, gl, user] = res
+	  	let [cl, gl, user, bl] = res
 			this.setState((prevState)=>({
 				voc: {
 					...prevState.voc,
 			  	movsGroupsList: gl,
 			  	currsList:cl,
 			  	currentUser:user,
+			  	banksList:bl,
 				}
 			}));		  
 	  })	  
