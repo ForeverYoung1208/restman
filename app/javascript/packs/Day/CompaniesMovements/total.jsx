@@ -38,6 +38,8 @@ export class Total extends React.Component{
 		voc.addToExportBufer( company, 'depo_uah', all_deposits_on_date.UAH.end)
 		voc.addToExportBufer( company, 'depo_usd', all_deposits_on_date.USD.end)
 		voc.addToExportBufer( company, 'depo_eur', all_deposits_on_date.EUR.end)
+
+		voc.addToExportBufer( company,'allDeposits', all_deposits_on_date.allDeposits)
 		// console.log(all_deposits_on_date)
 
 
@@ -88,6 +90,8 @@ export class Total extends React.Component{
 				<tr className="movementsTotal deposit">
 					<DepositInfo 
 						depositDetail={voc.addToExportBufer( company, 'depo_detail', all_deposits_on_date.depositDetail )}
+
+
 					/>
 				</tr>			
 			</React.Fragment>			

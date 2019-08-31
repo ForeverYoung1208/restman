@@ -27,16 +27,18 @@ export function sumMovsByCurrency(currency = 'UAH', allMovs){
 // counts saldo on all given allAccounts(using each account.saldo_on_date property) by given company (if given),
 // using all given movements 
 // (regardless of dates of account saldo's and movements) so take care of it)
-
 export function accountsSaldo(allAccounts, movements, company=null){
-	let depositDetail=''
-
+	let depositDetail =''
 	let accountsIds=[]
+	var allDeposits=[]
 
+	// summ allAccounts by given currency, returns sum 
+	// and agregate deposits information in array and details in text 
+	// (assuming that all given accounts are deposits - so take care of it)
 	function sumByCurr(curr){
 
-		// cbn (CurrentBankName) this var will be used to determine if bank has chagged during reduce iterations
-		let cbn
+		// cbnc (CurrentBankName and Currency) this var will be used to determine if bank has changed during reduce iterations
+		let cbnc={}
 
 		const begin = allAccounts
 				// filter out only given company and currency
@@ -52,12 +54,45 @@ export function accountsSaldo(allAccounts, movements, company=null){
 				.reduce( (sum, a) => {
 					accountsIds.push(a.id)
 
-					depositDetail+= (a.bank.name==cbn ? '' : `${a.bank.name} : `)  //add bank name only if it's new
-						+ roundDisp(parseFloat(a.saldo_on_date) + sumMovsByCurrency(curr, movements.filter(m=>m.account_id==a.id)).change)
-						+ ` ${a.currency.name_ukr}, ${a.interest}, до ${dotDateFormat(a.term)}; `
+					// //old way
+					// depositDetail+= (a.bank.name==cbn ? '' : `${a.bank.name} : `)  //add bank name only if it's new
+					// 	+ roundDisp(parseFloat(a.saldo_on_date) + sumMovsByCurrency(curr, movements.filter(m=>m.account_id==a.id)).change)
+					// 	+ ` ${a.currency.name_ukr}, ${a.interest}, до ${dotDateFormat(a.term)}; `
+
+
+					//new way
+
+					// try to find deposits at same bank and currency
+					let currBankDeposits = allDeposits.find( ad => ad.bankName==a.bank.name && ad.currency==a.currency.name_ukr )
+
+					// precalculate deposit value 
+					let depositValue = parseFloat(a.saldo_on_date) + sumMovsByCurrency(curr, movements.filter(m=>m.account_id==a.id)).change
+
+					if (currBankDeposits){ 		// deposits at current bank and currency found
+						currBankDeposits.bankSumm += depositValue
+						currBankDeposits.deposits.push({
+									value: depositValue,
+									interest: a.interest,
+									term: dotDateFormat(a.term)
+						})
+					}else{ 								//new bank name
+						allDeposits.push(
+							{
+								bankName: a.bank.name,
+								bankSumm: depositValue,
+								currency: a.currency.name_ukr,
+								deposits:[{
+									value: depositValue,
+									interest: a.interest,
+									term: dotDateFormat(a.term)
+								}]
+							}
+						)
+					}
+
 
 					// remember current bank name
-					cbn = a.bank.name
+					// cbnc = {name:a.bank.name, currency:a.currency.name_ukr}
 
 					return sum+=parseFloat(a.saldo_on_date)
 				}, 0)
@@ -67,10 +102,22 @@ export function accountsSaldo(allAccounts, movements, company=null){
 		return({begin:begin.toFixed(0), end: end.toFixed(0)})
 	}
 
+	let	UAH=sumByCurr('UAH')
+	let	USD=sumByCurr('USD')
+	let	EUR=sumByCurr('EUR')
+
+	allDeposits.forEach( bankDeposits => {
+		depositDetail+= `${bankDeposits.bankName}: ${bankDeposits.bankSumm} ${bankDeposits.currency}, в т.ч.:`
+		bankDeposits.deposits.forEach( deposit =>{
+			depositDetail+= `${deposit.value} ${bankDeposits.currency}, ${deposit.interest}, до ${deposit.term}; `		
+		})
+	})
+
 	return{
-		UAH: sumByCurr('UAH'),
-		USD: sumByCurr('USD'),
-		EUR: sumByCurr('EUR'),
+		UAH: UAH,
+		USD: USD,
+		EUR: EUR,
+		allDeposits: allDeposits,
 		depositDetail: depositDetail,
 	}
 }
@@ -102,9 +149,8 @@ export class OneCompany extends React.Component{
 		voc.addToExportBufer( company, 'depo_usd', deposits_on_date.USD.end)
 		voc.addToExportBufer( company, 'depo_eur', deposits_on_date.EUR.end)
 
-		// TODO: make deposit details per account with actual rests (___including__today's__) ????
-		// console.log({[company.id]:deposits_on_date.depositDetail})
 		voc.addToExportBufer( company, 'depo_detail', deposits_on_date.depositDetail)
+		voc.addToExportBufer( company, 'allDeposits', deposits_on_date.allDeposits)
 
 
 		//calculate saldo by all accounts of current company:

@@ -61,6 +61,41 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName,banks
           values['USD-'+suffix+'-restBank-'+b.id] = fnfe(eb['USDrestBank-'+b.id])
           values['EUR-'+suffix+'-restBank-'+b.id] = fnfe(eb['EURrestBank-'+b.id])
         })
+
+        //prepare deposits information
+        let companyDeposits = []
+        eb.allDeposits.forEach((bankDeposits)=>{
+          bankDeposits.deposits.forEach(deposit=>{
+            companyDeposits.push({
+              bankName: bankDeposits.bankName,
+              currency: bankDeposits.currency,
+              interest: deposit.interest,
+              term: deposit.term,
+              value: deposit.value,
+            })
+          })
+        })
+        let nomer = 0
+        companyDeposits.sort((a1,a2)=> {
+          if (a1.term>a2.term){return 1}
+          if (a1.term<a2.term){return -1}
+            return 0
+        }).forEach(deposit=>{
+          banks.forEach( b => {
+            values[`dep-${deposit.currency}-cmp-${suffix}-depoDesc-${nomer}`] = `${deposit.interest} до ${deposit.term}`
+            values[`dep-${deposit.currency}-cmp-${suffix}-depoValue-${nomer}-bank-${deposit.bankName}`] = fnfe(deposit.value)
+            // values['USD-'+suffix+'-restBank-'+b.id] = fnfe(eb['USDrestBank-'+b.id])
+            // values['EUR-'+suffix+'-restBank-'+b.id] = fnfe(eb['EURrestBank-'+b.id])
+          })
+          nomer += 1
+
+
+
+        })
+
+
+
+
           
       })
 
