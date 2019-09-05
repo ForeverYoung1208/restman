@@ -63,7 +63,7 @@ export function accountsSaldo(allAccounts, movements, company=null){
 					//new way
 
 					// try to find deposits at same bank and currency
-					let currBankDeposits = allDeposits.find( ad => ad.bankName==a.bank.name && ad.currency==a.currency.name_ukr )
+					let currBankDeposits = allDeposits.find( ad => ad.bank.id==a.bank.id && ad.currency.name_int==a.currency.name_int )
 
 					// precalculate deposit value 
 					let depositValue = parseFloat(a.saldo_on_date) + sumMovsByCurrency(curr, movements.filter(m=>m.account_id==a.id)).change
@@ -78,9 +78,9 @@ export function accountsSaldo(allAccounts, movements, company=null){
 					}else{ 								//new bank name
 						allDeposits.push(
 							{
-								bankName: a.bank.name,
+								bank: a.bank,
 								bankSumm: depositValue,
-								currency: a.currency.name_ukr,
+								currency: a.currency,
 								deposits:[{
 									value: depositValue,
 									interest: a.interest,
@@ -107,9 +107,9 @@ export function accountsSaldo(allAccounts, movements, company=null){
 	let	EUR=sumByCurr('EUR')
 
 	allDeposits.forEach( bankDeposits => {
-		depositDetail+= `${bankDeposits.bankName}: ${bankDeposits.bankSumm} ${bankDeposits.currency}, в т.ч.:`
+		depositDetail+= `${bankDeposits.bank.name}: ${roundDisp(bankDeposits.bankSumm)} ${bankDeposits.currency.name_ukr}, в т.ч.:`
 		bankDeposits.deposits.forEach( deposit =>{
-			depositDetail+= `${deposit.value} ${bankDeposits.currency}, ${deposit.interest}, до ${deposit.term}; `		
+			depositDetail+= `${roundDisp(deposit.value)} ${bankDeposits.currency.name_ukr}, ${deposit.interest} до ${deposit.term}; `		
 		})
 	})
 

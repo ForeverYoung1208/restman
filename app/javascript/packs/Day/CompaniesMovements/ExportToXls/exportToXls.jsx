@@ -3,7 +3,7 @@ import React from "react"
 // import {VocContext} from "../../day"
 
 import { Button } from 'reactstrap'
-import {roundFin, straightDateFormat} from "../../../i-services"
+import {roundFin, roundDisp,straightDateFormat} from "../../../i-services"
 
 import Moment from "moment"
 import ReactFileReader from "react-file-reader"
@@ -13,7 +13,7 @@ let XlsxTemplate = require('xlsx-template');
 
 // fnfe = formatNumberForExport
 function fnfe(n) {
-  return Math.round(n)
+  return roundDisp(n)
 }
 
 function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName,banks){
@@ -67,7 +67,7 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName,banks
         eb.allDeposits.forEach((bankDeposits)=>{
           bankDeposits.deposits.forEach(deposit=>{
             companyDeposits.push({
-              bankName: bankDeposits.bankName,
+              bank: bankDeposits.bank,
               currency: bankDeposits.currency,
               interest: deposit.interest,
               term: deposit.term,
@@ -82,8 +82,8 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName,banks
             return 0
         }).forEach(deposit=>{
           banks.forEach( b => {
-            values[`dep-${deposit.currency}-cmp-${suffix}-depoDesc-${nomer}`] = `${deposit.interest} до ${deposit.term}`
-            values[`dep-${deposit.currency}-cmp-${suffix}-depoValue-${nomer}-bank-${deposit.bankName}`] = fnfe(deposit.value)
+            values[`dep-cmp-${suffix}-depoDesc-${nomer}`] = `${deposit.interest} до ${deposit.term}`
+            values[`dep-${deposit.currency.name_int}-cmp-${suffix}-depoValue-${nomer}-bankId-${deposit.bank.id}`] = fnfe(deposit.value)
             // values['USD-'+suffix+'-restBank-'+b.id] = fnfe(eb['USDrestBank-'+b.id])
             // values['EUR-'+suffix+'-restBank-'+b.id] = fnfe(eb['EURrestBank-'+b.id])
           })
