@@ -92,3 +92,10 @@ gem 'jquery-ui-rails'
 gem 'bootstrap-datepicker-rails'
 
 gem 'roo'
+
+
+### security updates
+
+
+gem "nokogiri", ">= 1.10.4"
+
