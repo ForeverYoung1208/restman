@@ -146,7 +146,7 @@ export class Day extends React.Component {
 		return this.exportBuffer
 	}
 
-	handleNullMovsSign = (company) => {
+	handleNullMovsSign = (company, log) => {
 		const {day} = this.state
 		const {movsGroupsList, currsList, accsList } = this.state.voc
 
@@ -163,7 +163,7 @@ export class Day extends React.Component {
 				value: 0,
 				direction: 'Technical',
 				is_changed: true,
-				log: `${company.code_name}: signed no movements`,
+				log: `${company.code_name}: no movements, ${log}`,
 				signed_now: true,
 			}
 			this.handleMovSaving(technicalMovement)

@@ -8,6 +8,17 @@ export default class SignCompany extends React.Component{
 		super(props)
 	}
 
+	tiptext = () => {
+		const movements = this.props.movementsToSign
+
+		// let t = ''
+		// movements.forEach( m=> {
+		// 	t=t+` (${m.id})-${m.log}; `
+		// })
+	 //  return t
+
+	 return movements.reduce((res,m)=> res+`(${m.id})-${m.log}; `, '')
+	}
 
 
 	render(){
@@ -16,13 +27,13 @@ export default class SignCompany extends React.Component{
 		return (
 			movementsToSign.length<=0 ? //is there no movements?
 				<Button className="btn btn-warning" disabled = {voc.isDayClosed()} 
-					onClick={ e=> voc.handleNullMovsSign(company)}> Немає змін 
+					onClick={ e=> voc.handleNullMovsSign(company, log)}> Немає змін 
 				</Button>
 			: movementsToSign.length>0 && movementsToSign.find(m => !m.signed_by_id ) ?  //are there any unsigned movements?
 					<Button className="btn btn-warning" disabled = {voc.isDayClosed()} 
 					onClick={ e=> voc.handleMovsSign(movementsToSign, log)}> Підписати 
 				</Button>
-				: <Button className="btn btn-light" disabled> Підписано </Button>		
+				: <Button className="btn btn-light"  data-toggle="tooltip" title={this.tiptext()} disabled> Підписано </Button>		
 		)
 
 	}
