@@ -28,7 +28,7 @@
               <td><%= link_to day.date, by_date_movements_path(date: day.date) %></td>
               <td><%= yn !day.is_closed %></td>
               <td><%= day.comment %></td>
-              <td><%= day.movements_list %></td>
+              <td><%= raw day.movements_list_detailed.map{|k,v| v}.join('<br>') %></td>
              
             </tr>
           <% end %>

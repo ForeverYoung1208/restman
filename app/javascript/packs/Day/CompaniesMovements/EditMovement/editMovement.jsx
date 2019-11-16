@@ -69,7 +69,7 @@ export class EditMovement extends React.Component{
 
 
 					<Input id="groups-select" type="select" className="col-md-6"
-									defaultValue={m.movement_group_id}
+									value={m.movement_group_id}
 									onChange={this.handleMovsGroupChange}
 					>
 						<option value="0" disabled>Категорія</option>  			
@@ -88,8 +88,9 @@ export class EditMovement extends React.Component{
 				<div className="row">
 					<div className="col-md-11">
 						<div className="row">
-							<Input id="groups-select" type="select" className="col-md-12"
-											defaultValue={m.account_id}
+
+							<Input id="accounts-select" type="select" className="col-md-12"
+											value={m.account_id}
 											onChange={this.handleAccChange}
 							>
 								<option value="0" disabled>Рахунок</option>  			
