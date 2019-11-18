@@ -19,7 +19,9 @@ class Day < ApplicationRecord
     res={}
     movements.each do |m|
       if m.direction != 'Technical'
-        res[m.id] = "#{m.account.company.code_name} #{m.direction == 'Outcome' ? '-' : '+'}#{m.value.to_s} #{m.account.extended_info}"
+        if m.account
+          res[m.id] = "#{m.account.company.code_name} #{m.direction == 'Outcome' ? '-' : '+'}#{m.value.to_s} #{m.account.extended_info}"
+        end
       end
     end
     res
