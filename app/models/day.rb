@@ -11,8 +11,19 @@ class Day < ApplicationRecord
 	  end
   end
 
-  def movements_list
-  	movements.pluck(:value).join(', ')
+  # def movements_list
+  # 	movements.pluck(:value).join(', ')
+  # end
+
+  def movements_list_detailed
+    res={}
+    movements.each do |m|
+      if m.direction != 'Technical'
+        res[m.id] = "#{m.account.company.code_name} #{m.direction == 'Outcome' ? '-' : '+'}#{m.value.to_s} #{m.account.extended_info}"
+      end
+    end
+    res
   end
+
 
 end

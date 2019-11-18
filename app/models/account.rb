@@ -53,5 +53,9 @@ class Account < ApplicationRecord
     end
   end	  	
 
+  def extended_info
+    "#{number}(#{bank.name})"
+  end
+
 
 end
