@@ -15,12 +15,12 @@ class Day < ApplicationRecord
   # 	movements.pluck(:value).join(', ')
   # end
 
-  def movements_list_detailed
+  def movements_list_detailed(current_user)
     res={}
-    movements.each do |m|
+    movements.permitted_for_user(current_user).each do |m|
       if m.direction != 'Technical'
         if m.account
-          res[m.id] = "#{m.account.company.code_name} #{m.direction == 'Outcome' ? '-' : '+'}#{m.value.to_s} #{m.account.extended_info}"
+          res[m.id] = "#{m.account.company.code_name} #{m.direction == 'Outcome' ? '-' : '+'}#{m.value.to_s} #{m.account.extended_info} (#{m.comment})"
         end
       end
     end
