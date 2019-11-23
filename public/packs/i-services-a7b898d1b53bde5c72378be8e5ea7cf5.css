@@ -1,0 +1,1 @@
+#circle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px}.loader{width:100%;height:100%;border:3px solid #fff;border-top:3px solid #09f;border-radius:50%;animation:a 5s linear infinite;color:red}.spinner{margin:20px 5px}@keyframes a{to{transform:rotate(1turn)}}
