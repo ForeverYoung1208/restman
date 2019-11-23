@@ -84,7 +84,10 @@ gem 'carrierwave'
 
 
 gem 'tether-rails'
+
 ## gem 'bootstrap', '~> 4.0.0.alpha3'
+
+gem 'sassc', '2.0.1'
 gem 'bootstrap'
 gem 'font-awesome-sass'
 gem 'jquery-rails'
