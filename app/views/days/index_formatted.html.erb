@@ -9,15 +9,15 @@
   </div>
   <div class="row">
 
-    <div class="col-md-10">
-      <table class="table p-2">
+    <div class="col-md-12">
+      <table class="table p-1">
         <thead>
           <tr>
             <th>Id</th>
-            <th>Дата</th>
-            <th>Відкритий?</th>
-            <th>Коментар</th>
-            <th>Рух</th>
+            <th style="min-width: 110px;">Дата</th>
+            <th style="max-width: 70px;">Відкр.?</th>
+            <th style="max-width: 150px;">Коментар</th>
+            <th style="min-width: 650px;">Рух</th>
           </tr>
         </thead>
 
@@ -28,7 +28,7 @@
               <td><%= link_to day.date, by_date_movements_path(date: day.date) %></td>
               <td><%= yn !day.is_closed %></td>
               <td><%= day.comment %></td>
-              <td><%= raw day.movements_list_detailed.map{|k,v| v}.join('<br>') %></td>
+              <td><%= raw day.movements_list_detailed(@current_user).map{|k,v| v}.join('<br>') %></td>
              
             </tr>
           <% end %>
