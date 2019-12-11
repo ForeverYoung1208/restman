@@ -37,18 +37,18 @@ development:
     https: false
 
     # Work
-    # host: 192.168.99.51
+    host: 192.168.99.51
 
     # New Home Linux
-    host: 192.168.0.252
+    # host: 192.168.0.252
 
     port: 3035
 
     # Work
-    # public: 192.168.99.51:3035
+    public: 192.168.99.51:3035
 
     # New Home Linux
-    public: 192.168.0.252:3035
+    # public: 192.168.0.252:3035
 
     hmr: false
     # Inline should be set to true if using HMR

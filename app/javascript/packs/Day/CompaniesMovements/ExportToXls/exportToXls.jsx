@@ -56,13 +56,11 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName,banks
         values['depo-eur-'+suffix] = fnfe(eb.depo_eur)
         values['depo-detail-'+suffix] = eb.depo_detail
 
-        banks.forEach( b => {
-          values['UAH-'+suffix+'-restBank-'+b.id] = fnfe(eb['UAHrestBank-'+b.id])
-          values['USD-'+suffix+'-restBank-'+b.id] = fnfe(eb['USDrestBank-'+b.id])
-          values['EUR-'+suffix+'-restBank-'+b.id] = fnfe(eb['EURrestBank-'+b.id])
-        })
+
 
         //prepare deposits information
+        //upd 11.12.2019: and prepare current ('tek') account information as subtraction deposits from total
+        //VVVVVVVV
         let companyDeposits = []
         eb.allDeposits.forEach((bankDeposits)=>{
           bankDeposits.deposits.forEach(deposit=>{
@@ -83,13 +81,32 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName,banks
           banks.forEach( b => {
             values[`dep-cmp-${suffix}-depoDesc-${nomer}`] = `${deposit.interest} до ${deposit.term}`
             values[`dep-${deposit.currency.name_int}-cmp-${suffix}-depoValue-${nomer}-bankId-${deposit.bank.id}`] = fnfe(deposit.value)
+            
+            //store total value of deposits for every bank: TODO: ERROR HERE, WRONG COUNTING!!!
+            values[`dep-${deposit.currency.name_int}-cmp-${suffix}-bankId-${deposit.bank.id}-total`] = 
+              fnfe(deposit.value) + values[`dep-${deposit.currency.name_int}-cmp-${suffix}-bankId-${deposit.bank.id}-total`]||0
+
+
+              // ? values[`dep-${deposit.currency.name_int}-cmp-${suffix}-bankId-${deposit.bank.id}-total`] += fnfe(deposit.value)
+              // : values[`dep-${deposit.currency.name_int}-cmp-${suffix}-bankId-${deposit.bank.id}-total`] = fnfe(deposit.value)
           })
           nomer += 1
+        })
 
+        banks.forEach( b => {
+          // store total values
+          values['UAH-'+suffix+'-restBank-'+b.id] = fnfe(eb['UAHrestBank-'+b.id])
+          values['USD-'+suffix+'-restBank-'+b.id] = fnfe(eb['USDrestBank-'+b.id])
+          values['EUR-'+suffix+'-restBank-'+b.id] = fnfe(eb['EURrestBank-'+b.id])
 
+          // calculate and store 'tek' account values
+          values['UAH-'+suffix+'-restBank-'+b.id+'-tek'] = fnfe(eb['UAHrestBank-'+b.id]) - values[`dep-UAH-cmp-${suffix}-bankId-${b.id}-total`]||0
+          values['USD-'+suffix+'-restBank-'+b.id+'-tek'] = fnfe(eb['UAHrestBank-'+b.id]) - values[`dep-USD-cmp-${suffix}-bankId-${b.id}-total`]||0
+          values['EUR-'+suffix+'-restBank-'+b.id+'-tek'] = fnfe(eb['UAHrestBank-'+b.id]) - values[`dep-EUR-cmp-${suffix}-bankId-${b.id}-total`]||0
 
         })
 
+        //^^^^^^^^^
 
 
 
