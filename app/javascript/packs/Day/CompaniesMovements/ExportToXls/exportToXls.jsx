@@ -3,7 +3,7 @@ import React from "react"
 // import {VocContext} from "../../day"
 
 import { Button } from 'reactstrap'
-import {roundFin, roundDisp, straightDateFormat, dashDateFormat} from "../../../i-services"
+import {roundFin, roundDisp, straightDateFormat, dashDateFormat, AddNaN} from "../../../i-services"
 
 import Moment from "moment"
 import ReactFileReader from "react-file-reader"
@@ -29,6 +29,9 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName,banks
               date: date,
               group: companyGroupName,
           };
+
+      var i=1
+
       exportBuffer.forEach((eb,index)=>{
       	let suffix
         eb.company_id == 'total' ? suffix = 'total' : suffix = index
@@ -78,19 +81,17 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName,banks
           let dateA1 = new Date(dashDateFormat(a1.term)), dateA2 = new Date(dashDateFormat(a2.term));
           return dateA1-dateA2
         }).forEach(deposit=>{
+          // store depsit values for every deposit, every bank
           banks.forEach( b => {
             values[`dep-cmp-${suffix}-depoDesc-${nomer}`] = `${deposit.interest} до ${deposit.term}`
             values[`dep-${deposit.currency.name_int}-cmp-${suffix}-depoValue-${nomer}-bankId-${deposit.bank.id}`] = fnfe(deposit.value)
-            
-            //store total value of deposits for every bank: TODO: ERROR HERE, WRONG COUNTING!!!
-            values[`dep-${deposit.currency.name_int}-cmp-${suffix}-bankId-${deposit.bank.id}-total`] = 
-              fnfe(deposit.value) + values[`dep-${deposit.currency.name_int}-cmp-${suffix}-bankId-${deposit.bank.id}-total`]||0
-
-
-              // ? values[`dep-${deposit.currency.name_int}-cmp-${suffix}-bankId-${deposit.bank.id}-total`] += fnfe(deposit.value)
-              // : values[`dep-${deposit.currency.name_int}-cmp-${suffix}-bankId-${deposit.bank.id}-total`] = fnfe(deposit.value)
           })
           nomer += 1
+
+          //group deposits by currency, company and bank and store total value
+
+          values[`zzzdep-${deposit.currency.name_int}-cmp-${suffix}-bankId-${deposit.bank.id}-total`] = 
+            fnfe(AddNaN( deposit.value, values[`zzzdep-${deposit.currency.name_int}-cmp-${suffix}-bankId-${deposit.bank.id}-total`] ))
         })
 
         banks.forEach( b => {
@@ -100,16 +101,19 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName,banks
           values['EUR-'+suffix+'-restBank-'+b.id] = fnfe(eb['EURrestBank-'+b.id])
 
           // calculate and store 'tek' account values
-          values['UAH-'+suffix+'-restBank-'+b.id+'-tek'] = fnfe(eb['UAHrestBank-'+b.id]) - values[`dep-UAH-cmp-${suffix}-bankId-${b.id}-total`]||0
-          values['USD-'+suffix+'-restBank-'+b.id+'-tek'] = fnfe(eb['UAHrestBank-'+b.id]) - values[`dep-USD-cmp-${suffix}-bankId-${b.id}-total`]||0
-          values['EUR-'+suffix+'-restBank-'+b.id+'-tek'] = fnfe(eb['UAHrestBank-'+b.id]) - values[`dep-EUR-cmp-${suffix}-bankId-${b.id}-total`]||0
+
+          values['zzzUAH-'+suffix+'-restBank-'+b.id+'-tek'] = 
+            fnfe( AddNaN( eb['UAHrestBank-'+b.id]), -values[`dep-UAH-cmp-${suffix}-bankId-${b.id}-total`])
+
+          values['zzzUSD-'+suffix+'-restBank-'+b.id+'-tek'] = 
+            fnfe( AddNaN( eb['USDrestBank-'+b.id]), -values[`dep-USD-cmp-${suffix}-bankId-${b.id}-total`])
+
+          values['zzzEUR-'+suffix+'-restBank-'+b.id+'-tek'] = 
+            fnfe( AddNaN( eb['EURrestBank-'+b.id]), -values[`dep-EUR-cmp-${suffix}-bankId-${b.id}-total`])
 
         })
 
         //^^^^^^^^^
-
-
-
           
       })
 
