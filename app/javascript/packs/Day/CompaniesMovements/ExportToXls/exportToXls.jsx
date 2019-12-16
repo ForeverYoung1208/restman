@@ -90,7 +90,7 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName,banks
 
           //group deposits by currency, company and bank and store total value
 
-          values[`zzzdep-${deposit.currency.name_int}-cmp-${suffix}-bankId-${deposit.bank.id}-total`] = 
+          values[`dep-${deposit.currency.name_int}-cmp-${suffix}-bankId-${deposit.bank.id}-total`] = 
             fnfe(AddNaN( deposit.value, values[`zzzdep-${deposit.currency.name_int}-cmp-${suffix}-bankId-${deposit.bank.id}-total`] ))
         })
 
@@ -102,14 +102,17 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName,banks
 
           // calculate and store 'tek' account values
 
+          debugger
+
           values['UAH-'+suffix+'-restBank-'+b.id+'-tek'] = 
-            fnfe( AddNaN( eb['UAHrestBank-'+b.id], -values[`dep-UAH-cmp-${suffix}-bankId-${b.id}-total`]))
+            fnfe( AddNaN( eb['UAHrestBank-'+b.id], -1*values[`dep-UAH-cmp-${suffix}-bankId-${b.id}-total`]))
 
           values['USD-'+suffix+'-restBank-'+b.id+'-tek'] = 
-            fnfe( AddNaN( eb['USDrestBank-'+b.id], -values[`dep-USD-cmp-${suffix}-bankId-${b.id}-total`]))
+            fnfe( AddNaN( eb['USDrestBank-'+b.id], -1*values[`dep-USD-cmp-${suffix}-bankId-${b.id}-total`]))
 
           values['EUR-'+suffix+'-restBank-'+b.id+'-tek'] = 
-            fnfe( AddNaN( eb['EURrestBank-'+b.id], -values[`dep-EUR-cmp-${suffix}-bankId-${b.id}-total`]))
+            fnfe( AddNaN( eb['EURrestBank-'+b.id], -1*values[`dep-EUR-cmp-${suffix}-bankId-${b.id}-total`]))
+
 
         })
 
