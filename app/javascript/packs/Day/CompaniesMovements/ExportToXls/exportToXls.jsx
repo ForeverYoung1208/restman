@@ -102,13 +102,13 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName,banks
 
           // calculate and store 'tek' account values
 
-          values['zzzUAH-'+suffix+'-restBank-'+b.id+'-tek'] = 
+          values['UAH-'+suffix+'-restBank-'+b.id+'-tek'] = 
             fnfe( AddNaN( eb['UAHrestBank-'+b.id]), -values[`dep-UAH-cmp-${suffix}-bankId-${b.id}-total`])
 
-          values['zzzUSD-'+suffix+'-restBank-'+b.id+'-tek'] = 
+          values['USD-'+suffix+'-restBank-'+b.id+'-tek'] = 
             fnfe( AddNaN( eb['USDrestBank-'+b.id]), -values[`dep-USD-cmp-${suffix}-bankId-${b.id}-total`])
 
-          values['zzzEUR-'+suffix+'-restBank-'+b.id+'-tek'] = 
+          values['EUR-'+suffix+'-restBank-'+b.id+'-tek'] = 
             fnfe( AddNaN( eb['EURrestBank-'+b.id]), -values[`dep-EUR-cmp-${suffix}-bankId-${b.id}-total`])
 
         })
