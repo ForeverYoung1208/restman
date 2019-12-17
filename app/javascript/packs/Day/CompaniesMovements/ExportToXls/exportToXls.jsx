@@ -91,7 +91,7 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName,banks
           //group deposits by currency, company and bank and store total value
 
           values[`dep-${deposit.currency.name_int}-cmp-${suffix}-bankId-${deposit.bank.id}-total`] = 
-            fnfe(AddNaN( deposit.value, values[`zzzdep-${deposit.currency.name_int}-cmp-${suffix}-bankId-${deposit.bank.id}-total`] ))
+            fnfe(AddNaN( deposit.value, values[`dep-${deposit.currency.name_int}-cmp-${suffix}-bankId-${deposit.bank.id}-total`] ))
         })
 
         banks.forEach( b => {
@@ -102,7 +102,6 @@ function handleExportToXls(fileTemplate,exportBuffer,date,companyGroupName,banks
 
           // calculate and store 'tek' account values
 
-          debugger
 
           values['UAH-'+suffix+'-restBank-'+b.id+'-tek'] = 
             fnfe( AddNaN( eb['UAHrestBank-'+b.id], -1*values[`dep-UAH-cmp-${suffix}-bankId-${b.id}-total`]))
