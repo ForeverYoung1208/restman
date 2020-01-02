@@ -79,7 +79,7 @@ export class EditMovement extends React.Component{
 
 					<Button className='btn-warning col-md-1 p-0 m-0'
 						onClick = {() => handleMovDelete(m)}>
-						<span className='fa fa-trash'></span>
+						<span className='fa fa-trash'></span>						
 					</Button>
 
 

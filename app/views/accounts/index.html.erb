@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Accounts</h1>
+<h3>Рахунки, залишки на ранок <%= @date_of_saldo %></h2>
 
 <table class="table-bordered">
   <thead>
@@ -30,7 +30,7 @@
         <td><%= account.bank.name + ' ' + account.bank.code %></td>
         <td><%= account.currency.name_int %></td>
         <td><%= account.saldo_begin_year %></td>
-        <td><%= account.saldo_on_date %></td>
+        <td><%= account.saldo_on_date(@date_of_saldo) %></td>
         <td><%= account.is_default %></td>
         <td><%= account.acc_type.name_ukr %></td>
         <td><%= account.term.try( :strftime, "%d.%m.%Y" ) %></td>

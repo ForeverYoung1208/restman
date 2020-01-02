@@ -2,6 +2,13 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.form-control{
+	padding: 0px;
+}
+#app-movements{
+	min-width: 1170px;
+}
+
 .day-message {
 	border: solid;
 	background-color: yellow;

@@ -43,7 +43,7 @@
 
           <%= mainmenu_item( {
               current: request.path, 
-              menuitem: accounts_path, 
+              menuitem: accounts_path(date_of_saldo: '2020-01-02'), 
               active: @current_user.can_view_accounts?
           }) {'Рахунки-Залишки по банках'} %>
 

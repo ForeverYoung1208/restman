@@ -113,7 +113,7 @@ export class CompaniesMovements extends React.Component{
 
 		const companiesSelectedIds = companies.map(c=>c.id)
 		return(
-			<div className='table-responsive'>
+			<div>
 				<table className="table movements-table">
 					<TableHead
 						isGrouped={isGrouped}
