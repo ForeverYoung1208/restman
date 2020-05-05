@@ -90,10 +90,10 @@ export class Day extends React.Component {
 		if (confirm('Close Day?')){
 			postDataAsJSON(`/days/${day.id}.json`,'PUT', day,
 				(res)=>{
-					console.log('day closed': res)
+					console.log('day closed', res)
 					this.setState({...this.state, day})
 				},
-				(err)=>console.log('err': err)
+				(err)=>console.log('err', err)
 			)
 
 		}

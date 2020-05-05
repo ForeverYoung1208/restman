@@ -87,7 +87,8 @@ class User < ApplicationRecord
   
   def can_view_days?
     # true
-    is_admin
+    is_admin or roles.pluck(:name).include?('can_edit_day')
+    # is_admin
   end
   def can_view_companies?
     # true
@@ -141,7 +142,7 @@ class User < ApplicationRecord
   end
 
   def can_close_day?
-    is_admin or roles.pluck(:name).includes('can_close_day')
+    is_admin or roles.pluck(:name).include?('can_close_day')
   end
 
 

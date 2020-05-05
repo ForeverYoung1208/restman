@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { Input, Button } from 'reactstrap'
 import { fetchJSONfrom } from '../../../i-services'
+import { UNUSED_ACCOUNTS_IDS } from '../../../constants';
 
 
 export class EditMovement extends React.Component{
@@ -19,7 +20,8 @@ export class EditMovement extends React.Component{
 		const {accsList} = this.props.voc
 		// const {company} = this.props
 
-		const alf = accsList.filter((acc) => acc.company_id == this.state.m.company_id)
+		// console.log(accsList);
+		const alf = accsList.filter((acc) => acc.company_id == this.state.m.company_id && !UNUSED_ACCOUNTS_IDS.includes( +acc.acc_type_id ))
 	  this.setState({
 	  	alf: alf, 
 	  	// is_changed: false,

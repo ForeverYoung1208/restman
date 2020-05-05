@@ -43,7 +43,7 @@
 
           <%= mainmenu_item( {
               current: request.path, 
-              menuitem: accounts_path(date_of_saldo: '2020-01-02'), 
+              menuitem: accounts_path(date_of_saldo: DateTime.now.strftime("%Y-%m-%d")), 
               active: @current_user.can_view_accounts?
           }) {'Рахунки-Залишки по банках'} %>
 
@@ -51,6 +51,7 @@
             current: request.path, 
             menuitems: {
                           'Конвертація виписки Ощадбанка' => [converter_oshchad_path, @current_user.can_use_converters?],
+                          'Шаблони' => ['/templates', @current_user.can_use_converters?],
                         }
           }) {"Сервіс"}  %>
 
@@ -86,7 +87,6 @@
 
       
     </nav>
-
 
     
     <% flash.each do |name, msg| %>

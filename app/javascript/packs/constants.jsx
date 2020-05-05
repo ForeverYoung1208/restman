@@ -1,0 +1,1 @@
+export const UNUSED_ACCOUNTS_IDS=[-1];
