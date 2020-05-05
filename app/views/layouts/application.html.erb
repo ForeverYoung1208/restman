@@ -50,7 +50,8 @@
           <%= mainmenu_dropdown( {
             current: request.path, 
             menuitems: {
-                          'Конвертація виписки Ощадбанка' => [converter_oshchad_path, @current_user.can_use_converters?],
+                          'Конвертація xls виписки Ощадбанка' => [converter_oshchad_path, @current_user.can_use_converters?],
+                          'Конвертація html виписки Ощадбанка' => [converter_oshchad_html_path, @current_user.can_use_converters?],
                           'Шаблони' => ['/templates', @current_user.can_use_converters?],
                         }
           }) {"Сервіс"}  %>
