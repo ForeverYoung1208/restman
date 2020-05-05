@@ -22,10 +22,7 @@ roles[0].bind_to_users!(admin_users_ids)
 
 # IMPORTANT! frontend rely on acc_type.id
 acc_types = [
-	AccType.where(id: -1).first_or_create(
-		name_eng: 'closed',
-		name_ukr: 'закритий/не використовується'
-	),
+	AccType.where(id: -1).first_or_create(name_eng: 'closed', name_ukr: 'закритий/не використовується'),
 	AccType.where(id: 1).first_or_create(
 		name_eng: 'current',
 		name_ukr: 'поточний/розрахунковий'

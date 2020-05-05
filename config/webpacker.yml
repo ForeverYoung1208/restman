@@ -40,7 +40,7 @@ development:
     # host: 192.168.99.51
 
     # New Home Linux
-    host: 192.168.0.162
+    host: 192.168.0.252
 
     port: 3035
 

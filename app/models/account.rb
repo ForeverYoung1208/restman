@@ -8,9 +8,10 @@ class Account < ApplicationRecord
 
   has_many :movements
 
-	validates :number, :bank, :currency, :company, :acc_type, :saldo_begin_year, presence: true
-
   # validates :is_default, uniqueness: { scope: :company_id, message: "should one default account per company" }, if: :is_default
+  
+  validates :number, :bank, :currency, :company, :acc_type, :saldo_begin_year, presence: true
+  validate :not_allow_disactivate_not_empty_account
 
 
   validate :can_user_full_edit
@@ -38,13 +39,18 @@ class Account < ApplicationRecord
       .joins(:day).where("days.date >= ? and days.date < ?", begin_of_year, date)
     res = saldo_begin_year + income_movs.sum(:value) - outcome_movs.sum(:value)
 
-	end
+  end
+  
+  def not_allow_disactivate_not_empty_account
+    if (saldo_on_date != 0) && acc_type_id <= 0
+      errors.add(:acc_type_id, "can't set special type to non-empty account")
+    end
+  end
+
 
 
 
 	#  user access restriction
-
-
   def self.permitted_for_user(user)
     if user.roles.active.pluck(:id).include?(::ADMIN_ROLE_ID)
       all
