@@ -35,12 +35,24 @@ class  Movements extends Object{
     this.AllElements = this.parseToElements(this.rawData);
 
     this.ttElements =  this.AllElements.querySelectorAll('tt')
+    console.log('[ttElements]', this.ttElements);
 
-    for (let tt of this.ttElements){
+    this.ttElements.forEach((tt, i)=>{
+
+      //startDate, endDate
       if (/Період.+/.test(tt.innerText)){
-        console.log(tt)
+        console.log(tt, i)
+        this.startDate = this.ttElements[i+1].innerText.replace(/\//g, ".");
+        this.endDate = this.ttElements[i+3].innerText.replace(/\//g, ".");
       }
-    }
+
+    })
+
+    // for (let tt of this.ttElements){
+    //   if (/Період.+/.test(tt.innerText)){
+    //     console.log(tt)
+    //   }
+    // }
 
 
   }
