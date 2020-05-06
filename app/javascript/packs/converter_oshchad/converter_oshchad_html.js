@@ -34,10 +34,13 @@ class  Movements extends Object{
     this.rawData = rawData
     this.elements = this.parseToElements(this.rawData);
     console.log('[this.elements]', this.elements);
+
   }
 
   parseToElements = (rawData) => {
-    return DOMParser(rawData, 'text/html')
+    const parser = new DOMParser();
+
+    return parser.parseFromString(rawData, 'text/html')
   }
 
   // validateEndValue(){}
@@ -65,24 +68,33 @@ function handleDragover(e) {
 	e.dataTransfer.dropEffect = 'copy';
 }
 
+function setParsedFileName(fileName) {
+  document.querySelector('.fileName')
+  
+}
+
 function handleDrop(e) {
   e.stopPropagation(); e.preventDefault();
   e.dataTransfer.dropEffect = 'copy'
   const f = e.dataTransfer.files[0]
-  reader.readAsBinaryString(f)
-  console.log('[f]', f);
+  reader.readAsText(f)
+  setParsedFileName(f.name)
 }
 
 function handleFile(e) {
+  // console.log('[e]', e);
   const f = e.target.files[0];
-  reader.readAsBinaryString(f)
+  // console.log('[f]', f);
+  reader.readAsText(f)
+  e.target.value='';
+  setParsedFileName(f.name)
+  
 }
 
 document.onreadystatechange = () => {
 
   if (document.readyState === "interactive") {
 
-    debugger
 		const drop = document.getElementById('drop-area')
 		drop.addEventListener('dragover', handleDragover, false);
 		drop.addEventListener('drop', handleDrop, false);

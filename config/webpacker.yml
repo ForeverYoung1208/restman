@@ -6,6 +6,16 @@ default: &default
   public_output_path: packs
   cache_path: tmp/cache/webpacker
 
+
+#################
+  headers:
+        'Access-Control-Allow-Origin': '*'
+        'Content-Security-Policy': "script-src 'self' 'unsafe-eval'; connect-src 'self' ws://localhost:3035 http://localhost:3035"
+        'X-Content-Security-Policy': "script-src 'self' 'unsafe-eval'; connect-src 'self' ws://localhost:3035 http://localhost:3035"
+        'X-WebKit-CSP': "script-src 'self' 'unsafe-eval'; connect-src 'self' ws://localhost:3035 http://localhost:3035"
+###############
+
+
   # Additional paths webpack should lookup modules
   # ['app/assets', 'engine/foo/app/assets']
   resolved_paths: []
@@ -42,7 +52,7 @@ development:
     # New Home Linux
     # host: 192.168.0.252
 
-    host: 127.0.0.1
+    host: localhost
 
     port: 3035
 
@@ -51,7 +61,7 @@ development:
 
     # New Home Linux
     # public: 192.168.0.252:3035
-    public: 127.0.0.1:3035
+    public: localhost:3035
 
     hmr: false
     # Inline should be set to true if using HMR
