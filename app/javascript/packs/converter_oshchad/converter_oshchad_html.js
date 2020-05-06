@@ -32,14 +32,21 @@ class  Movements extends Object{
     }
 
     this.rawData = rawData
-    this.elements = this.parseToElements(this.rawData);
-    console.log('[this.elements]', this.elements);
+    this.AllElements = this.parseToElements(this.rawData);
+
+    this.ttElements =  this.AllElements.querySelectorAll('tt')
+
+    for (let tt of this.ttElements){
+      if (/Період.+/.test(tt.innerText)){
+        console.log(tt)
+      }
+    }
+
 
   }
 
   parseToElements = (rawData) => {
     const parser = new DOMParser();
-
     return parser.parseFromString(rawData, 'text/html')
   }
 
