@@ -1,24 +1,21 @@
 import Moment from "moment"
 import { Children } from "react";
 
-class Movement extends Object{
-  constructor(cells, baseCellName){
-    super();
-    this.data = {
-      account:'',
-      transactionDate:'',
-      detail:'',
-      netValue:0,
-      feeValue:0,
-      totalValue:0,
-      date2:''
-    }
-  }
-  composedDetail(){
-    return this.transactionDate + this.detail
-  }
-}
 
+function getDigitalValue(str){
+  return parseFloat( str.innerText.replace(/\s/g,"") )  
+}
+ 
+// movement = {
+//   account:'',
+//   transactionDate:'',
+//   detail:'',
+//   currency:'',
+//   netValue:0,
+//   feeValue:0,
+//   totalValue:0,
+//   date:''
+// ]
 
 class  Movements extends Object{
   constructor(rawData){
@@ -28,33 +25,97 @@ class  Movements extends Object{
       endDate:'',
       startValue: 0,
       endValue: 0,
-      movements:[],
+      movements:[]
     }
 
     this.rawData = rawData
     this.AllElements = this.parseToElements(this.rawData);
+    this.data = this.findDataInElements(this.AllElements);
+    console.log('data ready: [this.data]', this.data);
+  }
 
-    this.ttElements =  this.AllElements.querySelectorAll('tt')
-    console.log('[ttElements]', this.ttElements);
 
-    this.ttElements.forEach((tt, i)=>{
+  validateEndValue = ()=> {
+    //..
+  }
+  
+  drawTo = (outputElement) => {
+    const table = document.createElement('table')
+    table.classList.add('results--table')
+    table.innerHTML = `
+      <tr>
 
+        <th> account</th>
+        <th> transactionDate</th>
+        <th> detail</th>
+        <th> currency</th>
+        <th> netValue</th>
+        <th> feeValue</th>
+        <th> totalValue</th>
+        <th> date </th>
+      </tr>
+    `
+    outputElement.appendChild(table)
+  }
+
+  private
+
+  findDataInElements = (elements) => {
+    const ttElements =  elements.querySelectorAll('tt');
+    const foundData = {
+      startDate:'',
+      endDate:'',
+      startValue: 0,
+      endValue: 0,
+      movements:[], 
+    };
+    let currentAccountNumber; //last found account number
+    let lastMovInData; //pointer to current last found movement at current iteration
+
+    ttElements.forEach((tt, i)=>{
       //startDate, endDate
-      if (/Період.+/.test(tt.innerText)){
-        console.log(tt, i)
-        this.startDate = this.ttElements[i+1].innerText.replace(/\//g, ".");
-        this.endDate = this.ttElements[i+3].innerText.replace(/\//g, ".");
+      if (/Період.*/i.test(tt.innerText)){
+        foundData.startDate = ttElements[i+1].innerText.replace(/\//g, ".");
+        foundData.endDate = ttElements[i+3].innerText.replace(/\//g, ".");
+      }
+
+      //startValue
+      if (/Початковий\sбаланс/i.test(tt.innerText)){
+        foundData.startValue = getDigitalValue(ttElements[i+2]);
+      }
+
+      //we've found a start of new movement section (found new account declartation)
+      if (/Транзакції\sпо.*/i.test(tt.innerText)){
+        currentAccountNumber = ttElements[i+1].innerText.trim() ;
+      }
+      
+      if (/\d\d\/\d\d\/\d\d\s\d\d:\d\d/.test(tt.innerText)){
+        //we've found new transactionDate - i.e. a new movement
+        foundData.movements.push({})
+        lastMovInData = foundData.movements[ foundData.movements.length - 1]
+        lastMovInData.accountNumber = currentAccountNumber
+
+        //save raw transaction date as satrting part of movement's detail
+        lastMovInData.detail = tt.innerText + ' '
+        
+        //other data...
+        lastMovInData.detail += ttElements[i+1].innerText;
+        lastMovInData.netValue = getDigitalValue(ttElements[i+2]);
+        lastMovInData.currency = ttElements[i+3].innerText;
+        
+        // parse date
+        lastMovInData.date = ttElements[i+4].innerText.slice(0,9).replace(/\//g, ".");
+        //insert century
+        lastMovInData.date = lastMovInData.date.slice(0,6) + '20' + lastMovInData.date.slice(6,8)
+        
+        //other data...
+        lastMovInData.feeValue = getDigitalValue(ttElements[i+5]);
+        lastMovInData.totalValue = getDigitalValue(ttElements[i+6]);
+
       }
 
     })
-
-    // for (let tt of this.ttElements){
-    //   if (/Період.+/.test(tt.innerText)){
-    //     console.log(tt)
-    //   }
-    // }
-
-
+    return foundData
   }
 
   parseToElements = (rawData) => {
@@ -62,22 +123,16 @@ class  Movements extends Object{
     return parser.parseFromString(rawData, 'text/html')
   }
 
-  // validateEndValue(){}
-  // drawTo(outputElement){ }
-}
-
-
+} //end Movements
 
 
 var reader = new FileReader();
-// reader.doDraw = true;
+
 reader.onload = function(e) {
   var data = e.target.result;
   const movements = new Movements(data)
-
-
-  
-  // this.doDraw ? movements.drawTo(jqElementTable) : console.log({'doDraw-is-false':this})
+ 
+  movements.drawTo( document.getElementById('results'))
 
 };
 
