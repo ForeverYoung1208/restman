@@ -7,8 +7,8 @@ function getDigitalValue(str){
 }
  
 // movement = {
-//   account:'',
-//   transactionDate:'',
+//   accountNumber:'',
+//   date:'',
 //   detail:'',
 //   currency:'',
 //   netValue:0,
@@ -45,8 +45,8 @@ class  Movements extends Object{
     table.innerHTML = `
       <tr>
 
-        <th> account</th>
-        <th> transactionDate</th>
+        <th> accountNumber</th>
+        <th> date</th>
         <th> detail</th>
         <th> currency</th>
         <th> netValue</th>
@@ -55,6 +55,23 @@ class  Movements extends Object{
         <th> date </th>
       </tr>
     `
+    let movementStr;
+    this.data.movements.forEach( m =>{
+      movementStr = document.createElement('tr')
+      movementStr.innerHTML = `
+        <td> ${m.accountNumber}</td>
+        <td> ${m.date}</td>
+        <td> ${m.detail}</td>
+        <td> ${m.currency}</td>
+        <td> ${m.netValue}</td>
+        <td> ${m.feeValue}</td>
+        <td> ${m.totalValue}</td>
+        <td> ${m.date }</td>
+      `
+      table.appendChild(movementStr)
+    })
+
+
     outputElement.appendChild(table)
   }
 
